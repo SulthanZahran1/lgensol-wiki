@@ -1,0 +1,10 @@
+raw/
+assets/
+raw_ko.zip
+*.pyc
+__pycache__/
+.env
+scripts/translate_log.txt
+scripts/recovery_log.txt
+data/graph.json
+server/wiki-server

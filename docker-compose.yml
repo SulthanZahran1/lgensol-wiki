@@ -1,0 +1,13 @@
+services:
+  wiki:
+    build:
+      context: /home/dev/lgensol-wiki/server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - /home/dev/lgensol-wiki/wiki:/wiki:ro
+    environment:
+      - OLLAMA_MODEL=deepseek-v4-flash:cloud
+      - ACCESS_TOKEN=
+    restart: unless-stopped

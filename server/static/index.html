@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LG Energy Solution Wiki</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --text: #e0e0e0;
+  --text-dim: #8892b0;
+  --accent: #64ffda;
+  --border: #2a2a4a;
+  --sidebar: 380px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+
+/* Top Bar */
+.topbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 16px; background: var(--surface);
+  border-bottom: 1px solid var(--border); height: 48px;
+  -webkit-app-region: drag;
+}
+.topbar h1 { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 0.5px; }
+.topbar nav { display: flex; gap: 4px; margin-left: auto; -webkit-app-region: no-drag; }
+.topbar nav button {
+  background: none; border: 1px solid var(--border); color: var(--text-dim);
+  padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+  transition: all 0.15s;
+}
+.topbar nav button:hover { color: var(--text); border-color: var(--accent); }
+.topbar nav button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+.search-box {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+  padding: 4px 10px; color: var(--text); font-size: 12px; width: 200px;
+  -webkit-app-region: no-drag;
+}
+.search-box:focus { outline: none; border-color: var(--accent); }
+
+/* Layout */
+.container { display: flex; height: calc(100vh - 48px); }
+
+/* Source View */
+#source-view { display: flex; width: 100%; }
+#graph-panel { flex: 1; position: relative; overflow: hidden; }
+#graph-panel svg { width: 100%; height: 100%; }
+#detail-panel {
+  width: var(--sidebar); background: var(--surface);
+  border-left: 1px solid var(--border); overflow-y: auto;
+  padding: 16px; display: none;
+}
+#detail-panel.visible { display: block; }
+#detail-panel h2 { font-size: 16px; margin-bottom: 8px; color: var(--accent); }
+#detail-panel .meta { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
+#detail-panel .meta span { margin-right: 8px; }
+#detail-panel .body { font-size: 13px; line-height: 1.6; }
+#detail-panel .body a { color: var(--accent); text-decoration: none; }
+#detail-panel .body a:hover { text-decoration: underline; }
+#detail-panel .body h1, #detail-panel .body h2, #detail-panel .body h3 { color: var(--accent); margin: 12px 0 6px; }
+#detail-panel .body p { margin-bottom: 8px; }
+#detail-panel .body ul { padding-left: 20px; margin-bottom: 8px; }
+#detail-panel .body code { background: var(--bg); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+#detail-panel .body pre { background: var(--bg); padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
+#detail-panel .body img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
+
+/* Chat View */
+#chat-view { display: none; flex-direction: column; width: 100%; }
+#chat-view.visible { display: flex; }
+#chat-log { flex: 1; overflow-y: auto; padding: 16px; }
+.chat-msg { margin-bottom: 16px; max-width: 80%; }
+.chat-msg.user { margin-left: auto; }
+.chat-msg .bubble {
+  padding: 10px 14px; border-radius: 8px; font-size: 13px; line-height: 1.5;
+}
+.chat-msg.user .bubble { background: var(--accent); color: var(--bg); }
+.chat-msg.wiki .bubble { background: var(--surface); border: 1px solid var(--border); }
+.chat-msg .label { font-size: 11px; color: var(--text-dim); margin-bottom: 3px; }
+.chat-msg .sources { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.chat-msg .sources a { color: var(--accent); text-decoration: none; }
+.chat-msg .sources a:hover { text-decoration: underline; }
+#chat-input-area {
+  display: flex; gap: 8px; padding: 12px 16px;
+  background: var(--surface); border-top: 1px solid var(--border);
+}
+#chat-input {
+  flex: 1; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px;
+}
+#chat-input:focus { outline: none; border-color: var(--accent); }
+#chat-send {
+  background: var(--accent); color: var(--bg); border: none;
+  border-radius: 6px; padding: 8px 16px; cursor: pointer; font-weight: 600; font-size: 13px;
+}
+#chat-send:hover { opacity: 0.85; }
+#chat-send:disabled { opacity: 0.4; cursor: default; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>⚡ LG Energy Solution Wiki</h1>
+  <input class="search-box" id="node-search" placeholder="Search nodes..." oninput="filterGraph(this.value)">
+  <nav>
+    <button id="btn-show-links" onclick="toggleLinks('show')" title="Show all edges">Show All</button>
+    <button id="btn-hide-links" onclick="toggleLinks('hide')" title="Hide edges until node click">Hide All</button>
+    <button id="btn-source" class="active" onclick="switchView('source')">Source</button>
+    <button id="btn-chat" onclick="switchView('chat')">Chat</button>
+  </nav>
+</div>
+
+<div class="container">
+  <!-- Source View -->
+  <div id="source-view">
+    <div id="graph-panel"><svg id="graph-svg"></svg></div>
+    <div id="detail-panel"></div>
+  </div>
+
+  <!-- Chat View -->
+  <div id="chat-view">
+    <div id="chat-log"></div>
+    <div id="chat-input-area">
+      <input id="chat-api-key" type="password" placeholder="Ollama API Key (opsional, fallback ke server)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:12px;width:180px">
+      <input id="chat-input" placeholder="Ask about batteries, LGES, ESS..." onkeydown="if(event.key==='Enter') sendChat()" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px">
+      <button id="chat-send" onclick="sendChat()" style="background:var(--accent);color:var(--bg);border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-weight:600;font-size:13px">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let graphData = null;
+let currentView = 'source';
+let simulation = null;
+let activeNode = null;
+let linksVisible = true;
+let linkElsGlobal = null;
+let nodeElsGlobal = null;
+
+function toggleLinks(mode) {
+  if (!linkElsGlobal) return;
+  linksVisible = mode === 'show';
+  const btnShow = document.getElementById('btn-show-links');
+  const btnHide = document.getElementById('btn-hide-links');
+  btnShow.className = linksVisible ? 'active' : '';
+  btnHide.className = linksVisible ? '' : 'active';
+
+  if (linksVisible) {
+    linkElsGlobal.attr('display', null).attr('stroke-opacity', 0.7);
+  } else {
+    linkElsGlobal.attr('stroke-opacity', 0);
+    // If a node is active, highlight its edges
+    if (activeNode) {
+      highlightNodeEdges(activeNode);
+    }
+  }
+}
+
+function highlightNodeEdges(node) {
+  if (!linkElsGlobal) return;
+  const slug = node.slug || node;
+  linkElsGlobal.attr('stroke-opacity', d => {
+    const src = typeof d.source === 'object' ? d.source.slug : d.source;
+    const tgt = typeof d.target === 'object' ? d.target.slug : d.target;
+    return (src === slug || tgt === slug) ? 0.7 : 0;
+  });
+}
+
+// ── View Switching ──
+function switchView(view) {
+  currentView = view;
+  document.getElementById('btn-source').className = view === 'source' ? 'active' : '';
+  document.getElementById('btn-chat').className = view === 'chat' ? 'active' : '';
+  document.getElementById('source-view').style.display = view === 'source' ? 'flex' : 'none';
+  document.getElementById('chat-view').className = view === 'chat' ? 'visible' : '';
+  if (view === 'chat' && document.getElementById('chat-log').children.length === 0) {
+    addChatMsg('wiki', 'Hello! I\'m the LG Energy Solution wiki assistant. Ask me anything about batteries, technology, or company info.');
+  }
+}
+
+// ── Graph ──
+async function loadGraph() {
+  try {
+    const res = await fetch('/api/graph');
+    graphData = await res.json();
+    renderGraph();
+  } catch(e) {
+    console.error('Graph load error:', e);
+  }
+}
+
+function renderGraph(filter) {
+  const svg = document.getElementById('graph-svg');
+  const width = svg.parentElement.clientWidth;
+  const height = svg.parentElement.clientHeight;
+
+  let nodes = graphData.nodes.map(n => ({...n}));
+  let links = graphData.links.map(l => ({...l}));
+
+  if (filter) {
+    const f = filter.toLowerCase();
+    const matched = new Set();
+    nodes.forEach(n => {
+      if (n.title.toLowerCase().includes(f) || n.slug.toLowerCase().includes(f) || (n.tags||[]).some(t => t.toLowerCase().includes(f))) {
+        matched.add(n.slug);
+      }
+    });
+    // Keep links where both ends matched
+    links = links.filter(l => matched.has(l.source) && matched.has(l.target));
+    nodes = nodes.filter(n => matched.has(n.slug));
+  }
+
+  // Color map by type
+  const colors = {
+    entity: '#64ffda',
+    concept: '#ffd700',
+    comparison: '#ff6b6b',
+    glossary: '#a78bfa',
+    meta: '#8892b0',
+    page: '#4fc3f7',
+  };
+
+  svg.innerHTML = '';
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  svg.appendChild(g);
+
+  const zoom = d3.zoom()
+    .scaleExtent([0.1, 4])
+    .on('zoom', (event) => g.setAttribute('transform', event.transform));
+  d3.select(svg).call(zoom);
+
+  const nodeGroup = d3.select(g).append('g').attr('class', 'nodes');
+  const linkGroup = d3.select(g).append('g').attr('class', 'links');
+
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.slug).distance(80))
+    .force('charge', d3.forceManyBody().strength(-150))
+    .force('center', d3.forceCenter(width/2, height/2))
+    .force('collision', d3.forceCollide(25));
+
+  const linkEls = linkGroup.selectAll('line')
+    .data(links).enter().append('line')
+    .attr('stroke', '#5a5a8a')
+    .attr('stroke-width', 0.8)
+    .attr('stroke-opacity', linksVisible ? 0.7 : 0);
+
+  linkElsGlobal = linkEls;
+
+  const nodeEls = nodeGroup.selectAll('g')
+    .data(nodes).enter().append('g')
+    .call(d3.drag()
+      .on('start', (event, d) => { if (!event.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+      .on('end', (event, d) => { if (!event.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })
+    )
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      showDetail(d);
+      if (!linksVisible) highlightNodeEdges(d);
+    });
+
+  nodeEls.append('circle')
+    .attr('r', d => {
+      const count = links.filter(l => l.source.slug === d.slug || l.target.slug === d.slug).length;
+      return 4 + Math.min(count, 10);
+    })
+    .attr('fill', d => colors[d.type] || colors.page)
+    .attr('stroke', '#e0e0e0')
+    .attr('stroke-width', 1.5);
+
+  nodeEls.append('text')
+    .text(d => d.title.length > 20 ? d.title.slice(0, 18) + '...' : d.title)
+    .attr('dx', 10)
+    .attr('dy', 4)
+    .attr('fill', '#e0e0e0')
+    .attr('font-size', '10px')
+    .attr('pointer-events', 'none');
+
+  nodeElsGlobal = nodeEls;
+
+  sim.on('tick', () => {
+    linkEls
+      .attr('x1', d => d.source.x)
+      .attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x)
+      .attr('y2', d => d.target.y);
+    nodeEls.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+
+  simulation = sim;
+
+  // Click background to deselect
+  svg.addEventListener('click', (e) => {
+    if (e.target === svg || e.target.tagName === 'SVG') {
+      document.getElementById('detail-panel').classList.remove('visible');
+      activeNode = null;
+    }
+  });
+}
+
+function filterGraph(query) {
+  if (graphData) renderGraph(query);
+}
+
+// ── Detail Panel ──
+async function showDetail(node) {
+  activeNode = node;
+  const panel = document.getElementById('detail-panel');
+  panel.classList.add('visible');
+  panel.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim)">Loading...</div>';
+
+  try {
+    const res = await fetch(`/api/page/${node.slug}`);
+    const raw = await res.text();
+    renderMarkdown(panel, raw, node);
+  } catch(e) {
+    panel.innerHTML = `<div style="color:#ff6b6b">Error loading page: ${e.message}</div>`;
+  }
+}
+
+function renderMarkdown(panel, raw, node) {
+  // Convert simple markdown to HTML (basic renderer)
+  let body = raw;
+
+  // Strip YAML frontmatter
+  body = body.replace(/^---[\s\S]*?---\n*/, '');
+
+  // Convert [[wikilinks]]
+  body = body.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (m, slug, text) => {
+    const label = text || slug;
+    return `<a href="#" onclick="event.preventDefault();showDetail({slug:'${slug}',title:'${label}'})">${label}</a>`;
+  });
+
+  // Convert headers
+  body = body.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  body = body.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  body = body.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  // Convert bold/italic
+  body = body.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  body = body.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Convert inline code
+  body = body.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Convert paragraphs (double newlines)
+  body = body.replace(/\n\n/g, '</p><p>');
+  body = '<p>' + body + '</p>';
+
+  // Convert lists
+  body = body.replace(/<p>\s*[-*] /g, '<ul><li>');
+  body = body.replace(/<\/p>\n[-*] /g, '</li><li>');
+  body = body.replace(/<\/li>\s*<li>/g, '</li><li>');
+  body = body.replace(/<\/p>$/, '');
+  // Simple list closing
+  body = body.replace(/(<li>[^<]+)(<\/p>)/g, '$1</li></ul>$2');
+
+  panel.innerHTML = `
+    <h2>${node.title}</h2>
+    <div class="meta">
+      <span>📁 ${node.type}</span>
+      <span>🏷️ ${(node.tags||[]).slice(0,4).join(', ')}</span>
+    </div>
+    <div class="body">${body}</div>
+  `;
+}
+
+// ── Chat ──
+function addChatMsg(role, content, sources) {
+  const log = document.getElementById('chat-log');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = `
+    <div class="label">${role === 'user' ? 'You' : 'Wiki'}</div>
+    <div class="bubble">${content}</div>
+    ${sources ? `<div class="sources">Sources: ${sources.map(s => `<a href="#" onclick="switchView('source');showDetail({slug:'${s.slug}',title:'${s.title}'})">${s.title}</a>`).join(', ')}</div>` : ''}
+  `;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('chat-send');
+  const apiKeyInput = document.getElementById('chat-api-key');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const apiKey = apiKeyInput.value.trim();
+
+  input.value = '';
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  addChatMsg('user', msg);
+
+  try {
+    const body = {message: msg};
+    if (apiKey) body.api_key = apiKey;
+
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      addChatMsg('wiki', `Error: ${err.error || 'Unknown error'}`);
+      return;
+    }
+    const data = await res.json();
+    // Render answer with markdown-like formatting
+    let answer = data.answer;
+    answer = answer.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    answer = answer.replace(/\n/g, '<br>');
+    addChatMsg('wiki', answer, data.pages || []);
+  } catch(e) {
+    addChatMsg('wiki', `Error: ${e.message}. Make sure the server is running.`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send';
+  }
+}
+
+// ── Init ──
+window.addEventListener('load', loadGraph);
+window.addEventListener('resize', () => { if (graphData && !activeNode) { renderGraph(); } });
+</script>
+</body>
+</html>
