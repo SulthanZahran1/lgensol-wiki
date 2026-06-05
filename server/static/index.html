@@ -4,563 +4,2470 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LG Energy Solution Wiki</title>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="/d3.v7.min.js"></script>
+<script src="/marked.min.js"></script>
+<script src="/purify.min.js"></script>
+<script src="/lucide.js"></script>
 <style>
 :root {
-  --bg: #1a1a2e;
-  --surface: #16213e;
-  --text: #e0e0e0;
-  --text-dim: #8892b0;
-  --accent: #64ffda;
-  --border: #2a2a4a;
-  --sidebar: 380px;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-muted: #eef2f7;
+  --surface-strong: #e2e8f0;
+  --text: #172033;
+  --text-muted: #64748b;
+  --text-soft: #94a3b8;
+  --accent: #a50034;
+  --accent-soft: #fde8ef;
+  --teal: #00766f;
+  --teal-soft: #e2f4f2;
+  --blue: #2563eb;
+  --amber: #b45309;
+  --violet: #7c3aed;
+  --border: #d7dee8;
+  --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --radius: 8px;
+  --topbar: 58px;
+  --sidebar: 320px;
+  --context: 360px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
 
-/* Top Bar */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 .topbar {
-  display: flex; align-items: center; gap: 12px;
-  padding: 8px 16px; background: var(--surface);
-  border-bottom: 1px solid var(--border); height: 48px;
-  -webkit-app-region: drag;
+  display: grid;
+  grid-template-columns: minmax(220px, auto) minmax(260px, 520px) auto auto;
+  align-items: center;
+  gap: 14px;
+  height: var(--topbar);
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+  z-index: 20;
 }
-.topbar h1 { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 0.5px; }
-.topbar nav { display: flex; gap: 4px; margin-left: auto; -webkit-app-region: no-drag; }
-.topbar nav button {
-  background: none; border: 1px solid var(--border); color: var(--text-dim);
-  padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
-  transition: all 0.15s;
-}
-.topbar nav button:hover { color: var(--text); border-color: var(--accent); }
-.topbar nav button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
 
-.search-box {
-  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
-  padding: 4px 10px; color: var(--text); font-size: 12px; width: 200px;
-  -webkit-app-region: no-drag;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
-.search-box:focus { outline: none; border-color: var(--accent); }
 
-/* Layout */
-.container { display: flex; height: calc(100vh - 48px); }
+.brand-mark {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
 
-/* Source View */
-#source-view { display: flex; width: 100%; }
-#graph-panel { flex: 1; position: relative; overflow: hidden; }
-#graph-panel svg { width: 100%; height: 100%; }
-#detail-panel {
-  width: var(--sidebar); background: var(--surface);
-  border-left: 1px solid var(--border); overflow-y: auto;
-  padding: 16px; display: none;
+.brand h1 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-#detail-panel.visible { display: block; }
-#detail-panel h2 { font-size: 16px; margin-bottom: 8px; color: var(--accent); }
-#detail-panel .meta { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
-#detail-panel .meta span { margin-right: 8px; }
-#detail-panel .body { font-size: 13px; line-height: 1.6; }
-#detail-panel .body a { color: var(--accent); text-decoration: none; }
-#detail-panel .body a:hover { text-decoration: underline; }
-#detail-panel .body h1, #detail-panel .body h2, #detail-panel .body h3 { color: var(--accent); margin: 12px 0 6px; }
-#detail-panel .body p { margin-bottom: 8px; }
-#detail-panel .body ul { padding-left: 20px; margin-bottom: 8px; }
-#detail-panel .body code { background: var(--bg); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
-#detail-panel .body pre { background: var(--bg); padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
-#detail-panel .body img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
 
-/* Chat View */
-#chat-view { display: none; flex-direction: column; width: 100%; }
-#chat-view.visible { display: flex; }
-#chat-log { flex: 1; overflow-y: auto; padding: 16px; }
-.chat-msg { margin-bottom: 16px; max-width: 80%; }
-.chat-msg.user { margin-left: auto; }
-.chat-msg .bubble {
-  padding: 10px 14px; border-radius: 8px; font-size: 13px; line-height: 1.5;
+.brand span {
+  display: block;
+  margin-top: 1px;
+  color: var(--text-muted);
+  font-size: 11px;
 }
-.chat-msg.user .bubble { background: var(--accent); color: var(--bg); }
-.chat-msg.wiki .bubble { background: var(--surface); border: 1px solid var(--border); }
-.chat-msg .label { font-size: 11px; color: var(--text-dim); margin-bottom: 3px; }
-.chat-msg .sources { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
-.chat-msg .sources a { color: var(--accent); text-decoration: none; }
-.chat-msg .sources a:hover { text-decoration: underline; }
-#chat-input-area {
-  display: flex; gap: 8px; padding: 12px 16px;
-  background: var(--surface); border-top: 1px solid var(--border);
+
+.search-wrap {
+  position: relative;
+  min-width: 0;
 }
-#chat-input {
-  flex: 1; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px;
+
+.search-wrap i,
+.search-wrap svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--text-soft);
+  transform: translateY(-50%);
 }
-#chat-input:focus { outline: none; border-color: var(--accent); }
-#chat-send {
-  background: var(--accent); color: var(--bg); border: none;
-  border-radius: 6px; padding: 8px 16px; cursor: pointer; font-weight: 600; font-size: 13px;
+
+.search-input {
+  width: 100%;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  padding: 8px 12px 8px 38px;
+  outline: none;
 }
-#chat-send:hover { opacity: 0.85; }
-#chat-send:disabled { opacity: 0.4; cursor: default; }
+
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.status-pill svg {
+  width: 14px;
+  height: 14px;
+}
+
+.view-tabs,
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  padding: 3px;
+}
+
+.view-tab,
+.segmented button,
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.view-tab svg,
+.segmented button svg,
+.icon-button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.view-tab:hover,
+.segmented button:hover,
+.icon-button:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.view-tab.active,
+.segmented button.active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.views {
+  flex: 1;
+  min-height: 0;
+}
+
+.view {
+  display: none;
+  height: calc(100vh - var(--topbar));
+  min-height: 0;
+}
+
+.view.active {
+  display: block;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--sidebar) minmax(420px, 1fr) var(--context);
+  height: 100%;
+  min-height: 0;
+}
+
+.sidebar,
+.context-panel,
+.graph-sidebar,
+.chat-sources {
+  min-height: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+.context-panel,
+.chat-sources {
+  border-right: 0;
+  border-left: 1px solid var(--border);
+}
+
+.sidebar,
+.context-panel,
+.graph-sidebar,
+.chat-sources,
+.reader,
+.chat-log {
+  overflow: auto;
+}
+
+.sidebar {
+  padding: 16px 12px 18px;
+}
+
+.sidebar-header,
+.panel-header,
+.graph-header,
+.chat-source-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sidebar h2,
+.context-panel h2,
+.graph-sidebar h2,
+.chat-sources h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.count-label {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.category-list,
+.type-toggle-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.category-button,
+.type-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.category-button:hover,
+.type-toggle:hover {
+  border-color: var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.category-button.active,
+.type-toggle.active {
+  border-color: var(--accent-soft);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.category-label,
+.type-toggle span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.category-dot,
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+}
+
+.category-count {
+  color: var(--text-soft);
+  font-size: 12px;
+}
+
+.page-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.group-title {
+  margin: 12px 8px 4px;
+  color: var(--text-soft);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.page-button {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  padding: 10px;
+  text-align: left;
+}
+
+.page-button:hover {
+  border-color: var(--border);
+  background: var(--surface-muted);
+}
+
+.page-button.active {
+  border-color: rgba(165, 0, 52, 0.24);
+  background: var(--accent-soft);
+}
+
+.page-title {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.page-summary {
+  display: -webkit-box;
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tag-row,
+.meta-row,
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-row {
+  margin-top: 7px;
+}
+
+.chip,
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.type-chip {
+  border-color: transparent;
+  background: var(--surface-muted);
+}
+
+.reader {
+  min-width: 0;
+  padding: 24px 30px 40px;
+}
+
+.article-shell {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.article-header {
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+}
+
+.article-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.article-kicker svg {
+  width: 15px;
+  height: 15px;
+}
+
+.article-title {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.article-summary {
+  max-width: 760px;
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.article-body {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  margin: 1.6em 0 0.6em;
+  color: var(--text);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.article-body h1 {
+  font-size: 27px;
+}
+
+.article-body h2 {
+  font-size: 22px;
+}
+
+.article-body h3 {
+  font-size: 18px;
+}
+
+.article-body p,
+.article-body ul,
+.article-body ol,
+.article-body table,
+.article-body blockquote {
+  margin: 0 0 1em;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.4em;
+}
+
+.article-body li + li {
+  margin-top: 0.28em;
+}
+
+.article-body a,
+.wikilink {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 650;
+}
+
+.article-body a:hover,
+.wikilink:hover {
+  text-decoration: underline;
+}
+
+.article-body code,
+.chat-bubble code {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface-muted);
+  padding: 1px 5px;
+  font-size: 0.9em;
+}
+
+.article-body pre {
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 14px;
+}
+
+.article-body pre code {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.article-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+}
+
+.article-body th,
+.article-body td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-body th {
+  background: var(--surface-muted);
+  font-weight: 750;
+}
+
+.empty-state,
+.loading-state,
+.error-state {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state svg,
+.loading-state svg,
+.error-state svg {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 10px;
+  color: var(--text-soft);
+}
+
+.error-state {
+  color: var(--accent);
+}
+
+.context-panel {
+  display: grid;
+  grid-template-rows: minmax(260px, 42vh) minmax(0, 1fr);
+}
+
+.panel-section {
+  min-height: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 14px;
+}
+
+.panel-section:last-child {
+  border-bottom: 0;
+}
+
+.graph-frame {
+  position: relative;
+  height: calc(100% - 36px);
+  min-height: 210px;
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #fbfdff 0%, #f3f6fb 100%);
+}
+
+.graph-frame svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.graph-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.related-list,
+.source-card-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.source-card {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: inherit;
+  padding: 10px;
+  text-align: left;
+}
+
+.source-card:hover {
+  border-color: rgba(165, 0, 52, 0.35);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.source-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.source-card-summary {
+  display: -webkit-box;
+  margin-top: 5px;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.score-pill {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--teal-soft);
+  color: var(--teal);
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.graph-layout {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+
+.graph-sidebar {
+  padding: 16px;
+}
+
+.graph-main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgba(0, 118, 111, 0.08), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(165, 0, 52, 0.06), transparent 24%),
+    #f8fafc;
+}
+
+.graph-toolbar {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.graph-search {
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  padding: 7px 10px;
+  outline: none;
+}
+
+.graph-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.legend {
+  margin-top: 10px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.graph-help,
+.hover-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.hover-card {
+  min-height: 96px;
+}
+
+.hover-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.full-graph-frame {
+  position: absolute;
+  inset: 0;
+}
+
+.full-graph-frame svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.graph-node {
+  cursor: pointer;
+}
+
+.graph-node text {
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.chat-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  height: 100%;
+  min-height: 0;
+}
+
+.chat-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.chat-log {
+  padding: 22px;
+}
+
+.chat-empty {
+  max-width: 680px;
+  margin: 9vh auto 0;
+  text-align: center;
+}
+
+.chat-empty h2 {
+  margin: 12px 0 8px;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.chat-empty p {
+  margin: 0 auto;
+  max-width: 560px;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.prompt-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  padding: 7px 11px;
+  font-size: 12px;
+}
+
+.prompt-chip:hover {
+  border-color: rgba(165, 0, 52, 0.35);
+  color: var(--accent);
+}
+
+.chat-msg {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 780px);
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.chat-msg.user {
+  grid-template-columns: minmax(0, 780px) 32px;
+  justify-content: end;
+}
+
+.chat-avatar {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+.chat-avatar svg {
+  width: 17px;
+  height: 17px;
+}
+
+.chat-msg.user .chat-avatar {
+  grid-column: 2;
+  background: var(--accent);
+  color: white;
+}
+
+.chat-content {
+  min-width: 0;
+}
+
+.chat-msg.user .chat-content {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.chat-label {
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.chat-msg.user .chat-label {
+  text-align: right;
+}
+
+.chat-bubble {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  padding: 11px 13px;
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.chat-msg.user .chat-bubble {
+  border-color: transparent;
+  background: var(--accent);
+  color: white;
+}
+
+.chat-bubble p {
+  margin: 0 0 0.8em;
+}
+
+.chat-bubble p:last-child,
+.chat-bubble ul:last-child,
+.chat-bubble ol:last-child {
+  margin-bottom: 0;
+}
+
+.chat-bubble ul,
+.chat-bubble ol {
+  padding-left: 1.3em;
+}
+
+.chat-sources-inline {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.chat-input-area {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 14px 18px;
+}
+
+.chat-input {
+  min-height: 44px;
+  max-height: 130px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 12px;
+  outline: none;
+}
+
+.chat-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.primary-button:hover {
+  background: #8d002d;
+}
+
+.primary-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.chat-sources {
+  padding: 16px;
+}
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+}
+
+.auth-overlay.visible {
+  display: flex;
+}
+
+.auth-card {
+  width: min(420px, calc(100vw - 32px));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.auth-card h2 {
+  margin: 12px 0 6px;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.auth-card p {
+  margin: 0 0 18px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.auth-card input {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 9px 11px;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.auth-card .primary-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.auth-error {
+  display: none;
+  margin-top: 10px;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.app-error {
+  display: none;
+  border-bottom: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #9f1239;
+  padding: 9px 18px;
+  font-size: 13px;
+}
+
+.app-error.visible {
+  display: block;
+}
+
+@media (max-width: 1240px) {
+  :root {
+    --sidebar: 290px;
+    --context: 320px;
+  }
+
+  .workspace {
+    grid-template-columns: var(--sidebar) minmax(360px, 1fr);
+  }
+
+  .context-panel {
+    display: none;
+  }
+
+  .chat-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chat-sources {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  body {
+    overflow: auto;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .view {
+    height: auto;
+    min-height: calc(100vh - 180px);
+  }
+
+  .workspace,
+  .graph-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar,
+  .graph-sidebar {
+    max-height: 320px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reader {
+    padding: 20px 18px 34px;
+  }
+
+  .graph-main {
+    min-height: 560px;
+  }
+
+  .chat-msg,
+  .chat-msg.user {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-avatar {
+    display: none;
+  }
+
+  .chat-msg.user .chat-content {
+    grid-column: 1;
+  }
+}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <h1>⚡ LG Energy Solution Wiki</h1>
-  <input class="search-box" id="node-search" placeholder="Search nodes..." oninput="filterGraph(this.value)" disabled>
-  <span id="token-status" style="font-size:11px;color:var(--text-dim)"></span>
-  <nav>
-    <button id="btn-show-links" onclick="toggleLinks('show')" title="Show all edges">Show All</button>
-    <button id="btn-hide-links" onclick="toggleLinks('hide')" title="Hide edges until node click">Hide All</button>
-    <button id="btn-source" class="active" onclick="switchView('source')">Source</button>
-    <button id="btn-chat" onclick="switchView('chat')">Chat</button>
-  </nav>
+<div id="token-overlay" class="auth-overlay" aria-modal="true" role="dialog">
+  <div class="auth-card">
+    <span class="brand-mark">LG</span>
+    <h2>Access required</h2>
+    <p>Enter the wiki token to load pages, graph data, and chat sources.</p>
+    <input id="token-input" type="password" placeholder="Access token" autocomplete="current-password">
+    <button id="token-submit" class="primary-button" type="button">
+      <i data-lucide="log-in"></i>
+      <span>Enter</span>
+    </button>
+    <div id="token-error" class="auth-error"></div>
+  </div>
 </div>
 
-<div class="container">
-  <!-- Source View -->
-  <div id="source-view">
-    <div id="graph-panel"><svg id="graph-svg"></svg></div>
-    <div id="detail-panel"></div>
-  </div>
-
-  <!-- Chat View -->
-  <div id="chat-view">
-    <div id="chat-log"></div>
-    <div id="chat-input-area">
-      <input id="chat-input" placeholder="Ask about batteries, LGES, ESS..." onkeydown="if(event.key==='Enter') sendChat()" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px">
-      <button id="chat-send" onclick="sendChat()" style="background:var(--accent);color:var(--bg);border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-weight:600;font-size:13px">Send</button>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">LG</span>
+      <div>
+        <h1>LG Energy Solution Wiki</h1>
+        <span id="brand-subtitle">Battery knowledge base</span>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- Token Overlay -->
-<div id="token-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;flex-direction:column">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:420px;width:90%;text-align:center">
-    <div style="font-size:40px;margin-bottom:12px">⚡</div>
-    <h2 style="color:var(--accent);font-size:18px;margin-bottom:8px">LG Energy Solution Wiki</h2>
-    <p style="color:var(--text-dim);font-size:13px;margin-bottom:20px">Enter your access token to continue</p>
-    <input id="token-input" type="password" placeholder="Access Token" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--text);font-size:14px;margin-bottom:12px" onkeydown="if(event.key==='Enter') submitToken()">
-    <button id="token-submit" onclick="submitToken()" style="width:100%;background:var(--accent);color:var(--bg);border:none;border-radius:6px;padding:10px;cursor:pointer;font-weight:600;font-size:14px">Enter</button>
-    <div id="token-error" style="color:#ff6b6b;font-size:12px;margin-top:10px;display:none"></div>
+    <div class="search-wrap">
+      <i data-lucide="search"></i>
+      <input id="global-search" class="search-input" type="search" placeholder="Search pages, tags, and topics" disabled>
+    </div>
+
+    <div id="token-status" class="status-pill">
+      <i data-lucide="shield"></i>
+      <span>Checking access</span>
+    </div>
+
+    <nav class="view-tabs" aria-label="Main views">
+      <button class="view-tab active" type="button" data-view="browse" title="Browse wiki pages">
+        <i data-lucide="book-open"></i>
+        <span>Browse</span>
+      </button>
+      <button class="view-tab" type="button" data-view="graph" title="Explore the knowledge graph">
+        <i data-lucide="network"></i>
+        <span>Graph</span>
+      </button>
+      <button class="view-tab" type="button" data-view="chat" title="Ask the wiki assistant">
+        <i data-lucide="messages-square"></i>
+        <span>Chat</span>
+      </button>
+    </nav>
+  </header>
+
+  <div id="app-error" class="app-error"></div>
+
+  <div class="views">
+    <section id="browse-view" class="view active" aria-label="Browse wiki">
+      <div class="workspace">
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <h2>Pages</h2>
+            <span id="page-count" class="count-label">0</span>
+          </div>
+          <div id="category-list" class="category-list"></div>
+          <div id="page-list" class="page-list"></div>
+        </aside>
+
+        <main class="reader">
+          <div id="article" class="article-shell">
+            <div class="empty-state">
+              <div>
+                <i data-lucide="book-open"></i>
+                <p>Load the wiki to start reading.</p>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <aside class="context-panel">
+          <section class="panel-section">
+            <div class="panel-header">
+              <h2>Related Map</h2>
+              <button id="context-reset" class="icon-button" type="button" title="Reset map zoom">
+                <i data-lucide="scan"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+            <div class="graph-frame">
+              <svg id="context-graph-svg" aria-label="Related page graph"></svg>
+              <div id="context-graph-empty" class="graph-empty">Select a page to see related topics.</div>
+            </div>
+          </section>
+          <section class="panel-section">
+            <div class="panel-header">
+              <h2>Related Pages</h2>
+              <span id="related-count" class="count-label">0</span>
+            </div>
+            <div id="related-list" class="related-list"></div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section id="graph-view" class="view" aria-label="Knowledge graph">
+      <div class="graph-layout">
+        <aside class="graph-sidebar">
+          <div class="graph-header">
+            <h2>Knowledge Graph</h2>
+            <button id="full-graph-reset" class="icon-button" type="button" title="Reset graph zoom">
+              <i data-lucide="scan"></i>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <div class="graph-toolbar">
+            <div>
+              <label class="count-label" for="graph-search">Filter graph</label>
+              <input id="graph-search" class="graph-search" type="search" placeholder="Search graph nodes">
+            </div>
+
+            <div>
+              <span class="count-label">Links</span>
+              <div class="segmented" style="margin-top:6px">
+                <button id="graph-mode-focus" class="active" type="button" data-graph-mode="focus">
+                  <i data-lucide="crosshair"></i>
+                  <span>Focus</span>
+                </button>
+                <button id="graph-mode-all" type="button" data-graph-mode="all">
+                  <i data-lucide="share-2"></i>
+                  <span>All</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span class="count-label">Categories</span>
+              <div id="graph-type-toggles" class="type-toggle-list"></div>
+            </div>
+
+            <div>
+              <span class="count-label">Legend</span>
+              <div id="graph-legend" class="legend"></div>
+            </div>
+
+            <div id="graph-hover" class="hover-card">
+              <strong>No node selected</strong>
+              Hover a node for a summary. Click a node to open the article.
+            </div>
+
+            <div id="graph-stats" class="graph-help">Graph data has not loaded yet.</div>
+          </div>
+        </aside>
+
+        <main class="graph-main">
+          <div class="full-graph-frame">
+            <svg id="full-graph-svg" aria-label="Full knowledge graph"></svg>
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <section id="chat-view" class="view" aria-label="Wiki chat">
+      <div class="chat-layout">
+        <div class="chat-panel">
+          <div id="chat-log" class="chat-log">
+            <div id="chat-empty" class="chat-empty">
+              <i data-lucide="messages-square"></i>
+              <h2>Ask across the wiki</h2>
+              <p>Answers are grounded in the compiled LG Energy Solution pages, with cited source cards for follow-up reading.</p>
+              <div class="prompt-row">
+                <button class="prompt-chip" type="button" data-prompt="Compare LFP and NCM for ESS and EV use.">Compare LFP and NCM</button>
+                <button class="prompt-chip" type="button" data-prompt="Explain why fast charging is difficult for lithium-ion batteries.">Explain fast charging</button>
+                <button class="prompt-chip" type="button" data-prompt="What connects battery safety, separator design, and thermal propagation prevention?">Map safety concepts</button>
+              </div>
+            </div>
+          </div>
+          <form id="chat-form" class="chat-input-area">
+            <textarea id="chat-input" class="chat-input" rows="1" placeholder="Ask about battery technology, LGES, ESS, manufacturing, or partners"></textarea>
+            <button id="chat-send" class="primary-button" type="submit">
+              <i data-lucide="send"></i>
+              <span>Send</span>
+            </button>
+          </form>
+        </div>
+
+        <aside class="chat-sources">
+          <div class="chat-source-header">
+            <h2>Latest Sources</h2>
+            <span id="chat-source-count" class="count-label">0</span>
+          </div>
+          <div id="chat-source-list" class="source-card-list"></div>
+        </aside>
+      </div>
+    </section>
   </div>
 </div>
 
 <script>
-let token = localStorage.getItem('wiki_token');
+const TYPE_ORDER = ["entity", "concept", "comparison", "glossary"];
+const TYPE_META = {
+  all: { label: "All", plural: "All pages", color: "#334155", icon: "layout-list" },
+  entity: { label: "Entity", plural: "Entities", color: "#a50034", icon: "building-2" },
+  concept: { label: "Concept", plural: "Concepts", color: "#00766f", icon: "atom" },
+  comparison: { label: "Comparison", plural: "Comparisons", color: "#b45309", icon: "scale" },
+  glossary: { label: "Glossary", plural: "Glossary", color: "#7c3aed", icon: "book-marked" },
+  page: { label: "Page", plural: "Pages", color: "#2563eb", icon: "file-text" },
+};
+
+let token = localStorage.getItem("wiki_token");
+let graphData = null;
+let pageIndex = new Map();
+let pageCache = new Map();
+let currentView = "browse";
+let currentNode = null;
+let activeCategory = "all";
+let searchTerm = "";
+let filteredPageCache = [];
+let chatSources = [];
+let graphViews = {};
+
+const graphState = {
+  mode: "focus",
+  query: "",
+  types: new Set(TYPE_ORDER),
+};
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+function refreshIcons() {
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
 
 function apiFetch(url, opts) {
-  opts = opts || {};
-  opts.headers = opts.headers || {};
+  const options = opts || {};
+  const headers = Object.assign({}, options.headers || {});
   if (token) {
-    opts.headers['Authorization'] = 'Bearer ' + token;
+    headers.Authorization = "Bearer " + token;
   }
-  return fetch(url, opts);
+  return fetch(url, Object.assign({}, options, { headers }));
 }
 
-function submitToken() {
-  const input = document.getElementById('token-input');
-  const btn = document.getElementById('token-submit');
-  const err = document.getElementById('token-error');
-  const t = input.value.trim();
-  if (!t) { err.textContent = 'Please enter a token'; err.style.display = 'block'; return; }
-  err.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Verifying...';
-  token = t;
-  apiFetch('/api/verify-token')
-    .then(r => {
-      if (!r.ok) { throw new Error('Invalid token'); }
-      localStorage.setItem('wiki_token', t);
-      document.getElementById('token-overlay').style.display = 'none';
-      document.querySelectorAll('#token-overlay + .container .search-box').forEach(el => el.disabled = false);
-      document.getElementById('token-status').textContent = '✓ Authenticated';
-      initApp();
-    })
-    .catch(e => {
-      token = localStorage.getItem('wiki_token');
-      err.textContent = 'Invalid token. Try again.';
-      err.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Enter';
-    });
+function escapeHTML(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-// ── State ──
-let graphData = null;
-let currentView = 'source';
-let simulation = null;
-let activeNode = null;
-let graphMode = 'show'; // 'show' or 'hide'
-let linkElsGlobal = null;
-let nodeElsGlobal = null;
-// In hide mode: stores the set of slugs that should be fully visible
-let visibleNodesSet = null;
+function setAppError(message) {
+  const el = $("app-error");
+  if (!message) {
+    el.textContent = "";
+    el.classList.remove("visible");
+    return;
+  }
+  el.textContent = message;
+  el.classList.add("visible");
+}
 
-function toggleLinks(mode) {
-  if (!nodeElsGlobal) return;
-  graphMode = mode;
-  const btnShow = document.getElementById('btn-show-links');
-  const btnHide = document.getElementById('btn-hide-links');
-  btnShow.className = mode === 'show' ? 'active' : '';
-  btnHide.className = mode === 'hide' ? 'active' : '';
+function setStatus(text, iconName) {
+  const status = $("token-status");
+  status.innerHTML = `<i data-lucide="${iconName || "shield"}"></i><span>${escapeHTML(text)}</span>`;
+  refreshIcons();
+}
 
-  if (mode === 'show') {
-    // Show everything
-    nodeElsGlobal.attr('opacity', 1);
-    linkElsGlobal.attr('display', null).attr('stroke-opacity', 0.7).attr('stroke', '#8080bb');
-    visibleNodesSet = null;
-  } else {
-    // Ghost everything — only the last clicked node (if any) and its neighbors are visible
-    linkElsGlobal.attr('stroke-opacity', 0);
-    nodeElsGlobal.attr('opacity', 0.12);
-    visibleNodesSet = new Set();
-    if (activeNode) {
-      focusOnNode(activeNode);
-    } else {
-      // Pick a central node to show as entry point
-      if (graphData && graphData.nodes.length > 0) {
-        // Find the most connected node
-        let bestNode = graphData.nodes[0];
-        focusOnNode(bestNode);
+function showTokenOverlay(show) {
+  $("token-overlay").classList.toggle("visible", show);
+  if (show) {
+    $("token-input").focus();
+  }
+}
+
+async function bootstrapAuth() {
+  setStatus("Checking access", "shield");
+
+  if (token) {
+    try {
+      const res = await apiFetch("/api/verify-token");
+      if (res.ok) {
+        setStatus("Authenticated", "shield-check");
+        showTokenOverlay(false);
+        await initApp();
+        return;
       }
+    } catch (error) {
+      setAppError("Could not verify stored token. Check that the server is running.");
     }
+    localStorage.removeItem("wiki_token");
+    token = null;
+  }
+
+  try {
+    const res = await fetch("/api/verify-token");
+    if (res.ok) {
+      setStatus("Open access", "unlock");
+      showTokenOverlay(false);
+      await initApp();
+      return;
+    }
+  } catch (error) {
+    setAppError("Could not reach the wiki server.");
+  }
+
+  setStatus("Token required", "lock");
+  showTokenOverlay(true);
+}
+
+async function submitToken() {
+  const input = $("token-input");
+  const button = $("token-submit");
+  const error = $("token-error");
+  const nextToken = input.value.trim();
+
+  if (!nextToken) {
+    error.textContent = "Enter an access token.";
+    error.style.display = "block";
+    return;
+  }
+
+  error.style.display = "none";
+  button.disabled = true;
+  button.querySelector("span").textContent = "Verifying";
+  token = nextToken;
+
+  try {
+    const res = await apiFetch("/api/verify-token");
+    if (!res.ok) {
+      throw new Error("Invalid token");
+    }
+    localStorage.setItem("wiki_token", nextToken);
+    setStatus("Authenticated", "shield-check");
+    showTokenOverlay(false);
+    await initApp();
+  } catch (err) {
+    token = null;
+    localStorage.removeItem("wiki_token");
+    error.textContent = "Invalid token. Try again.";
+    error.style.display = "block";
+  } finally {
+    button.disabled = false;
+    button.querySelector("span").textContent = "Enter";
+    refreshIcons();
   }
 }
 
-function focusOnNode(node) {
-  if (!nodeElsGlobal || !linkElsGlobal) return;
-  const slug = node.slug;
-  if (!visibleNodesSet) visibleNodesSet = new Set();
+async function initApp() {
+  setAppError("");
+  await loadGraph();
+  bindStaticEvents();
+  renderCategoryList();
+  renderGraphTypeToggles();
+  renderLegend();
+  renderSidebar();
+  $("global-search").disabled = false;
 
-  // Find all connected slugs
-  const connected = new Set([slug]);
-  graphData.links.forEach(l => {
-    const src = typeof l.source === 'object' ? l.source.slug : l.source;
-    const tgt = typeof l.target === 'object' ? l.target.slug : l.target;
-    if (src === slug) connected.add(tgt);
-    if (tgt === slug) connected.add(src);
-  });
-
-  // Save full visible set for toggle
-  visibleNodesSet = connected;
-
-  // Show nodes that are connected, ghost others
-  nodeElsGlobal.attr('opacity', d => connected.has(d.slug) ? 1 : 0.08);
-
-  // Show edges between visible nodes, hide all others
-  linkElsGlobal.attr('stroke-opacity', l => {
-    const src = typeof l.source === 'object' ? l.source.slug : l.source;
-    const tgt = typeof l.target === 'object' ? l.target.slug : l.target;
-    return (connected.has(src) && connected.has(tgt)) ? 0.7 : 0;
-  });
-  linkElsGlobal.attr('stroke', '#8080bb');
-  activeNode = node;
+  const hashSlug = window.location.hash ? window.location.hash.slice(1) : "";
+  const initialSlug = pageIndex.has(hashSlug) ? hashSlug : (pageIndex.has("lg-energy-solution") ? "lg-energy-solution" : graphData.nodes[0]?.slug);
+  if (initialSlug) {
+    await selectPage(initialSlug, { view: "browse", updateHash: false });
+  }
+  renderFullGraph();
 }
 
-function focusOnNodeAndNeighbors(node) {
-  // Same as focusOnNode but also shows the detail panel
-  focusOnNode(node);
-  showDetail(node);
+async function loadGraph() {
+  const res = await apiFetch("/api/graph");
+  if (res.status === 401) {
+    showTokenOverlay(true);
+    throw new Error("Token required");
+  }
+  if (!res.ok) {
+    throw new Error("Could not load graph data.");
+  }
+
+  const text = await res.text();
+  try {
+    graphData = JSON.parse(text);
+  } catch (err) {
+    setAppError("Graph data is invalid JSON. Rebuild server/data/graph.json before using the graph.");
+    throw err;
+  }
+
+  graphData.nodes = (graphData.nodes || []).map((node) => ({
+    ...node,
+    tags: Array.isArray(node.tags) ? node.tags : [],
+    type: node.type || "page",
+  }));
+  graphData.links = graphData.links || [];
+  pageIndex = new Map(graphData.nodes.map((node) => [node.slug, node]));
+  $("brand-subtitle").textContent = `${graphData.nodes.length} pages, ${graphData.links.length} links`;
 }
 
-// ── View Switching ──
+function bindStaticEvents() {
+  if (bindStaticEvents.bound) {
+    return;
+  }
+  bindStaticEvents.bound = true;
+
+  $("token-submit").addEventListener("click", submitToken);
+  $("token-input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      submitToken();
+    }
+  });
+
+  $("global-search").addEventListener("input", (event) => {
+    searchTerm = event.target.value.trim();
+    renderSidebar();
+  });
+  $("global-search").addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && filteredPageCache[0]) {
+      event.preventDefault();
+      selectPage(filteredPageCache[0].slug, { view: "browse" });
+    }
+  });
+
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => switchView(button.dataset.view));
+  });
+
+  $("context-reset").addEventListener("click", () => resetGraph("context-graph-svg"));
+  $("full-graph-reset").addEventListener("click", () => resetGraph("full-graph-svg"));
+
+  $("graph-search").addEventListener("input", (event) => {
+    graphState.query = event.target.value.trim();
+    renderFullGraph();
+  });
+
+  document.querySelectorAll("[data-graph-mode]").forEach((button) => {
+    button.addEventListener("click", () => {
+      graphState.mode = button.dataset.graphMode;
+      document.querySelectorAll("[data-graph-mode]").forEach((el) => el.classList.toggle("active", el.dataset.graphMode === graphState.mode));
+      renderFullGraph();
+    });
+  });
+
+  $("chat-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    sendChat();
+  });
+  $("chat-input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendChat();
+    }
+  });
+  document.querySelectorAll("[data-prompt]").forEach((button) => {
+    button.addEventListener("click", () => {
+      $("chat-input").value = button.dataset.prompt;
+      $("chat-input").focus();
+    });
+  });
+
+  window.addEventListener("resize", debounce(() => {
+    renderContextGraph();
+    renderFullGraph();
+  }, 180));
+}
+
 function switchView(view) {
   currentView = view;
-  document.getElementById('btn-source').className = view === 'source' ? 'active' : '';
-  document.getElementById('btn-chat').className = view === 'chat' ? 'active' : '';
-  document.getElementById('source-view').style.display = view === 'source' ? 'flex' : 'none';
-  document.getElementById('chat-view').className = view === 'chat' ? 'visible' : '';
-  if (view === 'chat' && document.getElementById('chat-log').children.length === 0) {
-    addChatMsg('wiki', 'Hello! I\'m the LG Energy Solution wiki assistant. Ask me anything about batteries, technology, or company info.');
+  document.querySelectorAll(".view-tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.view === view);
+  });
+  document.querySelectorAll(".view").forEach((el) => {
+    el.classList.toggle("active", el.id === `${view}-view`);
+  });
+  if (view === "graph") {
+    renderFullGraph();
   }
+  if (view === "chat") {
+    $("chat-input").focus();
+  }
+  refreshIcons();
 }
 
-// ── Graph ──
-async function loadGraph() {
-  try {
-    const res = await apiFetch('/api/graph');
-    graphData = await res.json();
-    renderGraph();
-  } catch(e) {
-    console.error('Graph load error:', e);
-  }
+function typeMeta(type) {
+  return TYPE_META[type] || TYPE_META.page;
 }
 
-function renderGraph(filter) {
-  const svg = document.getElementById('graph-svg');
-  const width = svg.parentElement.clientWidth;
-  const height = svg.parentElement.clientHeight;
+function typeCounts() {
+  const counts = { all: graphData ? graphData.nodes.length : 0 };
+  TYPE_ORDER.forEach((type) => {
+    counts[type] = 0;
+  });
+  if (!graphData) {
+    return counts;
+  }
+  graphData.nodes.forEach((node) => {
+    counts[node.type] = (counts[node.type] || 0) + 1;
+  });
+  return counts;
+}
 
-  let nodes = graphData.nodes.map(n => ({...n}));
-  let links = graphData.links.map(l => ({...l}));
+function renderCategoryList() {
+  const counts = typeCounts();
+  const list = $("category-list");
+  list.innerHTML = ["all"].concat(TYPE_ORDER).map((type) => {
+    const meta = typeMeta(type);
+    return `
+      <button class="category-button ${activeCategory === type ? "active" : ""}" type="button" data-category="${type}">
+        <span class="category-label">
+          <span class="category-dot" style="background:${meta.color}"></span>
+          ${escapeHTML(meta.plural)}
+        </span>
+        <span class="category-count">${counts[type] || 0}</span>
+      </button>
+    `;
+  }).join("");
 
-  if (filter) {
-    const f = filter.toLowerCase();
-    const matched = new Set();
-    nodes.forEach(n => {
-      if (n.title.toLowerCase().includes(f) || n.slug.toLowerCase().includes(f) || (n.tags||[]).some(t => t.toLowerCase().includes(f))) {
-        matched.add(n.slug);
-      }
+  list.querySelectorAll("[data-category]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeCategory = button.dataset.category;
+      renderCategoryList();
+      renderSidebar();
     });
-    // Keep links where both ends matched
-    links = links.filter(l => matched.has(l.source) && matched.has(l.target));
-    nodes = nodes.filter(n => matched.has(n.slug));
+  });
+}
+
+function pageMatches(node, query) {
+  if (!query) {
+    return true;
+  }
+  const q = query.toLowerCase();
+  const haystack = [
+    node.title,
+    node.slug,
+    node.type,
+    node.category,
+    node.summary,
+    ...(node.tags || []),
+  ].join(" ").toLowerCase();
+  return haystack.includes(q);
+}
+
+function getFilteredPages() {
+  if (!graphData) {
+    return [];
+  }
+  return graphData.nodes
+    .filter((node) => activeCategory === "all" || node.type === activeCategory)
+    .filter((node) => pageMatches(node, searchTerm))
+    .sort((a, b) => {
+      const typeDelta = TYPE_ORDER.indexOf(a.type) - TYPE_ORDER.indexOf(b.type);
+      if (activeCategory === "all" && typeDelta !== 0) {
+        return typeDelta;
+      }
+      return a.title.localeCompare(b.title);
+    });
+}
+
+function renderSidebar() {
+  const pages = getFilteredPages();
+  filteredPageCache = pages;
+  $("page-count").textContent = `${pages.length} shown`;
+
+  if (!pages.length) {
+    $("page-list").innerHTML = `
+      <div class="empty-state" style="min-height:160px">
+        <div>
+          <i data-lucide="search-x"></i>
+          <p>No pages match the current filter.</p>
+        </div>
+      </div>
+    `;
+    refreshIcons();
+    return;
   }
 
-  // Color map by type
-  const colors = {
-    entity: '#64ffda',
-    concept: '#ffd700',
-    comparison: '#ff6b6b',
-    glossary: '#a78bfa',
-    meta: '#8892b0',
-    page: '#4fc3f7',
-  };
+  const groups = {};
+  pages.forEach((node) => {
+    const key = node.type || "page";
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(node);
+  });
 
-  svg.innerHTML = '';
-  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  svg.appendChild(g);
+  const orderedTypes = activeCategory === "all" ? TYPE_ORDER.concat(["page"]) : [activeCategory];
+  $("page-list").innerHTML = orderedTypes
+    .filter((type) => groups[type]?.length)
+    .map((type) => {
+      const meta = typeMeta(type);
+      const items = groups[type].map((node) => pageButtonHTML(node)).join("");
+      return `<div class="group-title">${escapeHTML(meta.plural)}</div>${items}`;
+    }).join("");
+
+  $("page-list").querySelectorAll("[data-page]").forEach((button) => {
+    button.addEventListener("click", () => selectPage(button.dataset.page, { view: "browse" }));
+  });
+  refreshIcons();
+}
+
+function pageButtonHTML(node) {
+  const meta = typeMeta(node.type);
+  const tags = (node.tags || []).slice(0, 3).map((tag) => `<span class="chip">${escapeHTML(tag)}</span>`).join("");
+  return `
+    <button class="page-button ${currentNode?.slug === node.slug ? "active" : ""}" type="button" data-page="${escapeHTML(node.slug)}">
+      <span class="page-title">${escapeHTML(node.title)}</span>
+      <span class="page-summary">${escapeHTML(cleanSummary(node.summary, node.title))}</span>
+      <span class="tag-row">
+        <span class="type-chip" style="color:${meta.color};background:${typeTint(node.type)}">${escapeHTML(meta.label)}</span>
+        ${tags}
+      </span>
+    </button>
+  `;
+}
+
+async function selectPage(slug, options) {
+  const opts = options || {};
+  const node = pageIndex.get(slug) || { slug, title: slug, type: "page", tags: [] };
+  currentNode = node;
+  if (opts.view) {
+    switchView(opts.view);
+  }
+  if (opts.updateHash !== false) {
+    history.replaceState(null, "", `#${encodeURIComponent(slug)}`);
+  }
+  renderSidebar();
+  renderArticleLoading(node);
+
+  try {
+    const raw = await fetchPage(slug);
+    renderArticle(raw, node);
+    renderRelated(raw, node);
+    renderContextGraph();
+    renderGraphHover(node);
+  } catch (error) {
+    $("article").innerHTML = `
+      <div class="error-state">
+        <div>
+          <i data-lucide="triangle-alert"></i>
+          <p>Could not load ${escapeHTML(node.title)}.</p>
+        </div>
+      </div>
+    `;
+    refreshIcons();
+  }
+}
+
+function renderArticleLoading(node) {
+  $("article").innerHTML = `
+    <div class="loading-state">
+      <div>
+        <i data-lucide="loader-circle"></i>
+        <p>Loading ${escapeHTML(node.title)}...</p>
+      </div>
+    </div>
+  `;
+  refreshIcons();
+}
+
+async function fetchPage(slug) {
+  if (pageCache.has(slug)) {
+    return pageCache.get(slug);
+  }
+  const res = await apiFetch(`/api/page/${encodeURIComponent(slug)}`);
+  if (res.status === 401) {
+    showTokenOverlay(true);
+    throw new Error("Token required");
+  }
+  if (!res.ok) {
+    throw new Error(`Page load failed: ${res.status}`);
+  }
+  const raw = await res.text();
+  pageCache.set(slug, raw);
+  return raw;
+}
+
+function parseFrontmatter(raw) {
+  const result = { meta: {}, body: raw || "" };
+  const match = /^---\s*\n([\s\S]*?)\n---\s*\n?/.exec(raw || "");
+  if (!match) {
+    return result;
+  }
+
+  result.body = raw.slice(match[0].length);
+  const lines = match[1].split(/\r?\n/);
+  let currentKey = null;
+  lines.forEach((line) => {
+    const listMatch = /^\s+-\s+(.*)$/.exec(line);
+    if (listMatch && currentKey) {
+      if (!Array.isArray(result.meta[currentKey])) {
+        result.meta[currentKey] = [];
+      }
+      result.meta[currentKey].push(listMatch[1].trim());
+      return;
+    }
+
+    const keyMatch = /^([A-Za-z0-9_-]+):\s*(.*)$/.exec(line);
+    if (!keyMatch) {
+      return;
+    }
+    currentKey = keyMatch[1];
+    const rawValue = keyMatch[2].trim();
+    if (!rawValue) {
+      result.meta[currentKey] = [];
+      return;
+    }
+    if (rawValue.startsWith("[") && rawValue.endsWith("]")) {
+      result.meta[currentKey] = rawValue.slice(1, -1)
+        .split(",")
+        .map((item) => item.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean);
+      return;
+    }
+    result.meta[currentKey] = rawValue.replace(/^["']|["']$/g, "");
+  });
+  return result;
+}
+
+function renderArticle(raw, node) {
+  const parsed = parseFrontmatter(raw);
+  const meta = Object.assign({}, parsed.meta);
+  const title = meta.title || node.title;
+  const tags = Array.isArray(meta.tags) ? meta.tags : node.tags || [];
+  const body = stripLeadingTitle(parsed.body, title);
+  const html = renderMarkdown(body);
+  const type = meta.type || node.type || "page";
+  const sourceCount = Array.isArray(meta.sources) ? meta.sources.length : 0;
+
+  $("article").innerHTML = `
+    <header class="article-header">
+      <div class="article-kicker">
+        <i data-lucide="${typeMeta(type).icon}"></i>
+        <span>${escapeHTML(typeMeta(type).label)}</span>
+      </div>
+      <h1 class="article-title">${escapeHTML(title)}</h1>
+      <p class="article-summary">${escapeHTML(cleanSummary(node.summary || firstParagraph(body), title))}</p>
+      <div class="meta-row" style="margin-top:14px">
+        ${tags.slice(0, 6).map((tag) => `<span class="chip">${escapeHTML(tag)}</span>`).join("")}
+        ${meta.confidence ? `<span class="chip">Confidence: ${escapeHTML(meta.confidence)}</span>` : ""}
+        ${meta.updated ? `<span class="chip">Updated: ${escapeHTML(meta.updated)}</span>` : ""}
+        ${sourceCount ? `<span class="chip">${sourceCount} source${sourceCount === 1 ? "" : "s"}</span>` : ""}
+      </div>
+    </header>
+    <div class="article-body">${html}</div>
+  `;
+  bindWikiLinks($("article"));
+  refreshIcons();
+}
+
+function stripLeadingTitle(body, title) {
+  const escapedTitle = title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return body
+    .replace(new RegExp(`^#\\s+${escapedTitle}\\s*\\n+`, "i"), "")
+    .replace(/^#\s+.+\n+/, "");
+}
+
+function firstParagraph(markdown) {
+  return (markdown || "")
+    .split(/\n\s*\n/)
+    .map((part) => part.replace(/^#+\s+/gm, "").trim())
+    .find(Boolean) || "";
+}
+
+function cleanSummary(summary, title) {
+  let value = String(summary || "")
+    .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2")
+    .replace(/\[\[([^\]]+)\]\]/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (title && value.toLowerCase().startsWith(String(title).toLowerCase())) {
+    value = value.slice(String(title).length).trim();
+  }
+  return value
+    .replace(/^(Core Idea|Snapshot|Definition|Technical Notes|What To Remember)\s+/i, "")
+    .trim();
+}
+
+function renderMarkdown(markdown) {
+  const linked = String(markdown || "").replace(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|([^\]]+))?\]\]/g, (match, slug, label) => {
+    const cleanSlug = slug.trim();
+    const text = label || pageIndex.get(cleanSlug)?.title || cleanSlug;
+    return `<a href="#${encodeURIComponent(cleanSlug)}" class="wikilink" data-wikilink="${escapeHTML(cleanSlug)}">${escapeHTML(text)}</a>`;
+  });
+
+  if (window.marked && window.DOMPurify) {
+    window.marked.setOptions({ gfm: true, breaks: false });
+    return window.DOMPurify.sanitize(window.marked.parse(linked), {
+      ADD_ATTR: ["data-wikilink", "target"],
+    });
+  }
+
+  return `<p>${escapeHTML(linked).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")}</p>`;
+}
+
+function bindWikiLinks(root) {
+  root.querySelectorAll("[data-wikilink]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      selectPage(link.dataset.wikilink, { view: "browse" });
+    });
+  });
+}
+
+function extractWikiLinks(raw) {
+  const links = [];
+  const seen = new Set();
+  String(raw || "").replace(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|([^\]]+))?\]\]/g, (match, slug) => {
+    const cleanSlug = slug.trim();
+    if (!seen.has(cleanSlug) && pageIndex.has(cleanSlug)) {
+      seen.add(cleanSlug);
+      links.push(cleanSlug);
+    }
+    return match;
+  });
+  return links;
+}
+
+function graphNeighbors(slug) {
+  if (!graphData) {
+    return [];
+  }
+  const seen = new Set();
+  graphData.links.forEach((link) => {
+    const source = linkId(link.source);
+    const target = linkId(link.target);
+    if (source === slug && target !== slug) {
+      seen.add(target);
+    }
+    if (target === slug && source !== slug) {
+      seen.add(source);
+    }
+  });
+  return Array.from(seen)
+    .filter((neighbor) => pageIndex.has(neighbor))
+    .sort((a, b) => {
+      const nodeA = pageIndex.get(a);
+      const nodeB = pageIndex.get(b);
+      const typeDelta = TYPE_ORDER.indexOf(nodeA.type) - TYPE_ORDER.indexOf(nodeB.type);
+      return typeDelta || nodeA.title.localeCompare(nodeB.title);
+    });
+}
+
+function relatedSlugs(raw, node, limit) {
+  const seen = new Set([node.slug]);
+  const out = [];
+  extractWikiLinks(raw).concat(graphNeighbors(node.slug)).forEach((slug) => {
+    if (!seen.has(slug) && pageIndex.has(slug)) {
+      seen.add(slug);
+      out.push(slug);
+    }
+  });
+  return out.slice(0, limit || 12);
+}
+
+function renderRelated(raw, node) {
+  const slugs = relatedSlugs(raw, node, 12);
+  $("related-count").textContent = String(slugs.length);
+  $("related-list").innerHTML = slugs.length
+    ? slugs.map((slug) => sourceCardHTML(pageIndex.get(slug))).join("")
+    : `<div class="graph-help">No related pages were found for this article.</div>`;
+
+  $("related-list").querySelectorAll("[data-source-page]").forEach((button) => {
+    button.addEventListener("click", () => selectPage(button.dataset.sourcePage, { view: "browse" }));
+  });
+  refreshIcons();
+}
+
+function sourceCardHTML(node, score) {
+  if (!node) {
+    return "";
+  }
+  const meta = typeMeta(node.type);
+  return `
+    <button class="source-card" type="button" data-source-page="${escapeHTML(node.slug)}">
+      <span class="source-card-title">
+        <span>${escapeHTML(node.title)}</span>
+        ${score != null ? `<span class="score-pill">${escapeHTML(score)}</span>` : ""}
+      </span>
+      <span class="tag-row">
+        <span class="type-chip" style="color:${meta.color};background:${typeTint(node.type)}">${escapeHTML(meta.label)}</span>
+        ${(node.tags || []).slice(0, 2).map((tag) => `<span class="chip">${escapeHTML(tag)}</span>`).join("")}
+      </span>
+      <span class="source-card-summary">${escapeHTML(cleanSummary(node.summary, node.title))}</span>
+    </button>
+  `;
+}
+
+function typeTint(type) {
+  switch (type) {
+    case "entity": return "#fde8ef";
+    case "concept": return "#e2f4f2";
+    case "comparison": return "#fef3c7";
+    case "glossary": return "#ede9fe";
+    default: return "#e8eef7";
+  }
+}
+
+function renderGraphTypeToggles() {
+  const list = $("graph-type-toggles");
+  list.innerHTML = TYPE_ORDER.map((type) => {
+    const meta = typeMeta(type);
+    return `
+      <button class="type-toggle active" type="button" data-graph-type="${type}">
+        <span>
+          <span class="category-dot" style="background:${meta.color}"></span>
+          ${escapeHTML(meta.plural)}
+        </span>
+        <span class="category-count">${typeCounts()[type] || 0}</span>
+      </button>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-graph-type]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.dataset.graphType;
+      if (graphState.types.has(type) && graphState.types.size > 1) {
+        graphState.types.delete(type);
+      } else {
+        graphState.types.add(type);
+      }
+      button.classList.toggle("active", graphState.types.has(type));
+      renderFullGraph();
+    });
+  });
+  refreshIcons();
+}
+
+function renderLegend() {
+  $("graph-legend").innerHTML = TYPE_ORDER.map((type) => {
+    const meta = typeMeta(type);
+    return `
+      <span class="legend-item">
+        <span class="legend-dot" style="background:${meta.color}"></span>
+        ${escapeHTML(meta.label)}
+      </span>
+    `;
+  }).join("");
+}
+
+function linkId(value) {
+  return typeof value === "object" ? value.slug : value;
+}
+
+function getGraphSubset(options) {
+  const opts = options || {};
+  const mode = opts.mode || "focus";
+  const focusSlug = opts.focusSlug || currentNode?.slug;
+  const query = (opts.query || "").toLowerCase();
+  const maxNeighbors = opts.maxNeighbors || 36;
+  const typeSet = opts.types || graphState.types;
+  const includeType = (node) => typeSet.has(node.type) || node.slug === focusSlug;
+  let slugs = new Set();
+
+  if (query) {
+    graphData.nodes
+      .filter(includeType)
+      .filter((node) => pageMatches(node, query))
+      .slice(0, 70)
+      .forEach((node) => slugs.add(node.slug));
+  } else if (mode === "focus" && focusSlug && pageIndex.has(focusSlug)) {
+    slugs.add(focusSlug);
+    graphNeighbors(focusSlug)
+      .filter((slug) => includeType(pageIndex.get(slug)))
+      .slice(0, maxNeighbors)
+      .forEach((slug) => slugs.add(slug));
+  } else {
+    graphData.nodes
+      .filter(includeType)
+      .forEach((node) => slugs.add(node.slug));
+  }
+
+  let links = graphData.links
+    .map((link) => ({ source: linkId(link.source), target: linkId(link.target) }))
+    .filter((link) => slugs.has(link.source) && slugs.has(link.target));
+
+  links = limitLinks(links, opts.maxLinks || (mode === "all" ? 850 : 180));
+  const nodes = Array.from(slugs)
+    .map((slug) => pageIndex.get(slug))
+    .filter(Boolean)
+    .map((node) => ({ ...node }));
+
+  return { nodes, links };
+}
+
+function limitLinks(links, maxLinks) {
+  if (links.length <= maxLinks) {
+    return links;
+  }
+  const degree = new Map();
+  links.forEach((link) => {
+    degree.set(link.source, (degree.get(link.source) || 0) + 1);
+    degree.set(link.target, (degree.get(link.target) || 0) + 1);
+  });
+  return links
+    .slice()
+    .sort((a, b) => (degree.get(b.source) + degree.get(b.target)) - (degree.get(a.source) + degree.get(a.target)))
+    .slice(0, maxLinks);
+}
+
+function renderContextGraph() {
+  if (!graphData || !currentNode) {
+    return;
+  }
+  renderGraph("context-graph-svg", {
+    compact: true,
+    mode: "focus",
+    focusSlug: currentNode.slug,
+    maxNeighbors: 18,
+    maxLinks: 70,
+    types: new Set(TYPE_ORDER),
+  });
+}
+
+function renderFullGraph() {
+  if (!graphData) {
+    return;
+  }
+  renderGraph("full-graph-svg", {
+    compact: false,
+    mode: graphState.mode,
+    focusSlug: currentNode?.slug,
+    query: graphState.query,
+    maxNeighbors: 42,
+    maxLinks: graphState.mode === "all" ? 900 : 220,
+    types: graphState.types,
+  });
+}
+
+function renderGraph(svgId, options) {
+  if (!window.d3 || !graphData) {
+    return;
+  }
+  const svgEl = $(svgId);
+  const emptyEl = svgId === "context-graph-svg" ? $("context-graph-empty") : null;
+  const opts = options || {};
+  const compact = !!opts.compact;
+
+  if (graphViews[svgId]?.simulation) {
+    graphViews[svgId].simulation.stop();
+  }
+
+  const subset = getGraphSubset(opts);
+  if (emptyEl) {
+    emptyEl.style.display = subset.nodes.length ? "none" : "grid";
+  }
+
+  const width = Math.max(svgEl.clientWidth || svgEl.parentElement.clientWidth, 260);
+  const height = Math.max(svgEl.clientHeight || svgEl.parentElement.clientHeight, compact ? 220 : 520);
+  svgEl.innerHTML = "";
+
+  const svg = d3.select(svgEl);
+  const root = svg.append("g");
+  const linkGroup = root.append("g").attr("class", "graph-links");
+  const nodeGroup = root.append("g").attr("class", "graph-nodes");
 
   const zoom = d3.zoom()
-    .scaleExtent([0.1, 4])
-    .on('zoom', (event) => g.setAttribute('transform', event.transform));
-  d3.select(svg).call(zoom);
+    .scaleExtent([0.25, 4])
+    .on("zoom", (event) => root.attr("transform", event.transform));
+  svg.call(zoom);
 
-  const nodeGroup = d3.select(g).append('g').attr('class', 'nodes');
-  const linkGroup = d3.select(g).append('g').attr('class', 'links');
+  const degree = new Map();
+  subset.links.forEach((link) => {
+    degree.set(link.source, (degree.get(link.source) || 0) + 1);
+    degree.set(link.target, (degree.get(link.target) || 0) + 1);
+  });
 
-  const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.slug).distance(80))
-    .force('charge', d3.forceManyBody().strength(-150))
-    .force('center', d3.forceCenter(width/2, height/2))
-    .force('collision', d3.forceCollide(25));
+  const simulation = d3.forceSimulation(subset.nodes)
+    .force("link", d3.forceLink(subset.links).id((d) => d.slug).distance(compact ? 54 : 82).strength(compact ? 0.34 : 0.26))
+    .force("charge", d3.forceManyBody().strength(compact ? -110 : -185))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collision", d3.forceCollide((d) => compact ? nodeRadius(d, degree) + 8 : nodeRadius(d, degree) + 13));
 
-  const linkEls = linkGroup.selectAll('line')
-    .data(links).enter().append('line')
-    .attr('stroke', '#8080bb')
-    .attr('stroke-width', 0.9)
-    .attr('stroke-opacity', graphMode === 'show' ? 0.7 : 0);
+  const links = linkGroup.selectAll("line")
+    .data(subset.links)
+    .enter()
+    .append("line")
+    .attr("stroke", "#94a3b8")
+    .attr("stroke-width", compact ? 0.8 : 0.75)
+    .attr("stroke-opacity", compact ? 0.38 : (opts.mode === "all" ? 0.18 : 0.28));
 
-  linkElsGlobal = linkEls;
-
-  const nodeEls = nodeGroup.selectAll('g')
-    .data(nodes).enter().append('g')
+  const nodes = nodeGroup.selectAll("g")
+    .data(subset.nodes)
+    .enter()
+    .append("g")
+    .attr("class", "graph-node")
     .call(d3.drag()
-      .on('start', (event, d) => { if (!event.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
-      .on('end', (event, d) => { if (!event.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })
-    )
-    .on('click', (event, d) => {
+      .on("start", (event, d) => {
+        if (!event.active) simulation.alphaTarget(0.25).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      })
+      .on("drag", (event, d) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      })
+      .on("end", (event, d) => {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }))
+    .on("mouseenter", (event, d) => {
+      renderGraphHover(d);
+      d3.select(event.currentTarget).select("circle").attr("stroke-width", 3);
+    })
+    .on("mouseleave", (event) => {
+      d3.select(event.currentTarget).select("circle").attr("stroke-width", 1.6);
+    })
+    .on("click", (event, d) => {
       event.stopPropagation();
-      if (graphMode === 'hide') {
-        focusOnNode(d);
-        showDetail(d);
-      } else {
-        showDetail(d);
-      }
+      selectPage(d.slug, { view: "browse" });
     });
 
-  nodeEls.append('circle')
-    .attr('r', d => {
-      const count = links.filter(l => l.source.slug === d.slug || l.target.slug === d.slug).length;
-      return 4 + Math.min(count, 10);
-    })
-    .attr('fill', d => colors[d.type] || colors.page)
-    .attr('stroke', '#e0e0e0')
-    .attr('stroke-width', 1.5);
+  nodes.append("circle")
+    .attr("r", (d) => nodeRadius(d, degree))
+    .attr("fill", (d) => typeMeta(d.type).color)
+    .attr("stroke", (d) => d.slug === currentNode?.slug ? "#0f172a" : "#ffffff")
+    .attr("stroke-width", (d) => d.slug === currentNode?.slug ? 2.8 : 1.6);
 
-  nodeEls.append('text')
-    .text(d => d.title.length > 20 ? d.title.slice(0, 18) + '...' : d.title)
-    .attr('dx', 10)
-    .attr('dy', 4)
-    .attr('fill', '#e0e0e0')
-    .attr('font-size', '10px')
-    .attr('pointer-events', 'none');
+  nodes.append("title")
+    .text((d) => `${d.title}\n${typeMeta(d.type).label}`);
 
-  nodeElsGlobal = nodeEls;
-
-  sim.on('tick', () => {
-    linkEls
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-    nodeEls.attr('transform', d => `translate(${d.x},${d.y})`);
-  });
-
-  simulation = sim;
-
-  // Apply hide mode initial state if active
-  if (graphMode === 'hide') {
-    nodeElsGlobal.attr('opacity', 0.12);
-    linkElsGlobal.attr('stroke-opacity', 0);
-    if (graphData && graphData.nodes.length > 0) {
-      let defaultNode = graphData.nodes.reduce((a, b) => {
-        const aCount = graphData.links.filter(l => (l.source.slug||l.source) === a.slug || (l.target.slug||l.target) === a.slug).length;
-        const bCount = graphData.links.filter(l => (l.source.slug||l.source) === b.slug || (l.target.slug||l.target) === b.slug).length;
-        return aCount > bCount ? a : b;
-      });
-      focusOnNode(defaultNode);
-    }
+  const showLabels = compact ? false : subset.nodes.length <= 55;
+  if (showLabels) {
+    nodes.append("text")
+      .text((d) => truncate(d.title, compact ? 18 : 28))
+      .attr("x", (d) => nodeRadius(d, degree) + 6)
+      .attr("y", 4)
+      .attr("fill", "#172033")
+      .attr("font-size", compact ? 9 : 10.5)
+      .attr("font-weight", (d) => d.slug === currentNode?.slug ? 800 : 650)
+      .attr("pointer-events", "none");
   }
 
-  // Click background to deselect
-  svg.addEventListener('click', (e) => {
-    if (e.target === svg || e.target.tagName === 'SVG') {
-      document.getElementById('detail-panel').classList.remove('visible');
-      activeNode = null;
-      if (graphMode === 'hide') {
-        // Ghost all nodes again
-        nodeElsGlobal.attr('opacity', 0.12);
-        linkElsGlobal.attr('stroke-opacity', 0);
-      }
-    }
+  simulation.on("tick", () => {
+    links
+      .attr("x1", (d) => d.source.x)
+      .attr("y1", (d) => d.source.y)
+      .attr("x2", (d) => d.target.x)
+      .attr("y2", (d) => d.target.y);
+    nodes.attr("transform", (d) => `translate(${d.x},${d.y})`);
   });
-}
 
-function filterGraph(query) {
-  if (graphData) renderGraph(query);
-}
+  graphViews[svgId] = { svg, zoom, simulation };
 
-// ── Detail Panel ──
-async function showDetail(node) {
-  activeNode = node;
-  const panel = document.getElementById('detail-panel');
-  panel.classList.add('visible');
-  panel.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim)">Loading...</div>';
-
-  try {
-    const res = await apiFetch(`/api/page/${node.slug}`);
-    const raw = await res.text();
-    renderMarkdown(panel, raw, node);
-  } catch(e) {
-    panel.innerHTML = `<div style="color:#ff6b6b">Error loading page: ${e.message}</div>`;
+  if (svgId === "full-graph-svg") {
+    const graphNote = graphState.query
+      ? "Search is showing matching nodes."
+      : graphState.mode === "focus"
+        ? "Focus mode opens around the selected article."
+        : "All mode is capped to keep the graph readable.";
+    $("graph-stats").textContent = `${subset.nodes.length} nodes and ${subset.links.length} visible links. ${graphNote}`;
   }
 }
 
-function renderMarkdown(panel, raw, node) {
-  // Convert simple markdown to HTML (basic renderer)
-  let body = raw;
+function nodeRadius(node, degree) {
+  return 5 + Math.min(10, Math.sqrt(degree.get(node.slug) || 1) * 2.2);
+}
 
-  // Strip YAML frontmatter
-  body = body.replace(/^---[\s\S]*?---\n*/, '');
+function resetGraph(svgId) {
+  const view = graphViews[svgId];
+  if (!view) {
+    return;
+  }
+  view.svg.transition().duration(220).call(view.zoom.transform, d3.zoomIdentity);
+}
 
-  // Convert [[wikilinks]]
-  body = body.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (m, slug, text) => {
-    const label = text || slug;
-    return `<a href="#" onclick="event.preventDefault();showDetail({slug:'${slug}',title:'${label}'})">${label}</a>`;
-  });
-
-  // Convert headers
-  body = body.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-  body = body.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-  body = body.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-
-  // Convert bold/italic
-  body = body.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  body = body.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
-  // Convert inline code
-  body = body.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-  // Convert paragraphs (double newlines)
-  body = body.replace(/\n\n/g, '</p><p>');
-  body = '<p>' + body + '</p>';
-
-  // Convert lists
-  body = body.replace(/<p>\s*[-*] /g, '<ul><li>');
-  body = body.replace(/<\/p>\n[-*] /g, '</li><li>');
-  body = body.replace(/<\/li>\s*<li>/g, '</li><li>');
-  body = body.replace(/<\/p>$/, '');
-  // Simple list closing
-  body = body.replace(/(<li>[^<]+)(<\/p>)/g, '$1</li></ul>$2');
-
-  panel.innerHTML = `
-    <h2>${node.title}</h2>
-    <div class="meta">
-      <span>📁 ${node.type}</span>
-      <span>🏷️ ${(node.tags||[]).slice(0,4).join(', ')}</span>
-    </div>
-    <div class="body">${body}</div>
+function renderGraphHover(node) {
+  if (!node || !$("graph-hover")) {
+    return;
+  }
+  const meta = typeMeta(node.type);
+  $("graph-hover").innerHTML = `
+    <strong>${escapeHTML(node.title)}</strong>
+    <span class="type-chip" style="color:${meta.color};background:${typeTint(node.type)}">${escapeHTML(meta.label)}</span>
+    <div style="margin-top:7px">${escapeHTML(cleanSummary(node.summary, node.title))}</div>
   `;
 }
 
-// ── Chat ──
-function addChatMsg(role, content, sources) {
-  const log = document.getElementById('chat-log');
-  const div = document.createElement('div');
-  div.className = `chat-msg ${role}`;
-  div.innerHTML = `
-    <div class="label">${role === 'user' ? 'You' : 'Wiki'}</div>
-    <div class="bubble">${content}</div>
-    ${sources ? `<div class="sources">Sources: ${sources.map(s => `<a href="#" onclick="switchView('source');showDetail({slug:'${s.slug}',title:'${s.title}'})">${s.title}</a>`).join(', ')}</div>` : ''}
-  `;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
+function truncate(text, length) {
+  const value = String(text || "");
+  return value.length > length ? value.slice(0, length - 1) + "..." : value;
 }
 
 async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const btn = document.getElementById('chat-send');
-  const msg = input.value.trim();
-  if (!msg) return;
+  const input = $("chat-input");
+  const button = $("chat-send");
+  const message = input.value.trim();
+  if (!message || button.disabled) {
+    return;
+  }
 
-  input.value = '';
-  btn.disabled = true;
-  btn.textContent = '...';
-
-  addChatMsg('user', msg);
+  $("chat-empty").style.display = "none";
+  input.value = "";
+  button.disabled = true;
+  button.querySelector("span").textContent = "Sending";
+  addChatMessage("user", message);
+  const pending = addChatMessage("wiki", "Searching the wiki and drafting an answer...", null, true);
 
   try {
-    const body = {message: msg};
-
-    const res = await apiFetch('/api/chat', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(body),
+    const res = await apiFetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
     });
+
     if (!res.ok) {
-      const err = await res.json();
-      addChatMsg('wiki', `Error: ${err.error || 'Unknown error'}`);
+      let errText = `Chat request failed with status ${res.status}.`;
+      try {
+        const data = await res.json();
+        errText = data.error || data.message || errText;
+      } catch (error) {
+        errText = await res.text();
+      }
+      updateChatMessage(pending, errText, []);
       return;
     }
+
     const data = await res.json();
-    // Render answer with markdown-like formatting
-    let answer = data.answer;
-    answer = answer.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    answer = answer.replace(/\n/g, '<br>');
-    addChatMsg('wiki', answer, data.pages || []);
-  } catch(e) {
-    addChatMsg('wiki', `Error: ${e.message}. Make sure the server is running.`);
+    updateChatMessage(pending, data.answer || "No answer was returned.", data.pages || []);
+    chatSources = data.pages || [];
+    renderChatSources();
+  } catch (error) {
+    updateChatMessage(pending, `Error: ${error.message}`, []);
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Send';
+    button.disabled = false;
+    button.querySelector("span").textContent = "Send";
+    refreshIcons();
   }
 }
 
-// ── Init ──
-function initApp() {
-  loadGraph();
+function addChatMessage(role, content, sources, pending) {
+  const log = $("chat-log");
+  const row = document.createElement("div");
+  row.className = `chat-msg ${role}`;
+  row.innerHTML = `
+    <div class="chat-avatar"><i data-lucide="${role === "user" ? "user" : "bot"}"></i></div>
+    <div class="chat-content">
+      <div class="chat-label">${role === "user" ? "You" : "Wiki"}</div>
+      <div class="chat-bubble ${pending ? "pending" : ""}"></div>
+      <div class="chat-sources-inline"></div>
+    </div>
+  `;
+  log.appendChild(row);
+  updateChatMessage(row, content, sources || [], role);
+  log.scrollTop = log.scrollHeight;
+  refreshIcons();
+  return row;
 }
-window.addEventListener('load', () => {
-  if (token) {
-    // Verify stored token still works
-    apiFetch('/api/verify-token').then(r => {
-      if (r.ok) {
-        document.getElementById('token-status').textContent = '✓ Authenticated';
-        initApp();
-      } else {
-        localStorage.removeItem('wiki_token');
-        token = null;
-        document.getElementById('token-overlay').style.display = 'flex';
-      }
-    }).catch(() => {
-      // Server might be down, try without auth anyway
-      initApp();
+
+function updateChatMessage(row, content, sources, roleOverride) {
+  const isUser = roleOverride === "user" || row.classList.contains("user");
+  const bubble = row.querySelector(".chat-bubble");
+  if (isUser) {
+    bubble.textContent = content;
+  } else {
+    bubble.innerHTML = renderMarkdown(content);
+    bindWikiLinks(bubble);
+  }
+
+  const sourceBox = row.querySelector(".chat-sources-inline");
+  if (sources && sources.length) {
+    sourceBox.innerHTML = sources.slice(0, 4).map((source) => {
+      const node = pageIndex.get(source.slug) || { slug: source.slug, title: source.title, summary: "", type: "page", tags: [] };
+      return sourceCardHTML(node, source.score);
+    }).join("");
+    sourceBox.querySelectorAll("[data-source-page]").forEach((button) => {
+      button.addEventListener("click", () => selectPage(button.dataset.sourcePage, { view: "browse" }));
     });
   } else {
-    document.getElementById('token-overlay').style.display = 'flex';
+    sourceBox.innerHTML = "";
   }
+  refreshIcons();
+}
+
+function renderChatSources() {
+  $("chat-source-count").textContent = String(chatSources.length);
+  $("chat-source-list").innerHTML = chatSources.length
+    ? chatSources.map((source) => {
+      const node = pageIndex.get(source.slug) || { slug: source.slug, title: source.title, summary: "", type: "page", tags: [] };
+      return sourceCardHTML(node, source.score);
+    }).join("")
+    : `<div class="graph-help">Ask a question to see retrieved source pages.</div>`;
+  $("chat-source-list").querySelectorAll("[data-source-page]").forEach((button) => {
+    button.addEventListener("click", () => selectPage(button.dataset.sourcePage, { view: "browse" }));
+  });
+  refreshIcons();
+}
+
+function debounce(fn, wait) {
+  let timeout = null;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(null, args), wait);
+  };
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  refreshIcons();
+  bindStaticEvents();
+  bootstrapAuth().catch((error) => setAppError(error.message));
 });
-window.addEventListener('resize', () => { if (graphData && !activeNode) { renderGraph(); } });
 </script>
 </body>
 </html>

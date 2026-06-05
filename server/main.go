@@ -30,6 +30,21 @@ func main() {
 	// Static files sub-fs (strip "static/" prefix)
 	staticFS, _ := fs.Sub(staticFiles, "static")
 
+	// Static file server with cache headers
+	fileServer := http.FileServer(http.FS(staticFS))
+	staticHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ext := ""
+		if len(r.URL.Path) >= 3 {
+			ext = r.URL.Path[len(r.URL.Path)-3:]
+		}
+		if ext == ".js" || ext == "css" || ext == "svg" || ext == "png" || ext == "ico" || ext == "woff2" {
+			w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+		} else {
+			w.Header().Set("Cache-Control", "public, max-age=3600")
+		}
+		fileServer.ServeHTTP(w, r)
+	})
+
 	// Load graph data into cache
 	graphPath := os.Getenv("GRAPH_PATH")
 	if graphPath == "" {
@@ -42,7 +57,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	// ── Public routes (no auth) ──
-	mux.Handle("/", http.FileServer(http.FS(staticFS)))
+	mux.Handle("/", staticHandler)
 
 	// ── Protected API routes (with auth) ──
 	apiMux := http.NewServeMux()

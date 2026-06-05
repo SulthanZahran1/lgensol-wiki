@@ -159,6 +159,17 @@ func getCategory(path string) string {
 	return "other"
 }
 
+func shouldSkipWikiFile(rel string) bool {
+	rel = filepath.ToSlash(rel)
+	if !strings.Contains(rel, "/") {
+		return true
+	}
+	if strings.HasPrefix(rel, "raw/") {
+		return true
+	}
+	return strings.EqualFold(filepath.Base(rel), "README.md")
+}
+
 func main() {
 	wikiDir := "/home/dev/lgensol-wiki/wiki"
 	if len(os.Args) > 1 {
@@ -186,7 +197,7 @@ func main() {
 		}
 		// Skip root files (SCHEMA.md, index.md, log.md)
 		rel, _ := filepath.Rel(wikiDir, path)
-		if !strings.Contains(rel, string(filepath.Separator)) {
+		if shouldSkipWikiFile(rel) {
 			return nil
 		}
 
@@ -231,7 +242,7 @@ func main() {
 			return nil
 		}
 		rel, _ := filepath.Rel(wikiDir, path)
-		if !strings.Contains(rel, string(filepath.Separator)) {
+		if shouldSkipWikiFile(rel) {
 			return nil
 		}
 
@@ -280,5 +291,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Built graph: %d nodes, %d links → %s\n", len(graph.Nodes), len(graph.Links), outPath)
+	fmt.Fprintf(os.Stderr, "Built graph: %d nodes, %d links -> %s\n", len(graph.Nodes), len(graph.Links), outPath)
 }

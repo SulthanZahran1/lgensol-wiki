@@ -1,5 +1,7 @@
-Built graph: 96 nodes, 570 links → server/data/graph.json
-,
+{
+  "nodes": [
+    {
+      "slug": "cathode-tier-comparison",
       "title": "High-Nickel vs Mid-Nickel vs LFP",
       "type": "comparison",
       "category": "comparisons",
@@ -757,14 +759,6 @@ Built graph: 96 nodes, 570 links → server/data/graph.json
       "category": "glossary",
       "tags": null,
       "summary": "UPS (Uninterruptible Power Supply)\n\nDefinition\nUPS means Uninterruptible Power Supply, a system that provides immediate backup power during outages.\n\n..."
-    },
-    {
-      "slug": "README",
-      "title": "Layer 1 — 1차 자료 참조",
-      "type": "meta",
-      "category": "other",
-      "tags": null,
-      "summary": "Layer 1 — 1차 자료 (Raw Sources)\n\n이 위키의 모든 내용은 `~/lgensol-wiki/raw/ko/` 의 1차 자료 556편에서 파생되었다.\n원본은 **수정 금지**(immutable)이며, 위키 페이지는 `sources:` frontmatter로..."
     }
   ],
   "links": [
