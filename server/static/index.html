@@ -2350,6 +2350,10 @@ function truncate(text, length) {
   return value.length > length ? value.slice(0, length - 1) + "..." : value;
 }
 
+let chatSources = [];
+let chatHistory = [];
+let chatSteps = [];
+
 async function sendChat() {
   const input = $("chat-input");
   const button = $("chat-send");
@@ -2361,15 +2365,16 @@ async function sendChat() {
   $("chat-empty").style.display = "none";
   input.value = "";
   button.disabled = true;
-  button.querySelector("span").textContent = "Sending";
+  button.querySelector("span").textContent = "Thinking";
   addChatMessage("user", message);
-  const pending = addChatMessage("wiki", "Searching the wiki and drafting an answer...", null, true);
+  chatHistory.push({ role: "user", content: message });
+  const pending = addChatMessage("wiki", "Exploring the wiki graph...", null, true);
 
   try {
     const res = await apiFetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, history: chatHistory.slice(-6) }),
     });
 
     if (!res.ok) {
@@ -2387,7 +2392,9 @@ async function sendChat() {
     const data = await res.json();
     updateChatMessage(pending, data.answer || "No answer was returned.", data.pages || []);
     chatSources = data.pages || [];
+    chatSteps = data.steps || [];
     renderChatSources();
+    chatHistory.push({ role: "assistant", content: data.answer || "" });
   } catch (error) {
     updateChatMessage(pending, `Error: ${error.message}`, []);
   } finally {
