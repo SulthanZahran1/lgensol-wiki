@@ -137,37 +137,77 @@ let graphData = null;
 let currentView = 'source';
 let simulation = null;
 let activeNode = null;
-let linksVisible = true;
+let graphMode = 'show'; // 'show' or 'hide'
 let linkElsGlobal = null;
 let nodeElsGlobal = null;
+// In hide mode: stores the set of slugs that should be fully visible
+let visibleNodesSet = null;
 
 function toggleLinks(mode) {
-  if (!linkElsGlobal) return;
-  linksVisible = mode === 'show';
+  if (!nodeElsGlobal) return;
+  graphMode = mode;
   const btnShow = document.getElementById('btn-show-links');
   const btnHide = document.getElementById('btn-hide-links');
-  btnShow.className = linksVisible ? 'active' : '';
-  btnHide.className = linksVisible ? '' : 'active';
+  btnShow.className = mode === 'show' ? 'active' : '';
+  btnHide.className = mode === 'hide' ? 'active' : '';
 
-  if (linksVisible) {
-    linkElsGlobal.attr('display', null).attr('stroke-opacity', 0.7);
+  if (mode === 'show') {
+    // Show everything
+    nodeElsGlobal.attr('opacity', 1);
+    linkElsGlobal.attr('display', null).attr('stroke-opacity', 0.7).attr('stroke', '#8080bb');
+    visibleNodesSet = null;
   } else {
+    // Ghost everything — only the last clicked node (if any) and its neighbors are visible
     linkElsGlobal.attr('stroke-opacity', 0);
-    // If a node is active, highlight its edges
+    nodeElsGlobal.attr('opacity', 0.12);
+    visibleNodesSet = new Set();
     if (activeNode) {
-      highlightNodeEdges(activeNode);
+      focusOnNode(activeNode);
+    } else {
+      // Pick a central node to show as entry point
+      if (graphData && graphData.nodes.length > 0) {
+        // Find the most connected node
+        let bestNode = graphData.nodes[0];
+        focusOnNode(bestNode);
+      }
     }
   }
 }
 
-function highlightNodeEdges(node) {
-  if (!linkElsGlobal) return;
-  const slug = node.slug || node;
-  linkElsGlobal.attr('stroke-opacity', d => {
-    const src = typeof d.source === 'object' ? d.source.slug : d.source;
-    const tgt = typeof d.target === 'object' ? d.target.slug : d.target;
-    return (src === slug || tgt === slug) ? 0.7 : 0;
+function focusOnNode(node) {
+  if (!nodeElsGlobal || !linkElsGlobal) return;
+  const slug = node.slug;
+  if (!visibleNodesSet) visibleNodesSet = new Set();
+
+  // Find all connected slugs
+  const connected = new Set([slug]);
+  graphData.links.forEach(l => {
+    const src = typeof l.source === 'object' ? l.source.slug : l.source;
+    const tgt = typeof l.target === 'object' ? l.target.slug : l.target;
+    if (src === slug) connected.add(tgt);
+    if (tgt === slug) connected.add(src);
   });
+
+  // Save full visible set for toggle
+  visibleNodesSet = connected;
+
+  // Show nodes that are connected, ghost others
+  nodeElsGlobal.attr('opacity', d => connected.has(d.slug) ? 1 : 0.08);
+
+  // Show edges between visible nodes, hide all others
+  linkElsGlobal.attr('stroke-opacity', l => {
+    const src = typeof l.source === 'object' ? l.source.slug : l.source;
+    const tgt = typeof l.target === 'object' ? l.target.slug : l.target;
+    return (connected.has(src) && connected.has(tgt)) ? 0.7 : 0;
+  });
+  linkElsGlobal.attr('stroke', '#8080bb');
+  activeNode = node;
+}
+
+function focusOnNodeAndNeighbors(node) {
+  // Same as focusOnNode but also shows the detail panel
+  focusOnNode(node);
+  showDetail(node);
 }
 
 // ── View Switching ──
@@ -244,9 +284,9 @@ function renderGraph(filter) {
 
   const linkEls = linkGroup.selectAll('line')
     .data(links).enter().append('line')
-    .attr('stroke', '#5a5a8a')
-    .attr('stroke-width', 0.8)
-    .attr('stroke-opacity', linksVisible ? 0.7 : 0);
+    .attr('stroke', '#8080bb')
+    .attr('stroke-width', 0.9)
+    .attr('stroke-opacity', graphMode === 'show' ? 0.7 : 0);
 
   linkElsGlobal = linkEls;
 
@@ -259,8 +299,12 @@ function renderGraph(filter) {
     )
     .on('click', (event, d) => {
       event.stopPropagation();
-      showDetail(d);
-      if (!linksVisible) highlightNodeEdges(d);
+      if (graphMode === 'hide') {
+        focusOnNode(d);
+        showDetail(d);
+      } else {
+        showDetail(d);
+      }
     });
 
   nodeEls.append('circle')
@@ -293,11 +337,30 @@ function renderGraph(filter) {
 
   simulation = sim;
 
+  // Apply hide mode initial state if active
+  if (graphMode === 'hide') {
+    nodeElsGlobal.attr('opacity', 0.12);
+    linkElsGlobal.attr('stroke-opacity', 0);
+    if (graphData && graphData.nodes.length > 0) {
+      let defaultNode = graphData.nodes.reduce((a, b) => {
+        const aCount = graphData.links.filter(l => (l.source.slug||l.source) === a.slug || (l.target.slug||l.target) === a.slug).length;
+        const bCount = graphData.links.filter(l => (l.source.slug||l.source) === b.slug || (l.target.slug||l.target) === b.slug).length;
+        return aCount > bCount ? a : b;
+      });
+      focusOnNode(defaultNode);
+    }
+  }
+
   // Click background to deselect
   svg.addEventListener('click', (e) => {
     if (e.target === svg || e.target.tagName === 'SVG') {
       document.getElementById('detail-panel').classList.remove('visible');
       activeNode = null;
+      if (graphMode === 'hide') {
+        // Ghost all nodes again
+        nodeElsGlobal.attr('opacity', 0.12);
+        linkElsGlobal.attr('stroke-opacity', 0);
+      }
     }
   });
 }

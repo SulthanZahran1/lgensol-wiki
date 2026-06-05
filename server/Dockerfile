@@ -13,4 +13,6 @@ ENV GRAPH_PATH=/app/data/graph.json
 ENV PORT=8080
 EXPOSE 8080
 WORKDIR /app
-CMD ["./wiki-server"]
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+CMD ["/app/entrypoint.sh"]

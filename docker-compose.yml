@@ -7,7 +7,8 @@ services:
       - "8080:8080"
     volumes:
       - /home/dev/lgensol-wiki/wiki:/wiki:ro
+      - /home/dev/lgensol-wiki/server/.env:/app/.env:ro
+      - ~/.hermes/.env:/app/hermes.env:ro
     environment:
       - OLLAMA_MODEL=deepseek-v4-flash:cloud
-      - ACCESS_TOKEN=
     restart: unless-stopped
