@@ -104,7 +104,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
 <div class="topbar">
   <h1>⚡ LG Energy Solution Wiki</h1>
-  <input class="search-box" id="node-search" placeholder="Search nodes..." oninput="filterGraph(this.value)">
+  <input class="search-box" id="node-search" placeholder="Search nodes..." oninput="filterGraph(this.value)" disabled>
+  <span id="token-status" style="font-size:11px;color:var(--text-dim)"></span>
   <nav>
     <button id="btn-show-links" onclick="toggleLinks('show')" title="Show all edges">Show All</button>
     <button id="btn-hide-links" onclick="toggleLinks('hide')" title="Hide edges until node click">Hide All</button>
@@ -124,14 +125,65 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div id="chat-view">
     <div id="chat-log"></div>
     <div id="chat-input-area">
-      <input id="chat-api-key" type="password" placeholder="Ollama API Key (opsional, fallback ke server)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:12px;width:180px">
+      <input id="chat-api-key" type="password" placeholder="Ollama API Key (opsional)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:12px;width:160px">
       <input id="chat-input" placeholder="Ask about batteries, LGES, ESS..." onkeydown="if(event.key==='Enter') sendChat()" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px">
       <button id="chat-send" onclick="sendChat()" style="background:var(--accent);color:var(--bg);border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-weight:600;font-size:13px">Send</button>
     </div>
   </div>
 </div>
 
+<!-- Token Overlay -->
+<div id="token-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;flex-direction:column">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:420px;width:90%;text-align:center">
+    <div style="font-size:40px;margin-bottom:12px">⚡</div>
+    <h2 style="color:var(--accent);font-size:18px;margin-bottom:8px">LG Energy Solution Wiki</h2>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:20px">Enter your access token to continue</p>
+    <input id="token-input" type="password" placeholder="Access Token" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--text);font-size:14px;margin-bottom:12px" onkeydown="if(event.key==='Enter') submitToken()">
+    <button id="token-submit" onclick="submitToken()" style="width:100%;background:var(--accent);color:var(--bg);border:none;border-radius:6px;padding:10px;cursor:pointer;font-weight:600;font-size:14px">Enter</button>
+    <div id="token-error" style="color:#ff6b6b;font-size:12px;margin-top:10px;display:none"></div>
+  </div>
+</div>
+
 <script>
+let token = localStorage.getItem('wiki_token');
+
+function apiFetch(url, opts) {
+  opts = opts || {};
+  opts.headers = opts.headers || {};
+  if (token) {
+    opts.headers['Authorization'] = 'Bearer ' + token;
+  }
+  return fetch(url, opts);
+}
+
+function submitToken() {
+  const input = document.getElementById('token-input');
+  const btn = document.getElementById('token-submit');
+  const err = document.getElementById('token-error');
+  const t = input.value.trim();
+  if (!t) { err.textContent = 'Please enter a token'; err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+  token = t;
+  apiFetch('/api/verify-token')
+    .then(r => {
+      if (!r.ok) { throw new Error('Invalid token'); }
+      localStorage.setItem('wiki_token', t);
+      document.getElementById('token-overlay').style.display = 'none';
+      document.querySelectorAll('#token-overlay + .container .search-box').forEach(el => el.disabled = false);
+      document.getElementById('token-status').textContent = '✓ Authenticated';
+      initApp();
+    })
+    .catch(e => {
+      token = localStorage.getItem('wiki_token');
+      err.textContent = 'Invalid token. Try again.';
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Enter';
+    });
+}
+
 // ── State ──
 let graphData = null;
 let currentView = 'source';
@@ -225,7 +277,7 @@ function switchView(view) {
 // ── Graph ──
 async function loadGraph() {
   try {
-    const res = await fetch('/api/graph');
+    const res = await apiFetch('/api/graph');
     graphData = await res.json();
     renderGraph();
   } catch(e) {
@@ -377,7 +429,7 @@ async function showDetail(node) {
   panel.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim)">Loading...</div>';
 
   try {
-    const res = await fetch(`/api/page/${node.slug}`);
+    const res = await apiFetch(`/api/page/${node.slug}`);
     const raw = await res.text();
     renderMarkdown(panel, raw, node);
   } catch(e) {
@@ -465,7 +517,7 @@ async function sendChat() {
     const body = {message: msg};
     if (apiKey) body.api_key = apiKey;
 
-    const res = await fetch('/api/chat', {
+    const res = await apiFetch('/api/chat', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(body),
@@ -490,7 +542,29 @@ async function sendChat() {
 }
 
 // ── Init ──
-window.addEventListener('load', loadGraph);
+function initApp() {
+  loadGraph();
+}
+window.addEventListener('load', () => {
+  if (token) {
+    // Verify stored token still works
+    apiFetch('/api/verify-token').then(r => {
+      if (r.ok) {
+        document.getElementById('token-status').textContent = '✓ Authenticated';
+        initApp();
+      } else {
+        localStorage.removeItem('wiki_token');
+        token = null;
+        document.getElementById('token-overlay').style.display = 'flex';
+      }
+    }).catch(() => {
+      // Server might be down, try without auth anyway
+      initApp();
+    });
+  } else {
+    document.getElementById('token-overlay').style.display = 'flex';
+  }
+});
 window.addEventListener('resize', () => { if (graphData && !activeNode) { renderGraph(); } });
 </script>
 </body>
