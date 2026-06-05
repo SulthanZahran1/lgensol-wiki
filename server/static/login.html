@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LG Energy Solution Wiki</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f7fb; color: #172033;
+  height: 100vh; display: flex; align-items: center; justify-content: center;
+}
+.login-card {
+  background: #fff; border: 1px solid #d7dee8; border-radius: 12px;
+  padding: 40px; max-width: 400px; width: 90%; text-align: center;
+  box-shadow: 0 10px 24px rgba(15,23,42,0.08);
+}
+.logo { font-size: 48px; margin-bottom: 12px; }
+h1 { font-size: 20px; color: #a50034; margin-bottom: 8px; }
+p { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+input {
+  width: 100%; height: 44px; border: 1px solid #d7dee8; border-radius: 8px;
+  padding: 0 16px; font-size: 14px; outline: none; margin-bottom: 12px;
+}
+input:focus { border-color: #a50034; box-shadow: 0 0 0 3px #fde8ef; }
+button {
+  width: 100%; height: 44px; background: #a50034; color: #fff;
+  border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer;
+}
+button:hover { opacity: 0.9; }
+.error { color: #dc2626; font-size: 13px; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+<div class="login-card">
+  <div class="logo">⚡</div>
+  <h1>LG Energy Solution Wiki</h1>
+  <p>Enter your access token to continue</p>
+  <input id="token-input" type="password" placeholder="Access Token" autofocus
+    onkeydown="if(event.key==='Enter') submitToken()">
+  <button onclick="submitToken()" id="token-btn">Enter</button>
+  <div class="error" id="token-error">Invalid token. Try again.</div>
+</div>
+<script>
+function submitToken() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  const btn = document.getElementById('token-btn');
+  const err = document.getElementById('token-error');
+  btn.disabled = true; btn.textContent = 'Verifying...';
+  err.style.display = 'none';
+  fetch('/api/verify-token?token=' + encodeURIComponent(t))
+    .then(r => {
+      if (r.ok) {
+        localStorage.setItem('wiki_token', t);
+        window.location.href = '/app?token=' + encodeURIComponent(t);
+      } else {
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Enter';
+      }
+    })
+    .catch(() => {
+      err.textContent = 'Server unreachable. Try again.';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Enter';
+    });
+}
+// Check if already have token
+const stored = localStorage.getItem('wiki_token');
+if (stored) {
+  fetch('/api/verify-token', { headers: { 'Authorization': 'Bearer ' + stored } })
+    .then(r => { if (r.ok) window.location.href = '/app?token=' + encodeURIComponent(stored); })
+    .catch(() => {});
+}
+</script>
+</body>
+</html>

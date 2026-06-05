@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"wiki.zahranm.cloud/handler"
 )
@@ -57,7 +58,41 @@ func main() {
 	mux := http.NewServeMux()
 
 	// ── Public routes (no auth) ──
-	mux.Handle("/", staticHandler)
+	// Root serves login page
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			staticHandler.ServeHTTP(w, r)
+			return
+		}
+		// If token is in query param, validate and redirect to /app
+		token := r.URL.Query().Get("token")
+		if token != "" && handler.AccessToken() != "" {
+			w.Header().Set("Location", "/app?token="+token)
+			w.WriteHeader(http.StatusFound)
+			return
+		}
+		// Otherwise serve login page
+		loginData, err := staticFiles.ReadFile("static/login.html")
+		if err != nil {
+			http.Error(w, "login page not found", 404)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write(loginData)
+	})
+
+	// /app serves the SPA (after frontend validates token client-side)
+	mux.HandleFunc("/app", func(w http.ResponseWriter, r *http.Request) {
+		r.URL.Path = "/"
+		staticHandler.ServeHTTP(w, r)
+	})
+	mux.HandleFunc("/app/", func(w http.ResponseWriter, r *http.Request) {
+		r.URL.Path = strings.TrimPrefix(r.URL.Path, "/app")
+		if r.URL.Path == "" {
+			r.URL.Path = "/"
+		}
+		staticHandler.ServeHTTP(w, r)
+	})
 
 	// ── Protected API routes (with auth) ──
 	apiMux := http.NewServeMux()
