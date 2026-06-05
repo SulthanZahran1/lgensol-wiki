@@ -23,7 +23,7 @@ SEI means Solid Electrolyte Interphase, the thin layer formed mainly on the anod
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[anode-materials|Anode Material]], [[cei|CEI (Cathode Electrolyte Interphase)]], and [[coulombic-efficiency|Coulombic Efficiency (CE)]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-sei-solid-electrolyte-interphase.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-ceicathode-electrolyte-interphase.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-%ec%a0%84%ec%9c%84%ec%b0%bd-potential-window.md`.
+The term is used as a precise retrieval handle for posts about [[anode-materials|Anode Material]], [[cei|CEI (Cathode Electrolyte Interphase)]], and [[coulombic-efficiency|Coulombic Efficiency (CE)]].
 
 ## Related
 - [[anode-materials|Anode Material]]

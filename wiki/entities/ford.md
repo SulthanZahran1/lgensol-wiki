@@ -23,7 +23,7 @@ Ford appears in the corpus as a global automaker customer and partner for EV bat
 - Ford sits near other OEM pages such as GM, Stellantis, Hyundai Motor Group, Honda, Toyota, Tesla, and Rivian.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ed%8f%ac%eb%93%9cford%ec%97%90-%ec%9c%a0%eb%9f%bd-%ec%83%81%ec%9a%a9%ec%b0%a8%ec%9a%a9-%eb%b0%b0%ed%84%b0%eb%a6%ac-%eb%8c%80%ea%b7%9c.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ed%8f%ac%eb%93%9c-%ec%bd%94%ec%b9%98%ec%99%80-%ed%8a%80%eb%a5%b4%ed%82%a4%ec%98%88-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ed%95%a9%ec%9e%91.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-%ed%8f%ac%eb%93%9c%ec%99%80-%ed%98%91%eb%a0%a5-%ea%b0%95%ed%99%94.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[gm|General Motors (GM)]]

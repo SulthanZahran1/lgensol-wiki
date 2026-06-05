@@ -23,7 +23,7 @@ Binder holds active material and conductive additive together and anchors the co
 - Binder belongs to the slurry and electrode-process layer, together with active material, conductive additive, and current collector.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `binder-help-increase-battery-performance.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-%eb%b0%94%ec%9d%b8%eb%8d%94.md`, and `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd22-%ec%8a%ac%eb%9f%ac%eb%a6%ac%eb%a5%bc-%ea%b5%ac%ec%84%b1%ed%95%98%eb%8a%94-%ec%84%b1%eb%b6%84%ea%b3%bc-%ec%97%ad%ed%95%a0-%ed%99%9c%eb%ac%bc%ec%a7%88.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[active-material|Active Material]]

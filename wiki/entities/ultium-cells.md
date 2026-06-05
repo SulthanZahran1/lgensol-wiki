@@ -23,7 +23,7 @@ Ultium Cells is the LG Energy Solution-GM joint venture for North American batte
 - It demonstrates how joint ventures combine local production, OEM platform demand, and cell-maker process know-how.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%eb%b6%81%eb%af%b8-ess-%ec%83%9d%ec%82%b0-%ea%b1%b0%ec%a0%90-5%ea%b3%b3%ec%9c%bc%eb%a1%9c-%ed%99%95%eb%8c%80-lg%ec%97%90%eb%84%88%ec%a7%80.md`, `%ed%85%8c%ec%8a%ac%eb%9d%bc%ec%9d%98-ess-%ed%8c%8c%ed%8a%b8%eb%84%88-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ec%9d%98-ess-%eb%b0%b0%ed%84%b0%eb%a6%ac%eb%8a%94-%eb%ac%b4%ec%97%87.md`, and `%ec%8b%a0%ec%9e%ac%ec%83%9d%ec%97%90%eb%84%88%ec%a7%80%ec%9d%98-%ed%95%b5%ec%8b%ac-%ec%84%b8%ea%b3%84%eb%8a%94-%ec%a7%80%ea%b8%88-ess%ec%97%90-%ec%a3%bc%eb%aa%a9%ed%95%9c%eb%8b%a4.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[gm|General Motors (GM)]]

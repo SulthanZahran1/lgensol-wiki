@@ -23,7 +23,7 @@ A coin cell is a small button-like cell format widely used for material screenin
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]], [[anodeless-battery|Anodeless Battery]], and [[azs-stacking|AZS (Advanced Z-Stacking)]]. The source set includes `battery-terminology-coin-cell.md`, `energy-density-price-competitiveness-%ea%b3%a0%ec%a0%84%ec%95%95-%eb%af%b8%eb%93%9c%eb%8b%88%ec%bc%88-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bbu-battery-backup-unit.md`.
+The term is used as a precise retrieval handle for posts about [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]], [[anodeless-battery|Anodeless Battery]], and [[azs-stacking|AZS (Advanced Z-Stacking)]].
 
 ## Related
 - [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]]

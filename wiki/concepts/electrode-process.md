@@ -23,7 +23,7 @@ The electrode process makes coated cathode and anode rolls through mixing, coati
 - This page links materials chemistry to manufacturing controls before assembly begins.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ea%b1%b4%ec%a1%b0-%ec%97%86%ec%9d%b4-%ec%99%84%ec%84%b1%ed%95%98%eb%8a%94-%ec%a0%84%ea%b7%b9-%ea%b1%b4.md`, `battery-manufacturing-efficiency-%ea%b1%b4%ec%8b%9d-%ec%a0%84%ea%b7%b9-%ea%b3%b5%ec%a0%95.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-dld-double-layer-slot-die-coating.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[dry-electrode-process|Dry Electrode Process]]

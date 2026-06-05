@@ -23,7 +23,7 @@ Lithium-sulfur batteries pair a sulfur-based cathode with a lithium-metal anode 
 - LG Energy Solution sources frame lithium-sulfur as a next-generation route where weight matters more than conventional EV packaging.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `game-changer-battery-%eb%8d%94-%ea%b0%80%eb%b3%8d%ea%b2%8c-%eb%8d%94-%eb%a9%80%eb%a6%ac-%eb%82%a0%ec%95%84%ea%b0%88-%eb%a6%ac%ed%8a%ac%ed%99%a9%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, `technology-trends-lithium-sulfur-batteries.md`, and `%ed%95%98%eb%8a%98%ec%9d%84-%eb%82%98%eb%8a%94-%ec%b0%a8%ec%84%b8%eb%8c%80-%eb%b0%b0%ed%84%b0%eb%a6%ac-%eb%a6%ac%ed%8a%ac%ed%99%a9%eb%b0%b0%ed%84%b0%eb%a6%ac.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[lithium-metal-battery|Lithium Metal Battery]]

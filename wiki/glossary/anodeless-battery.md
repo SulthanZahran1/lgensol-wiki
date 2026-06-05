@@ -23,7 +23,7 @@ An anodeless battery starts without a host anode layer; lithium plates onto the 
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[lithium-metal-battery|Lithium Metal Battery]], [[next-gen-battery-overview|Next-Generation Battery Comprehensive Comparison]], and [[solid-state-battery|All-Solid-State Battery]]. The source set includes `terminology-anodeless-battery.md`, `story-of-lg-energy-solution-anodeless-research.md`, and `energy-density-price-competitiveness-%ea%b3%a0%ec%a0%84%ec%95%95-%eb%af%b8%eb%93%9c%eb%8b%88%ec%bc%88-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`.
+The term is used as a precise retrieval handle for posts about [[lithium-metal-battery|Lithium Metal Battery]], [[next-gen-battery-overview|Next-Generation Battery Comprehensive Comparison]], and [[solid-state-battery|All-Solid-State Battery]].
 
 ## Related
 - [[lithium-metal-battery|Lithium Metal Battery]]

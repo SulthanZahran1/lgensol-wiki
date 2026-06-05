@@ -23,7 +23,7 @@ Internal resistance is the effective resistance inside a cell that causes voltag
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[fast-charging|Fast Charging]], [[soh|SoH (State of Health)]], and [[anode-materials|Anode Material]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-soh-state-of-health.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-%eb%82%b4%eb%b6%80%ec%a0%80%ed%95%ad.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-soxstate-of-x.md`.
+The term is used as a precise retrieval handle for posts about [[fast-charging|Fast Charging]], [[soh|SoH (State of Health)]], and [[anode-materials|Anode Material]].
 
 ## Related
 - [[fast-charging|Fast Charging]]

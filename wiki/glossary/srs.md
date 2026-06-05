@@ -23,7 +23,7 @@ SRS is Safety Reinforced Separator, LG Energy Solution's ceramic-coated separato
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[battery-safety|Battery Safety and Thermal Runaway]], [[separator|Separator]], and [[gas-free-solvent|Gas Free Solvent]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-srs-safety-reinforced-separator.md`, `2%ec%b0%a8-%ec%a0%84%ec%a7%80%ec%9d%98-%ed%98%81%ec%8b%a0%ec%9d%b4-%ec%8b%9c%ec%9e%91%eb%90%98%eb%8b%a4-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%86%8c%ec%9e%ac-%ea%b0%9c%eb%b0%9c%ec%9d%98-%eb%8f%99%ed%96%a5.md`, and `high-nickel-battery.md`.
+The term is used as a precise retrieval handle for posts about [[battery-safety|Battery Safety and Thermal Runaway]], [[separator|Separator]], and [[gas-free-solvent|Gas Free Solvent]].
 
 ## Related
 - [[battery-safety|Battery Safety and Thermal Runaway]]

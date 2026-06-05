@@ -23,7 +23,7 @@ The separator is a porous membrane that prevents cathode and anode contact while
 - In solid-state batteries, the solid electrolyte can partly replace the separator function.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-srs-safety-reinforced-separator.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9d%98-%ec%95%88%ec%a0%84-%ec%a7%80%ed%82%b4%ec%9d%b4-%eb%b6%84%eb%a6%ac%eb%a7%89.md`, and `%eb%b6%84%eb%a6%ac%eb%a7%89-%ec%83%88-%eb%82%a0%ea%b0%9c%eb%a5%bc-%eb%8b%ac%eb%8b%a4-%ec%9e%90%ec%9b%90-%ec%84%a0%ec%88%9c%ed%99%98-%ed%94%84%eb%a1%9c%ec%a0%9d%ed%8a%b8-re.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[battery-safety|Battery Safety and Thermal Runaway]]

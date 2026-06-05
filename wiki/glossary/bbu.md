@@ -23,7 +23,7 @@ A BBU, or Battery Backup Unit, supplies backup power when the primary power sour
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[lfp-battery|LFP (Lithium Iron Phosphate) Battery]], [[ups|UPS (Uninterruptible Power Supply)]], and [[avel|AVEL]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bbu-battery-backup-unit.md`, `%ed%85%8c%ec%8a%ac%eb%9d%bc%ec%9d%98-ess-%ed%8c%8c%ed%8a%b8%eb%84%88-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ec%9d%98-ess-%eb%b0%b0%ed%84%b0%eb%a6%ac%eb%8a%94-%eb%ac%b4%ec%97%87.md`, and `%ec%8b%a0%ec%9e%ac%ec%83%9d%ec%97%90%eb%84%88%ec%a7%80%ec%9d%98-%ed%95%b5%ec%8b%ac-%ec%84%b8%ea%b3%84%eb%8a%94-%ec%a7%80%ea%b8%88-ess%ec%97%90-%ec%a3%bc%eb%aa%a9%ed%95%9c%eb%8b%a4.md`.
+The term is used as a precise retrieval handle for posts about [[lfp-battery|LFP (Lithium Iron Phosphate) Battery]], [[ups|UPS (Uninterruptible Power Supply)]], and [[avel|AVEL]].
 
 ## Related
 - [[lfp-battery|LFP (Lithium Iron Phosphate) Battery]]

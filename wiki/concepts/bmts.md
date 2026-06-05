@@ -23,7 +23,7 @@ BMTS is LG Energy Solution's broader battery-management total solution, extendin
 - BMTS is a bridge between BMS, SoC, SoH, B-Lifecare-style services, ESS operation, and safety management.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%a0%84-%ec%83%9d%ec%95%a0%ec%a3%bc%ea%b8%b0-%ea%b4%80%eb%a6%ac%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%ed%98%81%ec%8b%a0-bmts%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bmts-battery-management-total-solution.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ec%9d%98-bmts-%ec%a7%80%ec%86%8d-%ea%b0%80%eb%8a%a5%ed%95%98%ea%b3%a0-%ec%95%88%ec%a0%84%ed%95%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%83%9d.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[battery-management-system|BMS (Battery Management System)]]

@@ -23,7 +23,7 @@ Stellantis appears through LG Energy Solution's North American joint-venture and
 - It is best read alongside GM, Honda, Hyundai Motor Group, Toyota, and Ultium Cells.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%ba%90%eb%82%98%eb%8b%a4-%eb%8b%a8%eb%8f%85-%ea%b3%b5%ec%9e%a5-%eb%84%a5%ec%8a%a4%ed%8a%b8%ec%8a%a4%ed%83%80-%ec%97%90%eb%84%88.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-ess%ec%a6%89%ec%8b%9c-%ec%a0%84%eb%a0%a5%ea%b0%90-%ec%ba%90%eb%82%98%eb%8b%a4-%ea%b3%b5%ec%9e%a5-%ed%92%88%eb%8a%94%eb%8b%a4.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ea%b3%bc-%ec%8a%a4%ed%85%94%eb%9e%80%ed%8b%b0%ec%8a%a4-%ec%ba%90%eb%82%98%eb%8b%a4-%ec%a0%95%eb%b6%80%ec%99%80-%eb%b3%b4%ec%a1%b0%ea%b8%88.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[honda|Honda]]

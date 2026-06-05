@@ -23,7 +23,7 @@ TP prevention means thermal propagation prevention: design measures that stop on
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[battery-safety|Battery Safety and Thermal Runaway]], [[gas-free-solvent|Gas Free Solvent]], and [[liquid-vs-solid-electrolyte|Liquid Electrolyte vs Solid Electrolyte]]. The source set includes `terminology-thermal-propagation-prevention.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-srs-safety-reinforced-separator.md`, and `uam-%ec%83%81%ec%9a%a9%ed%99%94-%ec%99%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ea%b8%b0%ec%88%a0%ec%97%90-%eb%8b%ac%eb%a0%a4-%ec%9e%88%ec%9d%84%ea%b9%8c.md`.
+The term is used as a precise retrieval handle for posts about [[battery-safety|Battery Safety and Thermal Runaway]], [[gas-free-solvent|Gas Free Solvent]], and [[liquid-vs-solid-electrolyte|Liquid Electrolyte vs Solid Electrolyte]].
 
 ## Related
 - [[battery-safety|Battery Safety and Thermal Runaway]]

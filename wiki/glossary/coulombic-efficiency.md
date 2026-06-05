@@ -23,7 +23,7 @@ Coulombic efficiency is the ratio of discharge capacity to charge capacity in a 
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[cei|CEI (Cathode Electrolyte Interphase)]], [[electrolyte-additive|Electrolyte Additive]], and [[sei|SEI (Solid Electrolyte Interphase)]]. The source set includes `terminology-coulombic-efficiency.md`, `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-ceicathode-electrolyte-interphase.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-sei-solid-electrolyte-interphase.md`.
+The term is used as a precise retrieval handle for posts about [[cei|CEI (Cathode Electrolyte Interphase)]], [[electrolyte-additive|Electrolyte Additive]], and [[sei|SEI (Solid Electrolyte Interphase)]].
 
 ## Related
 - [[cei|CEI (Cathode Electrolyte Interphase)]]

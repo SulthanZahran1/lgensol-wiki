@@ -23,7 +23,7 @@ Cathode materials determine much of a lithium-ion cell's voltage, capacity, cost
 - Cathode engineering depends on coating, doping, particle design, electrolyte additives, and formation conditions.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9a%a9-%ec%96%91%ea%b7%b9%ec%9e%ac-%ea%b8%b0%ec%88%a0-%ea%b0%9c%eb%b0%9c-%eb%b0%a9%ed%96%a5-%ea%b3%a0%eb%8b%88%ec%bc%88%ed%99%94.md`, `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd19-%ec%96%91%ea%b7%b9%ec%9e%ac-3%eb%8c%80%ec%9e%a5.md`, and `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd11-%ec%96%91%ea%b7%b9%ec%9e%acncma.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[ternary-battery|Ternary Battery]]

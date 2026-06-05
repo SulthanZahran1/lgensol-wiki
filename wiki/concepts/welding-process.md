@@ -23,7 +23,7 @@ Welding connects electrode tabs, current collectors, cans, modules, and busbars 
 - It sits between assembly, pack process, current collectors, and end-of-line inspection.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `precise-connection-welding-process.md`, `incharge-%ea%b8%80%eb%a1%9c%eb%b2%8c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%a0%91-%ed%91%9c%ec%a4%80%ec%9d%84-%eb%a7%8c%eb%93%a4%ea%b8%b0-%ec%9c%84%ed%95%b4-%eb%85%b8%eb%a0%a5%ed%95%98%eb%8a%94.md`, and `making-every-possibility-2-ctp.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[pack-process|Pack Process]]

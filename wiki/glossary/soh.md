@@ -23,7 +23,7 @@ SoH means State of Health, an estimate of how much battery capability remains co
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[battery-management-system|BMS (Battery Management System)]], [[bmts|BMTS (B.around Total Solution)]], and [[internal-resistance|Internal Resistance]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-soh-state-of-health.md`, `making-every-possibility-bms.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bms-battery-management-system.md`.
+The term is used as a precise retrieval handle for posts about [[battery-management-system|BMS (Battery Management System)]], [[bmts|BMTS (B.around Total Solution)]], and [[internal-resistance|Internal Resistance]].
 
 ## Related
 - [[battery-management-system|BMS (Battery Management System)]]

@@ -23,7 +23,7 @@ mAh, or milliampere-hour, is a capacity unit equal to current in milliamps multi
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[bipolar-technology|Bipolar Technology]], [[mid-nickel-battery|High-Voltage Mid-Nickel Battery]], and [[ncm-battery|NCM (Ternary) Battery]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-mah-milliampere-hour.md`, `energy-density-price-competitiveness-%ea%b3%a0%ec%a0%84%ec%95%95-%eb%af%b8%eb%93%9c%eb%8b%88%ec%bc%88-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, and `terminology-coulombic-efficiency.md`.
+The term is used as a precise retrieval handle for posts about [[bipolar-technology|Bipolar Technology]], [[mid-nickel-battery|High-Voltage Mid-Nickel Battery]], and [[ncm-battery|NCM (Ternary) Battery]].
 
 ## Related
 - [[bipolar-technology|Bipolar Technology]]

@@ -23,7 +23,7 @@ Formation and aging activate a new cell, form stable interphases, and screen ear
 - This step is slow and capital-intensive but critical for lifetime, safety, and quality assurance.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%eb%b0%b0%ed%84%b0%eb%a6%ac-%eb%a7%8c%eb%93%a4%ea%b8%b0-step3-%ed%99%9c%ec%84%b1%ed%99%94-%ea%b3%b5.md`, `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd7-%eb%b0%b0%ed%84%b0%eb%a6%ac-%eb%a7%8c%eb%93%a4%ea%b8%b0-step-3-%ed%99%9c%ec%84%b1%ed%99%94-%ea%b3%b5%ec%a0%95.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-srs-safety-reinforced-separator.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[battery-manufacturing|Battery Manufacturing Process Overview]]

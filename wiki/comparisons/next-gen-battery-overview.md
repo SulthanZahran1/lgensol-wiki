@@ -23,7 +23,7 @@ A map of next-generation battery routes including solid-state, lithium-sulfur, l
 - LG Energy Solution's corpus frames the future as a portfolio of chemistry, form-factor, software, and process innovations.
 
 ## How To Use This Page
-Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[solid-state-battery|All-Solid-State Battery]] or [[lithium-sulfur-battery|Lithium-Sulfur Battery]]. If the question is about commercialization, check [[lithium-metal-battery|Lithium Metal Battery]] and [[sodium-ion-battery|Sodium-ion Battery]]. The source set includes `sodium-ion-battery-%ec%86%8c%eb%93%90%ec%9d%b4%ec%98%a8%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, `%ec%84%b8%ec%83%81%ec%9d%98-%eb%aa%a8%eb%93%a0-%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%97%90-%eb%8c%80%ed%95%9c-%ea%b6%81%ea%b8%88%ec%a6%9d-%eb%af%b8%eb%9e%98%ec%97%90%eb%8a%94-%ec%96%b4%eb%96%a4.md`, and `game-changer-battery-%ec%97%90%eb%84%88%ec%a7%80-%eb%b0%80%eb%8f%84%ec%99%80-%eb%b6%80%ed%94%bc%eb%a5%bc-%ec%9e%a1%ec%9d%80-%eb%a6%ac%ed%8a%ac%eb%a9%94%ed%83%88%eb%b0%b0%ed%84%b0%eb%a6%ac.md`.
+Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[solid-state-battery|All-Solid-State Battery]] or [[lithium-sulfur-battery|Lithium-Sulfur Battery]]. If the question is about commercialization, check [[lithium-metal-battery|Lithium Metal Battery]] and [[sodium-ion-battery|Sodium-ion Battery]].
 
 ## Related
 - [[solid-state-battery|All-Solid-State Battery]]

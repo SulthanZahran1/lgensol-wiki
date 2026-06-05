@@ -23,7 +23,7 @@ LG Energy Solution is the central company in the corpus, spanning EV batteries, 
 - The raw posts also cover global plants, joint ventures, smart-factory quality systems, critical minerals, carbon reduction, water and waste management, and circular-economy programs.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `%ed%85%8c%ec%8a%ac%eb%9d%bc%ec%9d%98-ess-%ed%8c%8c%ed%8a%b8%eb%84%88-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ec%9d%98-ess-%eb%b0%b0%ed%84%b0%eb%a6%ac%eb%8a%94-%eb%ac%b4%ec%97%87.md`, `%ec%97%90%eb%84%88%ec%a7%80%eb%a5%bc-%ec%8b%a4%ec%8b%9c%ea%b0%84-%ec%b6%94%ec%a0%95%ed%95%98%eb%8a%94-ess%ec%9d%98-%eb%91%90%eb%87%8c-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98.md`, and `%ed%95%9c%ea%b5%ad%ea%b3%bc-%eb%b6%81%eb%af%b8%eb%a5%bc-%ec%9e%87%eb%8a%94-%ec%9b%90%ed%8c%80one-team-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-emoenergy-market-optimizer.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[gm|General Motors (GM)]]

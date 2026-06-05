@@ -23,7 +23,7 @@ Rivian appears in LG Energy Solution sources as an EV customer for next-generati
 - Read it with 46-series battery, cylindrical formats, fast charging, and LG Energy Solution's customer portfolio.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-%eb%a6%ac%eb%b9%84%ec%95%88rivian%ec%97%90-%ec%b0%a8%ec%84%b8%eb%8c%80-%ec%9b%90%ed%86%b5%ed%98%95-4695.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%b2%b4%eb%a6%ac%ea%b8%b0%ec%b0%a8%ec%99%80-46%ec%8b%9c%eb%a6%ac%ec%a6%88-%ea%b3%b5%ea%b8%89-%ea%b3%84%ec%95%bd-%e4%b8%ad-%ec%99%84.md`, and `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%eb%b0%b0%ed%84%b0%eb%a6%ac-all-rounder-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[tesla|Tesla]]

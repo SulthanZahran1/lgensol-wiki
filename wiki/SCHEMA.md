@@ -35,7 +35,7 @@ updated: YYYY-MM-DD
 type: entity | concept | comparison | glossary | meta
 tags: [taxonomy, tags, only]
 sources:
-  - raw/ko/<category>/<file>.md
+ - raw/ko/<category>/<file>.md
 confidence: high | medium | low
 ---
 ```
@@ -44,7 +44,7 @@ confidence: high | medium | low
 
 ## Link Rules
 - Cross-page links use double-bracket wikilinks: format is `slug` or `slug|display name`
-  wrapped in double brackets (e.g., `cell-to-pack`, `lfp-battery|LFP Battery`).
+ wrapped in double brackets (e.g., `cell-to-pack`, `lfp-battery|LFP Battery`).
 - **Every content page must cross-reference at least 3-5 other pages with outbound wikilinks.**
 - Links to non-existent pages are allowed (planned content).
 
@@ -59,7 +59,7 @@ confidence: high | medium | low
 
 ## Images
 - Images are NOT copied (~800MB total). Reference via local path if needed:
-  `![description](assets/ko/<category>/<slug>/<image>.png)`.
+ `![description](assets/ko/<category>/<slug>/<image>.png)`.
 - WordPress URLs in original markdown may 404 — use frontmatter `images:` paths instead.
 
 ## Tag Taxonomy (select from below only — no free tags)

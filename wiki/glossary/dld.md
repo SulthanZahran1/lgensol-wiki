@@ -23,7 +23,7 @@ DLD means Double Layer Slot Die coating, a method that coats two layers with slo
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[dry-electrode-process|Dry Electrode Process]], [[electrode-process|Electrode Process]], and [[wet-vs-dry-electrode|Wet vs Dry Electrode Process]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-dld-double-layer-slot-die-coating.md`, `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ec%a0%84%ea%b7%b9-%ea%b3%b5%ec%a0%95-%ec%86%8d-%ea%b3%b5%ec%a0%95-%ec%bd%94%ed%8c%85-%ea%b3%b5.md`, and `%ec%9d%b8%ed%84%b0%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9c%a0%eb%9f%bd-2023-%ed%98%84%ec%9e%a5-%ec%8a%a4%ec%bc%80%ec%b9%98-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%9d%b4%ec%b0%a8.md`.
+The term is used as a precise retrieval handle for posts about [[dry-electrode-process|Dry Electrode Process]], [[electrode-process|Electrode Process]], and [[wet-vs-dry-electrode|Wet vs Dry Electrode Process]].
 
 ## Related
 - [[dry-electrode-process|Dry Electrode Process]]

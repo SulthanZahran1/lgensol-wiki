@@ -23,7 +23,7 @@ A comparison of conventional wet electrode manufacturing and emerging dry electr
 - The comparison is central to manufacturing cost and next-generation process strategy.
 
 ## How To Use This Page
-Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[electrode-process|Electrode Process]] or [[dry-electrode-process|Dry Electrode Process]]. If the question is about commercialization, check [[battery-manufacturing|Battery Manufacturing Process Overview]] and [[binder|Binder]]. The source set includes `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ea%b1%b4%ec%a1%b0-%ec%97%86%ec%9d%b4-%ec%99%84%ec%84%b1%ed%95%98%eb%8a%94-%ec%a0%84%ea%b7%b9-%ea%b1%b4.md`, `battery-manufacturing-efficiency-%ea%b1%b4%ec%8b%9d-%ec%a0%84%ea%b7%b9-%ea%b3%b5%ec%a0%95.md`, and `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd16-%ec%8a%b5%ec%8b%9d-%ea%b3%b5%ec%a0%95-%ea%b1%b4%ec%8b%9d-%ea%b3%b5%ec%a0%95.md`.
+Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[electrode-process|Electrode Process]] or [[dry-electrode-process|Dry Electrode Process]]. If the question is about commercialization, check [[battery-manufacturing|Battery Manufacturing Process Overview]] and [[binder|Binder]].
 
 ## Related
 - [[electrode-process|Electrode Process]]

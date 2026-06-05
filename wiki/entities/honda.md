@@ -23,7 +23,7 @@ Honda is an LG Energy Solution joint-venture partner for North American EV batte
 - Honda belongs with GM, Stellantis, Hyundai Motor Group, Toyota, Ford, and Rivian in the OEM ecosystem.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e6%97%a5-%ed%98%bc%eb%8b%a4%ec%99%80-%eb%af%b8%ea%b5%ad-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ed%95%a9%ec%9e%91%ea%b3%b5%ec%9e%a5-%ec%a7%93%eb%8a%94.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ed%98%bc%eb%8b%a4-%ed%95%a9%ec%9e%91%ea%b3%b5%ec%9e%a5-%ec%b2%ab-%ec%82%bd-%eb%96%b4%eb%8b%a4.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ea%b3%bc-%ed%95%a8%ea%bb%98-%eb%96%a0%eb%82%98%eb%8a%94-%ec%9b%94%eb%93%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ed%88%ac%ec%96%b4-%eb%af%b8-2.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[hyundai-motor-group|Hyundai Motor Group]]

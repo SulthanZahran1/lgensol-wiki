@@ -23,7 +23,7 @@ NCA batteries use nickel, cobalt, and aluminum layered cathode chemistry for hig
 - The key design issues are high energy density, safety control, and stable interfaces with electrolyte.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9a%a9-%ec%96%91%ea%b7%b9%ec%9e%ac-%ea%b8%b0%ec%88%a0-%ea%b0%9c%eb%b0%9c-%eb%b0%a9%ed%96%a5-%ea%b3%a0%eb%8b%88%ec%bc%88%ed%99%94.md`, `energy-density-price-competitiveness-%ea%b3%a0%ec%a0%84%ec%95%95-%eb%af%b8%eb%93%9c%eb%8b%88%ec%bc%88-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, and `high-nickel-battery.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[ncma-battery|NCMA (Quaternary) Battery]]

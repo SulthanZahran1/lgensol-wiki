@@ -23,7 +23,7 @@ A ternary battery uses a three-metal cathode system, usually NCM or NCA-type lay
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[cathode-materials|Cathode Material]], [[nca-battery|NCA Battery]], and [[ncm-battery|NCM (Ternary) Battery]]. The source set includes `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd10-%ec%96%91%ea%b7%b9%ec%9e%acnca.md`, `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd19-%ec%96%91%ea%b7%b9%ec%9e%ac-3%eb%8c%80%ec%9e%a5.md`, and `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd9-%ec%96%91%ea%b7%b9%ec%9e%acncm.md`.
+The term is used as a precise retrieval handle for posts about [[cathode-materials|Cathode Material]], [[nca-battery|NCA Battery]], and [[ncm-battery|NCM (Ternary) Battery]].
 
 ## Related
 - [[cathode-materials|Cathode Material]]

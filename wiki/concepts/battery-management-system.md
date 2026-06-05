@@ -23,7 +23,7 @@ A BMS monitors and controls battery operation so cells stay inside safe voltage,
 - LG Energy Solution connects BMS to BMTS and partnerships such as Qualcomm for advanced diagnostics.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bms-battery-management-system.md`, `making-every-possibility-bms.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bmts-battery-management-total-solution.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[bmts|BMTS (B.around Total Solution)]]

@@ -23,7 +23,7 @@ A mono-cell is a basic laminated electrode-separator unit in stacked pouch-cell 
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[assembly-process|Assembly Process]], [[azs-stacking|AZS (Advanced Z-Stacking)]], and [[bi-cell|Bi-Cell]]. The source set includes `infographics21-azsadvanced-z-stacking.md`, `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-azsadvanced-z-stacking-%ed%8e%b8.md`, and `battery-terminology-monocelll.md`.
+The term is used as a precise retrieval handle for posts about [[assembly-process|Assembly Process]], [[azs-stacking|AZS (Advanced Z-Stacking)]], and [[bi-cell|Bi-Cell]].
 
 ## Related
 - [[assembly-process|Assembly Process]]

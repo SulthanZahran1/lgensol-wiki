@@ -23,7 +23,7 @@ The pack process integrates cells into modules or packs with structure, sensing,
 - CTP reduces module overhead but raises the importance of pack-level safety and diagnostics.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `game-changer-battery-%eb%aa%a8%eb%93%88%ed%99%94-%ea%b3%bc%ec%a0%95%ec%9d%84-%ec%97%86%ec%95%a4-%ed%98%81%ec%8b%a0%ec%a0%81%ec%9d%b8-%ec%85%80%ed%88%ac%ed%8c%a9cell-to-pack-%ea%b3%b5.md`, `battery-terminology-ctp.md`, and `making-every-possibility-2-ctp.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[welding-process|Welding Process]]

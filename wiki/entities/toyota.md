@@ -23,7 +23,7 @@ Toyota appears as an automaker customer in LG Energy Solution's EV battery suppl
 - The page sits in the OEM group with GM, Honda, Hyundai Motor Group, Ford, Stellantis, Tesla, and Rivian.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%84%b8%ea%b3%84-1%ec%9c%84-%ed%86%a0%ec%9a%94%ed%83%80%ec%99%80-%eb%b6%81%eb%af%b8-%ec%a7%80%ec%97%ad-%ec%a0%84%ea%b8%b0%ec%b0%a8-%eb%b0%b0.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ed%86%a0%ec%9a%94%ed%83%80%ed%86%b5%ec%83%81-%e7%be%8e-%eb%b0%b0%ed%84%b0%eb%a6%ac-%eb%a6%ac%ec%82%ac%ec%9d%b4%ed%81%b4-%ed%95%a9%ec%9e%91.md`, and `lgenergysolutions-france-dbg-battery-recycling-a-joint-venture.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[ford|Ford]]

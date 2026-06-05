@@ -23,7 +23,7 @@ A bi-cell is a laminated sub-unit used in stacked pouch-cell construction.
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[assembly-process|Assembly Process]], [[azs-stacking|AZS (Advanced Z-Stacking)]], and [[mono-cell|Mono-Cell]]. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-bi-cell.md`, `infographics21-azsadvanced-z-stacking.md`, and `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-azsadvanced-z-stacking-%ed%8e%b8.md`.
+The term is used as a precise retrieval handle for posts about [[assembly-process|Assembly Process]], [[azs-stacking|AZS (Advanced Z-Stacking)]], and [[mono-cell|Mono-Cell]].
 
 ## Related
 - [[assembly-process|Assembly Process]]

@@ -23,7 +23,7 @@ A quaternary battery commonly refers to a four-element cathode family such as NC
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[ncma-battery|NCMA (Quaternary) Battery]], [[cathode-tier-comparison|High-Nickel vs Mid-Nickel vs LFP]], and [[high-nickel-battery|High-Nickel Battery]]. The source set includes `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd11-%ec%96%91%ea%b7%b9%ec%9e%acncma.md`, `high-nickel-battery.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-ceicathode-electrolyte-interphase.md`.
+The term is used as a precise retrieval handle for posts about [[ncma-battery|NCMA (Quaternary) Battery]], [[cathode-tier-comparison|High-Nickel vs Mid-Nickel vs LFP]], and [[high-nickel-battery|High-Nickel Battery]].
 
 ## Related
 - [[ncma-battery|NCMA (Quaternary) Battery]]

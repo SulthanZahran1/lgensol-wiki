@@ -23,7 +23,7 @@ A battery passport is a digital record of a battery's materials, manufacturing, 
 - Use it as a compact handle, then follow the related concept pages for the deeper electrochemistry or system design.
 
 ## In The LG Energy Solution Corpus
-The term is used as a precise retrieval handle for posts about [[baas|BaaS (Battery as a Service)]], [[battery-recycling|End-of-Life Battery Reuse and Recycling]], and [[toyota|Toyota]]. The source set includes `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%9e%84%ec%a7%81%ec%9b%90%ec%9d%b4-%ec%9d%b4%ec%95%bc%ea%b8%b0%ed%95%98%eb%8a%94-esg-r%c2%b7g%c2%b7e%ed%8e%b8.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%b2%ab-esg-%eb%a6%ac%ed%8f%ac%ed%8a%b8-%eb%b0%9c%ea%b0%84.md`, and `terminology-battery-passport.md`.
+The term is used as a precise retrieval handle for posts about [[baas|BaaS (Battery as a Service)]], [[battery-recycling|End-of-Life Battery Reuse and Recycling]], and [[toyota|Toyota]].
 
 ## Related
 - [[baas|BaaS (Battery as a Service)]]

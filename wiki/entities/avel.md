@@ -23,7 +23,7 @@ AVEL is an LG Energy Solution in-house venture focused on energy aggregation, ES
 - AVEL sits on the business side of ESS, where forecasting, grid constraints, energy-market optimization, and operating software decide battery value.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `%ec%9e%ac%ec%83%9d%ec%97%90%eb%84%88%ec%a7%80-%ec%a0%84%eb%a0%a5%ec%9d%84-%ed%9a%a8%ec%9c%a8%ec%a0%81%ec%9c%bc%eb%a1%9c-%ea%b4%80%eb%a6%ac%ed%95%98%eb%8a%94-%eb%b0%a9%ec%95%88-ess%ec%97%90.md`, `ess-%ea%b8%b0%ec%88%a0%eb%a0%a5%ec%9d%84-%eb%b0%94%ed%83%95%ec%9c%bc%eb%a1%9c-%ea%b0%80%ec%83%81%eb%b0%9c%ec%a0%84%ec%86%8c-%ec%8b%9c%ec%9e%a5%ec%9d%84-%ec%84%a0%eb%8f%84%ed%95%98%eb%8a%94-first-mov.md`, and `%ec%8b%a0%ec%9e%ac%ec%83%9d%ec%97%90%eb%84%88%ec%a7%80%ec%9d%98-%ed%95%b5%ec%8b%ac-%ec%84%b8%ea%b3%84%eb%8a%94-%ec%a7%80%ea%b8%88-ess%ec%97%90-%ec%a3%bc%eb%aa%a9%ed%95%9c%eb%8b%a4.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[energy-storage-system|ESS (Energy Storage System)]]

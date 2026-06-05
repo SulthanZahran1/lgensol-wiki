@@ -23,7 +23,7 @@ A comparison of cylindrical, pouch, and prismatic cell formats and the manufactu
 - Prismatic cells integrate well into modules or packs but require precise case and swelling management.
 
 ## How To Use This Page
-Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]] or [[azs-stacking|AZS (Advanced Z-Stacking)]]. If the question is about commercialization, check [[assembly-process|Assembly Process]] and [[cell-to-pack|Cell-To-Pack (CTP)]]. The source set includes `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd17-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac%ed%8c%8c%ec%9a%b0%ec%b9%98-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, `%ec%b0%a8%ec%84%b8%eb%8c%80-%ec%a0%84%ea%b8%b0-%ec%9d%b4%eb%8f%99%ec%88%98%eb%8b%a8%ec%9d%98-%eb%8f%99%eb%a0%a5%ec%9b%90-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9d%98-%eb%aa%a8.md`, and `%ea%b0%81%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ea%b0%9c%eb%b0%9c-%eb%82%98%ec%84%a0%eb%8b%a4-%e7%be%8e-gm%ea%b3%bc-%ea%b3%b5%eb%8f%99-%ea%b0%9c%eb%b0%9c-%ea%b3%84%ec%95%bd-%ec%b2%b4%ea%b2%b0.md`.
+Use this page as a routing node. If the question is about chemistry fundamentals, continue to [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]] or [[azs-stacking|AZS (Advanced Z-Stacking)]]. If the question is about commercialization, check [[assembly-process|Assembly Process]] and [[cell-to-pack|Cell-To-Pack (CTP)]].
 
 ## Related
 - [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]]

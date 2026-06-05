@@ -23,7 +23,7 @@ Dry electrode processing makes electrodes without the solvent-heavy wet slurry r
 - LG Energy Solution sources discuss dry electrode as a cost and sustainability lever with pilot and commercialization roadmaps.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ea%b1%b4%ec%a1%b0-%ec%97%86%ec%9d%b4-%ec%99%84%ec%84%b1%ed%95%98%eb%8a%94-%ec%a0%84%ea%b7%b9-%ea%b1%b4.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%9e%84%ec%a7%81%ec%9b%90%ec%9d%b4-%ec%9d%b4%ec%95%bc%ea%b8%b0%ed%95%98%eb%8a%94-esg-r%c2%b7g%c2%b7e%ed%8e%b8.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%b2%ab-esg-%eb%a6%ac%ed%8f%ac%ed%8a%b8-%eb%b0%9c%ea%b0%84.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[electrode-process|Electrode Process]]

@@ -23,7 +23,7 @@ Bipolar battery architecture connects cells internally in series through shared 
 - LG Energy Solution discusses bipolar and semi-solid concepts as part of a broader next-generation portfolio.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `battery-space-utilization-bipolar-%eb%b0%94%ec%9d%b4%ed%8f%b4%eb%9d%bc.md`, `%eb%b0%98%ea%b3%a0%ec%b2%b4-%ec%a0%84%ec%a7%80%eb%8a%94-%ec%9a%b0%eb%a6%ac-%ec%9d%bc%ec%83%81%ec%9d%84-%ec%96%b4%eb%96%bb%ea%b2%8c-%eb%b0%94%ea%bf%80%ea%b9%8c.md`, and `contract-department-of-lgenergysolution-story.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[mah|mAh (milliampere-hour)]]

@@ -23,7 +23,7 @@ UAM batteries serve urban air mobility aircraft, where weight, power, safety, an
 - UAM links aerospace, lithium-sulfur, lithium-metal, solid-state, fast charging, and BMS.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `uam-%ec%83%81%ec%9a%a9%ed%99%94-%ec%99%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ea%b8%b0%ec%88%a0%ec%97%90-%eb%8b%ac%eb%a0%a4-%ec%9e%88%ec%9d%84%ea%b9%8c.md`, `every-thing-about-uam-batteries.md`, and `ev%e2%88%99ess-%eb%84%98%ec%96%b4-%eb%a1%9c%eb%b4%87%ea%b3%bc-%eb%93%9c%eb%a1%a0-ai%ec%9d%b8%ed%94%84%eb%9d%bc%ea%b9%8c%ec%a7%80-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[lithium-sulfur-battery|Lithium-Sulfur Battery]]

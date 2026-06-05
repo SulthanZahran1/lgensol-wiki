@@ -23,7 +23,7 @@ Humanoid robot batteries must combine high energy, high power, safety, compact p
 - This application sits between EV, ESS, UAM, and next-generation battery topics.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ed%9c%b4%eb%a8%b8%eb%85%b8%ec%9d%b4%eb%93%9c-%eb%a1%9c%eb%b4%87%ec%9d%80-%ec%99%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac%ea%b0%80-%ec%a4%91%ec%9a%94%ed%95%a0%ea%b9%8c.md`, `ev%e2%88%99ess-%eb%84%98%ec%96%b4-%eb%a1%9c%eb%b4%87%ea%b3%bc-%eb%93%9c%eb%a1%a0-ai%ec%9d%b8%ed%94%84%eb%9d%bc%ea%b9%8c%ec%a7%80-lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-%eb%b2%a0%ec%96%b4%eb%a1%9c%eb%b3%b4%ed%8b%b1%ec%8a%a4%ec%97%90-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[46-series-battery|46-Series Cylindrical Battery (4680/4695)]]

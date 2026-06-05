@@ -23,7 +23,7 @@ High-nickel batteries use nickel-rich layered cathodes to raise energy density f
 - The key tradeoff is energy density versus cost, safety margin, and process control.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `high-nickel-battery.md`, `energy-density-price-competitiveness-%ea%b3%a0%ec%a0%84%ec%95%95-%eb%af%b8%eb%93%9c%eb%8b%88%ec%bc%88-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`, and `%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9d%98-%ea%b7%bc%ec%9b%90%ec%9d%84-%ec%b0%be%ec%95%84%ec%84%9c-%eb%8b%88%ec%bc%88-%ed%8e%b8.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[cathode-tier-comparison|High-Nickel vs Mid-Nickel vs LFP]]

@@ -23,7 +23,7 @@ Advanced Z-Stacking is LG Energy Solution's pouch-cell assembly method that comb
 - The technology belongs to the assembly-process layer and is closely tied to mono-cell, bi-cell, separator, and pouch-cell design.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `lgenergysolution-azs-advanced-z-stacking.md`, `infographics21-azsadvanced-z-stacking.md`, and `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-azsadvanced-z-stacking-%ed%8e%b8.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[assembly-process|Assembly Process]]

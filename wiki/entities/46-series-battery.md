@@ -23,7 +23,7 @@ Large cylindrical lithium-ion cells with a 46 mm diameter, represented by format
 - The format competes with pouch and prismatic cells on manufacturing speed, mechanical rigidity, fast charging, and pack integration.
 
 ## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management. The most relevant raw posts selected for this page include `%ec%b0%a8%ec%84%b8%eb%8c%80-%ec%a0%84%ea%b8%b0-%ec%9d%b4%eb%8f%99%ec%88%98%eb%8b%a8%ec%9d%98-%eb%8f%99%eb%a0%a5%ec%9b%90-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9d%98-%eb%aa%a8.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-%eb%a6%ac%eb%b9%84%ec%95%88rivian%ec%97%90-%ec%b0%a8%ec%84%b8%eb%8c%80-%ec%9b%90%ed%86%b5%ed%98%95-4695.md`, and `%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%eb%b0%b0%ed%84%b0%eb%a6%ac-all-rounder-%ec%9b%90%ed%86%b5%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac.md`.
+The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
 
 ## Related
 - [[cell-format-comparison|Cell Form Factor Comparison (Cylindrical vs Pouch vs Prismatic)]]

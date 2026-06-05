@@ -1,7 +1,5 @@
-{
-  "nodes": [
-    {
-      "slug": "cathode-tier-comparison",
+Built graph: 96 nodes, 570 links → server/data/graph.json
+,
       "title": "High-Nickel vs Mid-Nickel vs LFP",
       "type": "comparison",
       "category": "comparisons",

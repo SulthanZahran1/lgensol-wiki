@@ -23,7 +23,7 @@ Silicon anode material can store far more lithium than graphite but expands stro
 - LG Energy Solution sources connect silicon to high-performance EV cells and solid-state research.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ec%9d%8c%ea%b7%b9%ec%9e%ac%ec%9d%98-next-level-%ec%8b%a4%eb%a6%ac%ec%bd%98-%ec%9d%8c%ea%b7%b9%ec%9e%ac.md`, `%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd20-%ec%8b%a4%eb%a6%ac%ec%bd%98-%ec%9d%8c%ea%b7%b9%ec%9e%ac_%ec%8b%a4%eb%a6%ac%ec%bd%98-%ec%82%b0%ed%99%94%eb%ac%bc-%ec%8b%a4%eb%a6%ac%ec%bd%98.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-nec-%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%9d%b8%ec%88%98.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[anode-materials|Anode Material]]

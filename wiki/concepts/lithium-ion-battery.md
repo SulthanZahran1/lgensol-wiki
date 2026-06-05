@@ -23,7 +23,7 @@ A lithium-ion battery stores energy by shuttling lithium ions between cathode an
 - Most pages in this wiki are refinements of this basic architecture: materials, processes, form factors, BMS, safety, and recycling.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%ec%a0%84%ea%b8%b0%ed%99%94%ed%95%99%ec%9c%bc%eb%a1%9c-%ec%9d%b4%ed%95%b4%ed%95%98%eb%8a%94-%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9e%91%eb%8f%99-%ec%9b%90%eb%a6%ac.md`, `%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%ec%9d%98-%ec%b6%9c%ed%87%b4%ea%b7%bc-%ec%88%98%eb%8b%a8-%ec%a0%84%ed%95%b4%ec%a7%88.md`, and `%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9d%98-%ea%b5%ac%ec%a1%b0%ec%99%80-%ec%9e%91%eb%8f%99-%ec%9b%90%eb%a6%ac.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[active-material|Active Material]]

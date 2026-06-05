@@ -23,7 +23,7 @@ Battery safety is the combined control of electrochemistry, materials, design, m
 - LG Energy Solution sources cover SRS, TP prevention, ESS fire standards, BMS, EOL inspection, diagnostics, and process quality.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-srs-safety-reinforced-separator.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ed%95%9c%ea%b5%ad%ec%a0%84%ea%b8%b0%ec%95%88%ec%a0%84%ea%b3%b5%ec%82%ac-ess-%ec%95%88%ec%a0%84-%ea%b0%95%ed%99%94-%eb%b0%8f-%ea%b5%ad%eb%82%b4.md`, and `terminology-thermal-propagation-prevention.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[separator|Separator]]

@@ -23,7 +23,7 @@ Battery recycling recovers valuable metals and materials from production scrap a
 - LG Energy Solution sources connect recycling to closed-loop strategy, Ultium Cells, Li-Cycle, and critical mineral security.
 
 ## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements. The source set includes `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ec%9d%98-%eb%b0%b0%ed%84%b0%eb%a6%ac-reuse-recycle.md`, `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-esg-%eb%b9%84%ec%a0%84-%eb%b0%8f-%ec%a0%84%eb%9e%b5-%eb%b0%9c%ed%91%9c.md`, and `lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%ec%b2%ab-esg-%eb%a6%ac%ed%8f%ac%ed%8a%b8-%eb%b0%9c%ea%b0%84.md`.
+In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
 
 ## Related
 - [[baas|BaaS (Battery as a Service)]]
