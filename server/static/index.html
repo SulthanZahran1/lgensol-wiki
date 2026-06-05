@@ -1377,7 +1377,21 @@ const TYPE_META = {
   page: { label: "Page", plural: "Pages", color: "#2563eb", icon: "file-text" },
 };
 
-let token = localStorage.getItem("wiki_token");
+let token = localStorage.getItem("wiki_token") || urlToken();
+
+function urlToken() {
+  const m = window.location.search.match(/[?&]token=([^&]+)/);
+  if (m) {
+    const t = decodeURIComponent(m[1]);
+    localStorage.setItem("wiki_token", t);
+    // Clean token from URL
+    const url = new URL(window.location);
+    url.searchParams.delete("token");
+    window.history.replaceState({}, "", url);
+    return t;
+  }
+  return null;
+}
 let graphData = null;
 let pageIndex = new Map();
 let pageCache = new Map();
@@ -1460,9 +1474,10 @@ async function bootstrapAuth() {
         return;
       }
     } catch (error) {
+      // Network error but token may still be valid — try again
       setAppError("Could not verify stored token. Check that the server is running.");
     }
-    localStorage.removeItem("wiki_token");
+    // Token failed — show overlay but don't delete yet
     token = null;
   }
 
