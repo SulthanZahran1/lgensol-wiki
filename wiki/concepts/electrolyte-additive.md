@@ -1,34 +1,75 @@
 ---
 title: Electrolyte Additive
 created: 2026-06-05
-updated: 2026-06-05
+updated: 2026-06-08
 type: concept
 tags: [electrolyte, cycle-life]
 sources:
+  - raw/battery-inside-en/en/tech-en/a-better-life-with-batteries-the-electrolyte-additives-for-ev-batteries.md
+  - raw/battery-inside-en/en/tech-en/a-better-life-with-batteries-solid-electrolyte.md
+  - raw/battery-inside-en/en/tech-en/battery-glossary-sei-solid-electrolyte-interphase.md
   - raw/ko/tech/%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ec%a0%84%ed%95%b4%ec%95%a1%ec%9d%b4-%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%ec%9d%98-%ed%86%b5%eb%a1%9c.md
-  - raw/ko/tech/%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ec%a0%84%ea%b8%b0%ec%b0%a8-%eb%b0%b0%ed%84%b0%eb%a6%ac%ec%9a%a9-%ec%a0%84%ed%95%b4%ec%a7%88.md
-  - raw/ko/tech/%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-ceicathode-electrolyte-interphase.md
-  - raw/ko/tech/%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-sei-solid-electrolyte-interphase.md
-  - raw/ko/tech/%eb%a6%ac%ed%8a%ac%ec%9d%b4%ec%98%a8%ec%9d%98-%ec%b6%9c%ed%87%b4%ea%b7%bc-%ec%88%98%eb%8b%a8-%ec%a0%84%ed%95%b4%ec%a7%88.md
+  - raw/battery-inside-en/en/tech-en/infographics-22-slurry-components-and-their-roles-active-material-conductive-additive-and-binder.md
 confidence: high
 ---
 # Electrolyte Additive
 
-## Core Idea
-Electrolyte additives are small-formulation ingredients that tune interphases, gas generation, safety, and lifetime. It connects directly to [[cei|CEI (Cathode Electrolyte Interphase)]], [[coulombic-efficiency|Coulombic Efficiency (CE)]], and [[sei|SEI (Solid Electrolyte Interphase)]].
+## Overview / Introduction
 
-## Technical Notes
-- Additives can help form stable SEI on the anode or CEI on the cathode, reducing continued electrolyte decomposition.
-- High-voltage cathodes, silicon anodes, and fast-charging cells depend heavily on additive packages.
-- Additive design is a precision lever: too little may be ineffective, while too much can hurt conductivity or side reactions.
+Electrolyte additives are small-quantity chemical compounds introduced into the liquid electrolyte of lithium‑ion batteries to enhance performance, safety, and lifetime. Despite constituting only 1–5 % of the electrolyte by weight, additives account for roughly 40 % of the total electrolyte cost, reflecting the sophisticated molecular design required to tune interphase properties, thermal stability, and electrochemical behavior. The global electrolyte additive market was valued at 1.43 billion USD in 2023 and is projected to reach 5.56 billion USD by 2032, driven by the demand for higher energy density, faster charging, and extended cycle life in electric vehicles (EVs) and energy storage systems.
 
-## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
+## Technical Details
 
-## Related
+### Classification and Function
+
+Additives are classified primarily by the electrode they protect and the interphase they help form:
+
+- **SEI‑forming additives** – modify the Solid Electrolyte Interphase on the anode.
+- **CEI‑forming additives** – improve the Cathode Electrolyte Interphase on the cathode.
+- **Advanced lithium‑salt additives** – used as co‑salts or supplements to LiPF₆.
+- **Specialized functional additives** – e.g. HF scavengers, elastic SEI promoters, flame retardants.
+
+### SEI‑Forming Additives
+
+The [[sei|SEI]] is a thin passivation layer that forms on the graphite anode during the first charge. Ideally, it is a Li‑ion conductor, electronic insulator, and chemically stable. Key additives:
+
+- **Vinylene Carbonate (VC)** – a classic additive that produces a dense, robust SEI with high elasticity, improving cycle life.
+- **Fluoroethylene Carbonate (FEC)** – decomposes to form a LiF‑rich SEI faster than VC, enhancing low‑temperature performance and accommodating volume changes in [[anode-materials|silicon‑anode]] cells.
+- **Vinyl Ethylene Carbonate (VEC)** – suppresses side reactions at both anode and cathode, boosting high‑voltage stability.
+
+### CEI‑Forming Additives
+
+The [[cei|CEI]] on the cathode protects the reactive surface of high‑nickel NCM or NCA from electrolyte oxidation. Additives such as LiDFOB and LiPO₂F₂ promote a thin, inorganic‑rich CEI (e.g., LiF, Li₂CO₃) that reduces transition‑metal dissolution and oxygen release. This is critical for cells operating above 4.5 V.
+
+### Advanced Lithium‑Salt Additives
+
+Beyond the primary salt LiPF₆, several lithium salts are added in small amounts (≈5 %) to impart specific improvements:
+
+- **LiFSI** – exhibits higher ionic conductivity and hydrolytic stability than LiPF₆. It forms a LiF‑rich SEI that suppresses [[dendrite]] growth on lithium metal anodes, improving coulombic efficiency and charge‑rate capability.
+- **LiPO₂F₂** – enhances cycle life, power output, and reduces charging time while stabilizing the cell at elevated temperatures.
+- **LiDFOP** – similar to LiPO₂F₂, it improves long‑term cycling and high‑temperature resilience.
+- **LiBOB** – boosts low‑temperature power, enables better performance with silicon anodes, and is effective in solid‑state battery prototypes.
+- **LiDFOB** – promotes a stable SEI with fast formation kinetics, improving overall cycling efficiency and safety.
+- **LiTFSI** – offers excellent thermal stability and moisture tolerance, though high cost limits its use to niche high‑power applications.
+
+### Application‑Specific Design
+
+Additive packages are tailored to cell chemistry:
+
+- For [[lfp-battery|LFP]] cells, additives focus on cycle life and safety (e.g., HF scavengers).
+- For high‑nickel NCM + silicon anodes, a dual strategy is used: CEI‑forming additives to protect the cathode, and elastic SEI additives (such as FEC + LiBOB) to accommodate silicon’s volume expansion.
+- HF‑scavenger additives (e.g., siloxanes, boron‑based compounds) neutralize corrosive HF generated by LiPF₆ hydrolysis.
+
+## Significance / LG Context
+
+LG Energy Solution emphasizes precise additive formulation to maximize the performance of its high‑energy‑density cells for EVs and energy storage. In the company’s technology blog, the role of additives is described as “small but powerful” – they enable stable SEI and CEI formation, suppress gas generation, and maintain low interfacial resistance even after thousands of cycles. LG’s research into F‑type (LiFSI), P‑type (LiPO₂F₂), D‑type (LiDFOP), and B‑type (LiBOB) additives demonstrates a systematic approach to solving chemistry‑specific challenges, such as the trade‑off between high voltage stability and ionic conductivity. The rapid growth of the additive market (5.56 billion USD by 2032) reflects the industry’s recognition that interphase engineering is a key lever for next‑generation battery performance.
+
+## Related Pages
+
 - [[cei|CEI (Cathode Electrolyte Interphase)]]
 - [[coulombic-efficiency|Coulombic Efficiency (CE)]]
 - [[sei|SEI (Solid Electrolyte Interphase)]]
 - [[anode-materials|Anode Material]]
 - [[dendrite|Dendrite]]
 - [[dod|DoD (Depth of Discharge)]]
+- [[electrolyte|Electrolyte / Electrolyte Solution]]

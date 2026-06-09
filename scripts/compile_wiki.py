@@ -7,6 +7,7 @@ compact English wiki pages with YAML frontmatter and wikilinks.
 """
 from __future__ import annotations
 
+import argparse
 import html
 import re
 import subprocess
@@ -18,8 +19,8 @@ from urllib.parse import unquote
 
 ROOT = Path("/home/dev/lgensol-wiki")
 WIKI = ROOT / "wiki"
-RAW = ROOT / "raw" / "ko"
-TODAY = "2026-06-05"
+RAW = ROOT / "raw"
+TODAY = date.today().isoformat()
 CONTENT_DIRS = ("entities", "concepts", "comparisons", "glossary")
 
 
@@ -1009,11 +1010,19 @@ In the raw corpus, this concept appears as a practical engineering lever rather 
     return body.rstrip() + "\n"
 
 
-def serialize_frontmatter(title: str, page_type: str, tags: list[str], sources: list[str], confidence: str) -> str:
+def serialize_frontmatter(
+    title: str,
+    page_type: str,
+    tags: list[str],
+    sources: list[str],
+    confidence: str,
+    *,
+    created: str | None = None,
+) -> str:
     lines = [
         "---",
         f"title: {title}",
-        f"created: {TODAY}",
+        f"created: {created or TODAY}",
         f"updated: {TODAY}",
         f"type: {page_type}",
         f"tags: [{', '.join(tags)}]",
@@ -1040,7 +1049,7 @@ def build_page_registry(files: list[Path]) -> dict[str, dict[str, object]]:
     return pages
 
 
-def write_pages() -> None:
+def write_pages(*, preserve_body: bool = False) -> None:
     posts = read_raw_posts()
     files = page_files()
     pages = build_page_registry(files)
@@ -1050,15 +1059,30 @@ def write_pages() -> None:
         page_type = str(meta["type"])
         sources = select_sources(slug, title, tags, posts, page_type)
         confidence = "high" if len(sources) >= 2 else "medium"
-        related = choose_related(slug, tags, page_type, pages)
-        body = body_for(slug, title, page_type, tags, related, sources, pages)
-        text = serialize_frontmatter(title, page_type, tags, sources, confidence) + body
+        path = Path(meta["path"])
+        created = None
+        if preserve_body:
+            existing_frontmatter, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+            created = str(existing_frontmatter.get("created") or TODAY)
+            body = body.lstrip("\n")
+        else:
+            related = choose_related(slug, tags, page_type, pages)
+            body = body_for(slug, title, page_type, tags, related, sources, pages)
+        text = serialize_frontmatter(
+            title,
+            page_type,
+            tags,
+            sources,
+            confidence,
+            created=created,
+        ) + body
         Path(meta["path"]).write_text(text, encoding="utf-8")
 
 
-def write_index_and_log() -> None:
+def write_index_and_log(*, preserve_body: bool = False) -> None:
     files = page_files()
     pages = build_page_registry(files)
+    raw_count = len(list(RAW.glob("**/*.md")))
     by_type: dict[str, list[str]] = {"entity": [], "concept": [], "comparison": [], "glossary": []}
     for slug, meta in pages.items():
         by_type[str(meta["type"])].append(slug)
@@ -1076,7 +1100,7 @@ def write_index_and_log() -> None:
         "",
         "# Index - LG Energy Solution Battery Wiki",
         "",
-        "Compiled from 556 Korean LG Energy Solution blog posts into 95 compact English wiki pages. See [[SCHEMA]] for schema rules and [[log]] for the compilation log.",
+        f"Compiled from {raw_count} official-source markdown records into 95 English wiki pages. See [[SCHEMA]] for schema rules and [[log]] for the compilation log.",
         "",
         "| Category | Count |",
         "|---|---:|",
@@ -1109,6 +1133,11 @@ def write_index_and_log() -> None:
         lines.append("")
     (WIKI / "index.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
+    final_log_line = (
+        "- Preserved existing long-form page bodies while updating their source selections."
+        if preserve_body
+        else "- Replaced page bodies with the compiler's compact generated summaries."
+    )
     log_text = f"""---
 title: Compilation Log
 created: {TODAY}
@@ -1121,12 +1150,12 @@ tags: [meta]
 
 ## {TODAY}
 
-- Read the 556 raw Korean markdown posts under `raw/ko/` for local source matching.
-- Rebuilt 95 English wiki pages under `entities/`, `concepts/`, `comparisons/`, and `glossary/`.
+- Read {raw_count} raw markdown records under `raw/` for local source matching.
+- {"Refreshed source lists on" if preserve_body else "Rebuilt"} 95 English wiki pages under `entities/`, `concepts/`, `comparisons/`, and `glossary/`.
 - Added YAML frontmatter with title, type, tags, sources, and confidence on every content page.
 - Added at least five outbound `[[wikilinks]]` per content page and regenerated [[index]].
 - Rebuilt `server/data/graph.json` after page population.
-- Left `raw/` and `assets/` unchanged.
+{final_log_line}
 """
     (WIKI / "log.md").write_text(log_text, encoding="utf-8")
 
@@ -1179,8 +1208,15 @@ def validate() -> int:
 
 
 def main() -> int:
-    write_pages()
-    write_index_and_log()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--preserve-body",
+        action="store_true",
+        help="Refresh source frontmatter without replacing existing wiki bodies",
+    )
+    args = parser.parse_args()
+    write_pages(preserve_body=args.preserve_body)
+    write_index_and_log(preserve_body=args.preserve_body)
     result = validate()
     if result == 0:
         subprocess.run(["python3", str(ROOT / "scripts" / "build_graph.py")], check=True)

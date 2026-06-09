@@ -1,480 +1,650 @@
-#!/usr/bin/env python3.10
-"""
-Fase 2: Scrape all Korean articles from inside.lgensol.com
-- Extract content → Markdown
-- Download all images (featured + inline)
-- Resume-able via checkpoint
-
-Usage:
-    python3.10 scrapers/scrape_articles.py              # Full run
-    python3.10 scrapers/scrape_articles.py --resume      # Resume from checkpoint
-    python3.10 scrapers/scrape_articles.py --limit 10    # Test with 10 articles
-"""
+#!/usr/bin/env python3
+"""Scrape discovered LG Energy Solution source records into raw markdown."""
+from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import json
-import os
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
+import threading
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 
-# ── Config ──────────────────────────────────────────────────────────────
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                  "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/131.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-}
-
-BASE_DIR = Path("/home/dev/battery-inside-wiki")
-RAW_DIR = BASE_DIR / "raw" / "ko"
-ASSETS_DIR = BASE_DIR / "assets" / "ko"
-CHECKPOINT_FILE = BASE_DIR / "scrape_checkpoint.json"
-CHUNK_SIZE = 8192
-REQUEST_DELAY = 1.0       # seconds between requests
-MAX_RETRIES = 3
-
-# html2text config
 try:
     import html2text
+
     H2T = html2text.HTML2Text()
-    H2T.body_width = 0          # no line wrapping
+    H2T.body_width = 0
     H2T.ignore_links = False
     H2T.ignore_images = False
     H2T.ignore_emphasis = False
     H2T.protect_links = True
     H2T.unicode_snob = True
     H2T.skip_internal_links = True
-    H2T.images_to_alt = False
     H2T.wrap_links = False
     H2T.mark_code = True
 except ImportError:
     H2T = None
-    print("[WARN] html2text not installed. Using basic HTML stripping.")
-    print("  Install: pip3 install html2text")
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 
-# ── Helpers ─────────────────────────────────────────────────────────────
-
-def slugify(text):
-    """Create a filesystem-safe slug from title."""
-    slug = text.lower()
-    slug = re.sub(r'[^a-z0-9가-힣]+', '-', slug)
-    slug = slug.strip('-')
-    slug = slug[:100]
-    return slug or f"post-{hash(text) % 100000}"
-
-
-def extract_slug_from_url(url):
-    """Extract slug from WordPress URL like /2026/06/slug-name/"""
-    path = urlparse(url).path.rstrip('/')
-    parts = path.split('/')
-    return parts[-1] if parts else "untitled"
-
-
-def sanitize_filename(name):
-    """Clean filename for saving images."""
-    name = re.sub(r'[^\w\.\-]', '_', name)
-    return name[:200]
+ROOT = Path(__file__).resolve().parents[1]
+MANIFEST_PATH = ROOT / "discovered_urls.json"
+CHECKPOINT_FILE = ROOT / "scrape_checkpoint.json"
+ASSETS_DIR = ROOT / "assets"
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9,ko;q=0.8",
+}
+MAX_RETRIES = 3
+MAX_DOCUMENT_BYTES = 80 * 1024 * 1024
+CHECKPOINT_EVERY = 25
+PRINT_LOCK = threading.Lock()
 
 
-def fetch_with_retry(url, max_retries=MAX_RETRIES):
-    """Fetch URL with retry and backoff."""
+def headers_for_url(url: str) -> dict[str, str]:
+    parsed = urlparse(url)
+    if "lghomebattery.com.au" in parsed.netloc:
+        return {
+            "User-Agent": "curl/8.0",
+            "Accept": "text/html,application/xhtml+xml,*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+    return HEADERS
+
+
+def log(message: str) -> None:
+    with PRINT_LOCK:
+        print(message, flush=True)
+
+
+def split_filter(value: str) -> set[str]:
+    return {item.strip() for item in value.split(",") if item.strip()}
+
+
+def fetch(url: str, *, max_retries: int = MAX_RETRIES) -> requests.Response | None:
     for attempt in range(max_retries):
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=30)
-            resp.raise_for_status()
-            return resp
-        except requests.RequestException as e:
-            if attempt < max_retries - 1:
-                wait = 2 ** attempt
-                print(f"    [retry {attempt+1}/{max_retries}] {e} — waiting {wait}s...")
-                time.sleep(wait)
-            else:
-                print(f"    [FAIL] {url}: {e}")
+            response = requests.get(url, headers=headers_for_url(url), timeout=45)
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            if attempt + 1 == max_retries:
+                log(f"    [FAIL] {url}: {exc}")
                 return None
-
-
-def get_real_image_url(img):
-    """
-    Extract the actual image URL from an <img> tag.
-    Handles: src, data-src, data-lazy-src, srcset
-    """
-    # Check for lazy-loaded images
-    for attr in ['data-src', 'data-lazy-src', 'data-original']:
-        val = img.get(attr)
-        if val and not val.startswith('data:'):
-            return val
-
-    # Check srcset for a reasonable size
-    srcset = img.get('data-srcset') or img.get('srcset') or ''
-    if srcset:
-        urls = []
-        for entry in srcset.split(','):
-            parts = entry.strip().split()
-            if parts:
-                size_val = 9999
-                if len(parts) > 1:
-                    size_str = parts[1].rstrip('w').rstrip('x')
-                    try:
-                        size_val = int(size_str)
-                    except ValueError:
-                        size_val = 9999
-                urls.append((parts[0], size_val))
-        # Sort by size descending, pick the largest
-        urls.sort(key=lambda x: -x[1])
-        if urls:
-            return urls[0][0]
-
-    # Fall back to src if it's a real image
-    src = img.get('src', '')
-    if src and not src.startswith('data:'):
-        return src
-
+            response = getattr(exc, "response", None)
+            retry_after = response.headers.get("Retry-After") if response is not None else None
+            try:
+                wait = float(retry_after) if retry_after else 2**attempt
+            except ValueError:
+                wait = 2**attempt
+            if response is not None and response.status_code == 429:
+                wait = max(wait, 15.0)
+            time.sleep(wait)
     return None
 
 
-def download_image(url, dest_path):
-    """Download a single image file. Returns (success, bytes_written)."""
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=30, stream=True)
-        resp.raise_for_status()
-
-        content_type = resp.headers.get('Content-Type', '')
-        if 'image' not in content_type:
-            return False, 0
-
-        dest_path.parent.mkdir(parents=True, exist_ok=True)
-
-        bytes_written = 0
-        with open(dest_path, 'wb') as f:
-            for chunk in resp.iter_content(chunk_size=CHUNK_SIZE):
-                if chunk:
-                    f.write(chunk)
-                    bytes_written += len(chunk)
-
-        return True, bytes_written
-    except Exception as e:
-        print(f"    [IMG FAIL] {url}: {e}")
-        return False, 0
+def safe_destination(raw_path: object) -> Path:
+    rel = Path(str(raw_path))
+    if rel.is_absolute() or ".." in rel.parts or rel.parts[:1] != ("raw",):
+        raise ValueError(f"unsafe raw_path: {raw_path}")
+    return ROOT / rel
 
 
-# ── Core scraper ────────────────────────────────────────────────────────
+def clean_markdown(markdown: str) -> str:
+    markdown = re.sub(r"\n\s*\n\s*\n+", "\n\n", markdown)
+    markdown = re.sub(r"[ \t]+\n", "\n", markdown)
+    return markdown.strip()
 
-def scrape_article(article, force=False):
-    """
-    Scrape a single article: get HTML, extract content, convert to markdown,
-    download images. Returns dict with result metadata.
-    """
-    url = article["url"]
-    art_id = article["id"]
-    category = article["category"]
-    title = article["title"]
-    slug = extract_slug_from_url(url)
 
-    # Paths
-    raw_file = RAW_DIR / category / f"{slug}.md"
-    asset_dir = ASSETS_DIR / category / slug
-
-    # Skip if already done (unless force)
-    if raw_file.exists() and not force:
-        return {"status": "skipped", "id": art_id, "slug": slug}
-
-    print(f"  [{art_id}] {title[:60]}...")
-    print(f"    URL: {url}")
-
-    # Fetch HTML
-    resp = fetch_with_retry(url)
-    if not resp:
-        return {"status": "failed", "id": art_id, "slug": slug, "error": "fetch failed"}
-
-    soup = BeautifulSoup(resp.text, 'lxml')
-
-    # ── Extract featured image ──
-    featured_url = None
-    for sel in [
-        '.post-thumbnail img',
-        '.wp-post-image',
-        'img.wp-post-image',
-        'article img[class*="wp-image"]',
-        'article img[class*="attachment"]',
-    ]:
-        img = soup.select_one(sel)
-        if img:
-            featured_url = get_real_image_url(img)
-            if featured_url:
-                break
-
-    # ── Extract entry content ──
-    entry = soup.select_one('.entry-content, .post-content, .elementor-widget-theme-post-content')
-    if not entry:
-        # Fallback: try to find main article body
-        article_tag = soup.find('article')
-        if article_tag:
-            entry = article_tag
-        else:
-            entry = soup.select_one('.content-area, #primary, main')
-
-    if not entry:
-        print(f"    [WARN] Could not find content area")
-        return {"status": "failed", "id": art_id, "slug": slug, "error": "no content"}
-
-    # ── Extract and download inline images ──
-    images = []
-    for img in entry.find_all('img'):
-        img_url = get_real_image_url(img)
-        if not img_url:
-            continue
-
-        # Only download images hosted on this domain
-        if not img_url.startswith('https://inside.lgensol.com'):
-            continue
-
-        # Determine filename
-        parsed = urlparse(img_url)
-        img_path = parsed.path.lstrip('/')
-        img_filename = Path(img_path).name or f"img-{len(images)}.jpg"
-
-        # Handle uploaded images: preserve subdir structure
-        img_subdir = ""
-        if 'wp-content/uploads' in img_path:
-            # Use date-based subdir for organization
-            date_part = img_path.replace('wp-content/uploads/', '').split('/')
-            if len(date_part) >= 2:
-                img_subdir = '/'.join(date_part[:-1])  # e.g., 2026/06
-                img_filename = date_part[-1]
-            else:
-                img_filename = '_'.join(date_part)
-
-        local_asset_dir = asset_dir
-        if img_subdir:
-            local_asset_dir = asset_dir / img_subdir
-
-        local_path = local_asset_dir / sanitize_filename(img_filename)
-        asset_rel_path = local_path.relative_to(BASE_DIR)
-
-        # Download if not exists
-        if not local_path.exists():
-            ok, size = download_image(img_url, local_path)
-            if ok:
-                images.append({
-                    "url": img_url,
-                    "path": str(asset_rel_path),
-                    "size": size,
-                })
-                print(f"    [IMG] {img_filename} ({size/1024:.0f} KB)")
-            else:
-                # Still record the URL reference even if download failed
-                images.append({"url": img_url, "path": None, "error": "download failed"})
-        else:
-            size = local_path.stat().st_size
-            images.append({
-                "url": img_url,
-                "path": str(asset_rel_path),
-                "size": size,
-                "cached": True,
-            })
-
-    # ── Convert content to markdown ──
-    content_html = str(entry)
-
-    # Remove script and style tags
-    for tag in entry.find_all(['script', 'style', 'nav', 'header', 'footer']):
-        tag.decompose()
-
-    # Get the cleaned HTML
-    clean_html = str(entry)
-
+def markdown_from_html(node) -> str:
     if H2T:
-        markdown = H2T.handle(clean_html)
-    else:
-        # Fallback: basic strip
-        text = entry.get_text(separator='\n', strip=True)
-        markdown = text
+        try:
+            return clean_markdown(H2T.handle(str(node)))
+        except Exception:
+            pass
+    return clean_markdown(node.get_text("\n", strip=True))
 
-    # Clean up the markdown
-    markdown = re.sub(r'\n\s*\n\s*\n+', '\n\n', markdown)  # remove excessive blank lines
-    markdown = markdown.strip()
 
-    # ── Build frontmatter ──
-    # Compute sha256 of the content
-    content_bytes = markdown.encode('utf-8')
-    sha256 = hashlib.sha256(content_bytes).hexdigest()
+def absolutize_links(node, base_url: str) -> None:
+    for tag in node.find_all(["a", "img", "source"]):
+        for attr in ("href", "src"):
+            value = tag.get(attr)
+            if value:
+                tag[attr] = urljoin(base_url, value)
+        srcset = tag.get("srcset")
+        if srcset:
+            converted = []
+            for item in srcset.split(","):
+                parts = item.strip().split()
+                if parts:
+                    parts[0] = urljoin(base_url, parts[0])
+                    converted.append(" ".join(parts))
+            tag["srcset"] = ", ".join(converted)
 
-    frontmatter = {
-        "source_url": url,
-        "wp_id": art_id,
-        "title": title,
-        "date": article.get("date", ""),
-        "modified": article.get("modified", ""),
-        "category": category,
-        "category_ids": article.get("category_ids", []),
-        "tags": article.get("tags", []),
-        "ingested": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "sha256": sha256,
+
+def remove_noise(node) -> None:
+    for tag in node.find_all(
+        [
+            "script",
+            "style",
+            "noscript",
+            "nav",
+            "header",
+            "footer",
+            "form",
+            "iframe",
+            "svg",
+        ]
+    ):
+        tag.decompose()
+    for selector in (
+        ".cookie",
+        ".cookies",
+        ".breadcrumb",
+        ".breadcrumbs",
+        ".pagination",
+        ".share",
+        ".sns",
+        ".related",
+        ".recommend",
+        ".newsletter",
+        ".modal",
+    ):
+        for tag in node.select(selector):
+            tag.decompose()
+
+
+def select_content_node(soup: BeautifulSoup):
+    selectors = [
+        ".entry-content",
+        ".post-content",
+        ".elementor-widget-theme-post-content",
+        ".article-content",
+        ".article_body",
+        ".article-body",
+        ".newsroom-detail",
+        ".news_view",
+        ".view-content",
+        ".board_view",
+        ".contents",
+        ".content",
+        "#content",
+        "#container",
+        "article",
+        "main",
+        "body",
+    ]
+    candidates = []
+    for selector in selectors:
+        for node in soup.select(selector):
+            text_len = len(node.get_text(" ", strip=True))
+            if text_len > 0:
+                candidates.append((text_len, node))
+    if not candidates:
+        return None
+    return max(candidates, key=lambda item: item[0])[1]
+
+
+def real_image_url(img) -> str | None:
+    for attr in ("data-src", "data-lazy-src", "data-original"):
+        value = img.get(attr)
+        if value and not value.startswith("data:"):
+            return value
+    srcset = img.get("data-srcset") or img.get("srcset") or ""
+    if srcset:
+        choices = []
+        for entry in srcset.split(","):
+            parts = entry.strip().split()
+            if not parts:
+                continue
+            weight = 0
+            if len(parts) > 1:
+                try:
+                    weight = int(parts[1].rstrip("wx"))
+                except ValueError:
+                    weight = 0
+            choices.append((weight, parts[0]))
+        if choices:
+            return max(choices)[1]
+    src = img.get("src", "")
+    return src if src and not src.startswith("data:") else None
+
+
+def image_urls_from_node(node, base_url: str) -> list[str]:
+    urls = []
+    for img in node.find_all("img"):
+        image_url = real_image_url(img)
+        if not image_url:
+            continue
+        absolute = urljoin(base_url, image_url)
+        if absolute not in urls:
+            urls.append(absolute)
+    return urls
+
+
+def sanitize_filename(value: str) -> str:
+    cleaned = re.sub(r"[^\w.\-]+", "_", value)
+    return cleaned[:180] or "image"
+
+
+def download_images(record: dict[str, object], images: list[str]) -> list[str]:
+    saved = []
+    if not images:
+        return saved
+    source = str(record.get("source", "unknown"))
+    language = str(record.get("language", "unknown"))
+    category = str(record.get("category", "uncategorized"))
+    slug = Path(str(record.get("raw_path", "page.md"))).stem
+    asset_dir = ASSETS_DIR / source / language / category / slug
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    for index, image_url in enumerate(images):
+        parsed = urlparse(image_url)
+        filename = sanitize_filename(Path(parsed.path).name or f"image-{index}.jpg")
+        destination = asset_dir / filename
+        if not destination.exists():
+            response = fetch(image_url, max_retries=2)
+            if response is None:
+                continue
+            if "image" not in response.headers.get("Content-Type", ""):
+                continue
+            destination.write_bytes(response.content)
+        saved.append(destination.relative_to(ROOT).as_posix())
+    return saved
+
+
+def extract_html(record: dict[str, object]) -> tuple[str, dict[str, object]]:
+    url = str(record["url"])
+    response = fetch(url)
+    if response is None:
+        fallback = str(record.get("content_text", "")).strip()
+        if fallback:
+            return fallback, {"extraction_warning": "used_manifest_text_after_fetch_failure"}
+        raise RuntimeError("fetch failed")
+    soup = BeautifulSoup(response.text, "html.parser")
+    node = select_content_node(soup)
+    if node is None:
+        fallback = str(record.get("content_text", "")).strip()
+        if fallback:
+            return fallback, {"extraction_warning": "used_manifest_text_no_content_node"}
+        return fallback_body(record, "no content node"), {"extraction_warning": "no_content_node"}
+    remove_noise(node)
+    absolutize_links(node, response.url)
+    images = image_urls_from_node(node, response.url)
+    markdown = markdown_from_html(node)
+    fallback = str(record.get("content_text", "")).strip()
+    if len(markdown) < 80 and fallback:
+        markdown = fallback
+    metadata: dict[str, object] = {
+        "final_url": response.url,
+        "content_type": response.headers.get("Content-Type", ""),
     }
+    if images:
+        metadata["image_urls"] = images[:50]
+    return markdown, metadata
 
-    # Add featured image reference
-    if featured_url:
-        frontmatter["featured_image"] = featured_url
 
-    # Build list of image references for frontmatter
-    image_refs = []
-    for img in images:
-        if img.get("path"):
-            image_refs.append(str(img["path"]))
-    if image_refs:
-        frontmatter["images"] = image_refs
+def extract_ebook(record: dict[str, object]) -> tuple[str, dict[str, object]]:
+    text = str(record.get("content_text", "")).strip()
+    page_number = record.get("page_number", "")
+    page_count = record.get("page_count", "")
+    image_url = str(record.get("image_url", ""))
+    lines = [
+        f"# {record.get('title', 'ENSOLPEDIA page')}",
+        "",
+        f"Reader URL: {record.get('url', '')}",
+        f"Page: {page_number} / {page_count}",
+    ]
+    if image_url:
+        lines.extend(["", f"Page image: {image_url}", "", f"![Page {page_number}]({image_url})"])
+    lines.extend(["", "## Searchable Text", "", text or "(No embedded searchable text was available for this page.)"])
+    return "\n".join(lines).strip(), {}
 
-    # ── Write markdown file ──
-    raw_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # Format frontmatter as YAML
-    fm_lines = ["---"]
+def pdf_text(content: bytes) -> str:
+    if shutil.which("pdftotext") is None:
+        return ""
+    with tempfile.NamedTemporaryFile(suffix=".pdf") as pdf:
+        pdf.write(content)
+        pdf.flush()
+        result = subprocess.run(
+            ["pdftotext", "-layout", pdf.name, "-"],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=90,
+            check=False,
+        )
+    if result.returncode != 0:
+        return ""
+    return clean_markdown(result.stdout)
+
+
+def extract_document(record: dict[str, object]) -> tuple[str, dict[str, object]]:
+    url = urljoin("https://www.lgensol.com", str(record["url"]))
+    response = fetch(url)
+    if response is None:
+        raise RuntimeError("document fetch failed")
+    content_type = response.headers.get("Content-Type", "")
+    metadata: dict[str, object] = {
+        "final_url": response.url,
+        "content_type": content_type,
+        "document_bytes": len(response.content),
+    }
+    if len(response.content) > MAX_DOCUMENT_BYTES:
+        body = (
+            f"# {record.get('title', 'Document')}\n\n"
+            f"Document URL: {response.url}\n\n"
+            f"Skipped text extraction because the file is larger than {MAX_DOCUMENT_BYTES // 1024 // 1024} MB."
+        )
+        metadata["extraction_warning"] = "document_too_large"
+        return body, metadata
+    parsed = urlparse(response.url)
+    if "pdf" in content_type.lower() or parsed.path.lower().endswith(".pdf"):
+        text = pdf_text(response.content)
+        if not text:
+            text = "(PDF fetched, but pdftotext did not return extractable text.)"
+            metadata["extraction_warning"] = "pdf_text_empty"
+        body = f"# {record.get('title', 'Document')}\n\nDocument URL: {response.url}\n\n{text}"
+        return body, metadata
+    if "html" in content_type.lower() or response.text.strip().startswith("<"):
+        soup = BeautifulSoup(response.text, "html.parser")
+        node = select_content_node(soup) or soup.body
+        if node is not None:
+            remove_noise(node)
+            absolutize_links(node, response.url)
+            body = markdown_from_html(node)
+            return body, metadata
+    body = (
+        f"# {record.get('title', 'Document')}\n\n"
+        f"Document URL: {response.url}\n\n"
+        "No text extractor is configured for this document type."
+    )
+    metadata["extraction_warning"] = "unsupported_document_type"
+    return body, metadata
+
+
+def fallback_body(record: dict[str, object], reason: str) -> str:
+    lines = [
+        f"# {record.get('title', 'Untitled source')}",
+        "",
+        f"Source URL: {record.get('url', '')}",
+        f"Source: {record.get('source', '')}",
+        f"Kind: {record.get('kind', '')}",
+        "",
+        f"Extraction warning: {reason}",
+    ]
+    text = str(record.get("content_text", "")).strip()
+    if text:
+        lines.extend(["", "## Manifest Text", "", text])
+    return "\n".join(lines)
+
+
+def dump_frontmatter(frontmatter: dict[str, object]) -> str:
+    if yaml:
+        return yaml.safe_dump(
+            frontmatter,
+            allow_unicode=True,
+            sort_keys=False,
+            default_flow_style=False,
+        ).strip()
+    lines = []
     for key, value in frontmatter.items():
         if isinstance(value, list):
-            items = "\n".join(f"  - {v}" for v in value)
-            fm_lines.append(f"{key}:\n{items}")
+            lines.append(f"{key}:")
+            lines.extend(f"  - {item}" for item in value)
         elif isinstance(value, dict):
-            fm_lines.append(f"{key}:")
-            for k, v in value.items():
-                fm_lines.append(f"  {k}: {v}")
+            lines.append(f"{key}: {json.dumps(value, ensure_ascii=False)}")
         else:
-            fm_lines.append(f"{key}: {value}")
-    fm_lines.append("---")
-    fm_lines.append("")
-    fm_lines.append(markdown)
+            lines.append(f"{key}: {value}")
+    return "\n".join(lines)
 
-    raw_content = "\n".join(fm_lines)
 
-    with open(raw_file, 'w', encoding='utf-8') as f:
-        f.write(raw_content)
-
-    content_size = len(raw_content.encode('utf-8'))
-
-    print(f"    [OK] Saved: {raw_file.relative_to(BASE_DIR)} ({content_size/1024:.0f} KB)")
-
-    return {
-        "status": "success",
-        "id": art_id,
-        "slug": slug,
-        "content_size": content_size,
-        "images": len(images),
-        "image_size": sum(i.get("size", 0) for i in images),
+def write_record(
+    record: dict[str, object],
+    body: str,
+    metadata: dict[str, object],
+    *,
+    download_image_files: bool,
+) -> int:
+    body = clean_markdown(body)
+    if not body:
+        body = fallback_body(record, "empty extracted body")
+        metadata["extraction_warning"] = "empty_extracted_body"
+    images = list(metadata.get("image_urls", [])) if isinstance(metadata.get("image_urls"), list) else []
+    saved_images = download_images(record, images) if download_image_files else []
+    sha256 = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    frontmatter: dict[str, object] = {
+        "source_url": record.get("url", ""),
+        "source": record.get("source", ""),
+        "source_family": record.get("source_family", ""),
+        "language": record.get("language", ""),
+        "kind": record.get("kind", ""),
+        "record_id": record.get("id", ""),
+        "title": record.get("title", ""),
+        "date": record.get("date", ""),
+        "modified": record.get("modified", ""),
+        "category": record.get("category", ""),
+        "ingested": datetime.now(timezone.utc).isoformat(),
+        "sha256": sha256,
     }
+    for key in (
+        "category_ids",
+        "tags",
+        "page_number",
+        "page_count",
+        "image_url",
+        "attachment_url",
+        "file_name",
+        "file_code",
+    ):
+        if key in record and record[key] not in ("", None, []):
+            frontmatter[key] = record[key]
+    for key, value in metadata.items():
+        if value not in ("", None, []):
+            frontmatter[key] = value
+    if saved_images:
+        frontmatter["images"] = saved_images
+
+    destination = safe_destination(record["raw_path"])
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    content = f"---\n{dump_frontmatter(frontmatter)}\n---\n\n{body}\n"
+    destination.write_text(content, encoding="utf-8")
+    return len(content.encode("utf-8"))
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Scrape all Korean articles from Battery Inside")
-    parser.add_argument("--resume", action="store_true", help="Resume from checkpoint")
-    parser.add_argument("--limit", type=int, default=0, help="Limit articles to process")
-    parser.add_argument("--force", action="store_true", help="Re-scrape already done articles")
-    parser.add_argument("--delay", type=float, default=REQUEST_DELAY, help=f"Delay between requests (default: {REQUEST_DELAY}s)")
+def scrape_record(
+    record: dict[str, object],
+    *,
+    force: bool,
+    download_image_files: bool,
+    delay: float,
+) -> dict[str, object]:
+    record_id = str(record["id"])
+    destination = safe_destination(record["raw_path"])
+    if destination.exists() and not force:
+        return {"status": "skipped", "id": record_id, "path": destination.relative_to(ROOT).as_posix()}
+    if delay > 0:
+        time.sleep(delay)
+    try:
+        kind = str(record.get("kind", "html-page"))
+        if kind == "ebook-page":
+            body, metadata = extract_ebook(record)
+        elif kind == "document":
+            body, metadata = extract_document(record)
+        else:
+            body, metadata = extract_html(record)
+        content_size = write_record(
+            record,
+            body,
+            metadata,
+            download_image_files=download_image_files,
+        )
+        return {
+            "status": "success",
+            "id": record_id,
+            "path": destination.relative_to(ROOT).as_posix(),
+            "content_size": content_size,
+        }
+    except Exception as exc:
+        metadata = {"extraction_warning": str(exc)}
+        content_size = write_record(
+            record,
+            fallback_body(record, str(exc)),
+            metadata,
+            download_image_files=False,
+        )
+        return {
+            "status": "success",
+            "id": record_id,
+            "path": destination.relative_to(ROOT).as_posix(),
+            "content_size": content_size,
+            "warning": str(exc),
+        }
+
+
+def load_checkpoint() -> set[str]:
+    if not CHECKPOINT_FILE.exists():
+        return set()
+    with CHECKPOINT_FILE.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    return {str(item) for item in data.get("completed_ids", [])}
+
+
+def save_checkpoint(results: dict[str, object]) -> None:
+    CHECKPOINT_FILE.write_text(
+        json.dumps(results, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def filter_records(records: list[dict[str, object]], args: argparse.Namespace) -> list[dict[str, object]]:
+    selected = records
+    if args.sources:
+        allowed = split_filter(args.sources)
+        selected = [r for r in selected if str(r.get("source", "")) in allowed]
+    if args.families:
+        allowed = split_filter(args.families)
+        selected = [r for r in selected if str(r.get("source_family", "")) in allowed]
+    if args.kinds:
+        allowed = split_filter(args.kinds)
+        selected = [r for r in selected if str(r.get("kind", "")) in allowed]
+    if args.limit > 0:
+        selected = selected[: args.limit]
+    return selected
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Scrape discovered LG Energy Solution sources")
+    parser.add_argument("--resume", action="store_true", help="Skip IDs listed in scrape_checkpoint.json")
+    parser.add_argument("--limit", type=int, default=0, help="Limit records after filtering")
+    parser.add_argument("--force", action="store_true", help="Re-scrape existing raw files")
+    parser.add_argument("--workers", type=int, default=6, help="Concurrent scrape workers")
+    parser.add_argument("--delay", type=float, default=0.0, help="Per-record delay before fetching")
+    parser.add_argument("--sources", default="", help="Comma-separated source filter")
+    parser.add_argument("--families", default="", help="Comma-separated source_family filter")
+    parser.add_argument("--kinds", default="", help="Comma-separated kind filter")
+    parser.add_argument("--download-images", action="store_true", help="Download newly discovered inline images")
     args = parser.parse_args()
 
-    # Load discovered articles
-    discovered_path = BASE_DIR / "discovered_urls.json"
-    if not discovered_path.exists():
-        print("[FAIL] Run discover_urls.py first!")
-        sys.exit(1)
+    if not MANIFEST_PATH.exists():
+        print("[FAIL] Run scrapers/discover_urls.py first")
+        return 1
+    data = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    records = filter_records(list(data["articles"]), args)
+    completed = load_checkpoint() if args.resume and not args.force else set()
+    to_process = [record for record in records if str(record["id"]) not in completed]
+    print(f"Loaded {len(data['articles'])} discovered records")
+    print(f"Selected {len(records)} records; processing {len(to_process)}")
 
-    with open(discovered_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-
-    all_articles = data["articles"]
-    total = len(all_articles)
-    print(f"Loaded {total} articles from discovered_urls.json")
-
-    # Limit for testing
-    if args.limit > 0:
-        all_articles = all_articles[:args.limit]
-        print(f"Limited to {len(all_articles)} articles")
-
-    # Resume: load checkpoint
-    processed_ids = set()
-    if args.resume and CHECKPOINT_FILE.exists():
-        with open(CHECKPOINT_FILE, 'r', encoding='utf-8') as f:
-            checkpoint = json.load(f)
-        processed_ids = set(checkpoint.get("completed_ids", []))
-        print(f"Resuming from checkpoint — {len(processed_ids)} already completed")
-
-    # ── Run ──
-    print(f"\n{'='*60}")
-    print(f"SCRAPING {len(all_articles)} ARTICLES")
-    print(f"{'='*60}")
-
-    results = {
+    results: dict[str, object] = {
         "success": 0,
-        "skipped": 0,
+        "skipped": len(records) - len(to_process),
         "failed": 0,
         "total_content_bytes": 0,
-        "total_image_bytes": 0,
-        "completed_ids": [],
+        "completed_ids": sorted(completed),
         "failed_ids": [],
+        "started_at": datetime.now(timezone.utc).isoformat(),
     }
+    completed_ids = set(completed)
+    failed_ids: list[dict[str, str]] = []
+    start = time.time()
 
-    start_time = time.time()
+    if not to_process:
+        save_checkpoint(results)
+        return 0
 
-    for i, article in enumerate(all_articles):
-        art_id = article["id"]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
+        futures = {
+            executor.submit(
+                scrape_record,
+                record,
+                force=args.force,
+                download_image_files=args.download_images,
+                delay=args.delay,
+            ): record
+            for record in to_process
+        }
+        for index, future in enumerate(concurrent.futures.as_completed(futures), start=1):
+            record = futures[future]
+            try:
+                result = future.result()
+            except Exception as exc:
+                result = {"status": "failed", "id": str(record.get("id", "")), "error": str(exc)}
+            status = str(result["status"])
+            record_id = str(result["id"])
+            if status in ("success", "skipped"):
+                if status == "success":
+                    results["success"] = int(results["success"]) + 1
+                    results["total_content_bytes"] = int(results["total_content_bytes"]) + int(result.get("content_size", 0))
+                else:
+                    results["skipped"] = int(results["skipped"]) + 1
+                completed_ids.add(record_id)
+                path = result.get("path", "")
+                log(f"[{index}/{len(to_process)}] {status.upper()} {path}")
+            else:
+                results["failed"] = int(results["failed"]) + 1
+                failed = {"id": record_id, "error": str(result.get("error", "unknown"))}
+                failed_ids.append(failed)
+                log(f"[{index}/{len(to_process)}] FAIL {record_id}: {failed['error']}")
+            if index % CHECKPOINT_EVERY == 0:
+                results["completed_ids"] = sorted(completed_ids)
+                results["failed_ids"] = failed_ids
+                save_checkpoint(results)
 
-        # Skip if already processed (for resume)
-        if art_id in processed_ids and not args.force:
-            results["skipped"] += 1
-            continue
+    results["completed_ids"] = sorted(completed_ids)
+    results["failed_ids"] = failed_ids
+    results["elapsed_seconds"] = time.time() - start
+    results["finished_at"] = datetime.now(timezone.utc).isoformat()
+    save_checkpoint(results)
 
-        print(f"\n[{i+1}/{len(all_articles)}] ", end="")
-
-        result = scrape_article(article, force=args.force)
-
-        if result["status"] == "success":
-            results["success"] += 1
-            results["completed_ids"].append(art_id)
-            results["total_content_bytes"] += result.get("content_size", 0)
-            results["total_image_bytes"] += result.get("image_size", 0)
-        elif result["status"] == "skipped":
-            results["skipped"] += 1
-            results["completed_ids"].append(art_id)
-        else:
-            results["failed"] += 1
-            results["failed_ids"].append({"id": art_id, "error": result.get("error", "unknown")})
-            print(f"    [FAIL] Article {art_id}: {result.get('error', 'unknown')}")
-
-        # Save checkpoint every 10 articles
-        if (i + 1) % 10 == 0:
-            with open(CHECKPOINT_FILE, 'w', encoding='utf-8') as f:
-                json.dump(results, f, ensure_ascii=False, indent=2)
-
-        # Rate limiting
-        if i < len(all_articles) - 1:
-            time.sleep(args.delay)
-
-    # Final save
-    results["elapsed_seconds"] = time.time() - start_time
-    with open(CHECKPOINT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
-
-    # ── Summary ──
-    elapsed = time.time() - start_time
-    print(f"\n{'='*60}")
-    print(f"SCRAPING COMPLETE")
-    print(f"{'='*60}")
-    print(f"  Success:  {results['success']}")
-    print(f"  Skipped:  {results['skipped']}")
-    print(f"  Failed:   {results['failed']}")
-    print(f"  Text:     {results['total_content_bytes'] / 1024 / 1024:.1f} MB")
-    print(f"  Images:   {results['total_image_bytes'] / 1024 / 1024:.1f} MB")
-    print(f"  Elapsed:  {elapsed:.0f}s ({elapsed/60:.1f} min)")
+    print("\nScraping complete")
+    print(f"  Success: {results['success']}")
+    print(f"  Skipped: {results['skipped']}")
+    print(f"  Failed:  {results['failed']}")
+    print(f"  Text:    {int(results['total_content_bytes']) / 1024 / 1024:.1f} MB")
+    print(f"  Time:    {float(results['elapsed_seconds']) / 60:.1f} min")
     print(f"  Checkpoint: {CHECKPOINT_FILE}")
+    return 0 if int(results["failed"]) == 0 else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -27,6 +27,13 @@ func main() {
 	if err == nil {
 		wikiDir = absWiki
 	}
+	rawDir := os.Getenv("RAW_DIR")
+	if rawDir == "" {
+		rawDir = filepath.Join(filepath.Dir(wikiDir), "raw", "ko")
+	}
+	if absRaw, err := filepath.Abs(rawDir); err == nil {
+		rawDir = absRaw
+	}
 
 	// Static files sub-fs (strip "static/" prefix)
 	staticFS, _ := fs.Sub(staticFiles, "static")
@@ -98,8 +105,9 @@ func main() {
 	apiMux := http.NewServeMux()
 	apiMux.HandleFunc("/api/graph", http.HandlerFunc(handler.GraphHandler))
 	apiMux.HandleFunc("/api/page/", handler.PageHandler(wikiDir))
+	apiMux.HandleFunc("/api/page-sources/", handler.PageSourcesHandler(wikiDir, rawDir))
 	apiMux.HandleFunc("/api/pages", handler.ListPagesHandler(wikiDir))
-	apiMux.HandleFunc("/api/chat", handler.ChatHandler(wikiDir))
+	apiMux.HandleFunc("/api/chat", handler.ChatHandler(wikiDir, rawDir))
 	apiMux.HandleFunc("/api/verify-token", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(`{"ok":true}`))

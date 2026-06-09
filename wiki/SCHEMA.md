@@ -50,7 +50,8 @@ confidence: high | medium | low
 
 ## Page Creation Threshold
 - Create a page if a topic appears in **2+ sources**, or is **central to a single source**.
-- Prefer well-structured pages readable in ~30 seconds over bloated 200+ line pages.
+- Each page must be **2-3 minutes of reading material** (~500-1000 words of substantive content). The raw blog posts are rich in technical detail — extract that depth. Do not settle for 30-second summaries.
+- For glossary entries, expand each term with its full context from the source series: mechanism, why it matters, LG Energy Solution's perspective, and cross-links to related concepts.
 
 ## Update Policy
 - Newer sources supersede older ones.

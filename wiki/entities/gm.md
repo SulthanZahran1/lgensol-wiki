@@ -1,34 +1,71 @@
 ---
 title: General Motors (GM)
 created: 2026-06-05
-updated: 2026-06-05
+updated: 2026-06-08
 type: entity
 tags: [partnership, joint-venture, ev]
 sources:
-  - raw/ko/news/lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98-%e7%be%8e-gm%ea%b3%bc-%ec%a0%84%ea%b8%b0%ec%b0%a8-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%a0%9c3-%ed%95%a9%ec%9e%91%ea%b3%b5%ec%9e%a5-%ec%84%a4.md
-  - raw/ko/news/lg%ec%97%94%ec%86%94-gm-%ed%95%a9%ec%9e%91%eb%b2%95%ec%9d%b8-%ec%96%bc%ed%8b%b0%ec%97%84%ec%85%80%ec%a6%88-%e7%be%8e-%ea%b5%ad%ec%b1%84%ea%b8%88%eb%a6%ac%eb%a1%9c-25%ec%96%b5%eb%b6%88-%ed%88%ac.md
-  - raw/ko/news/%ea%b0%81%ed%98%95-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ea%b0%9c%eb%b0%9c-%eb%82%98%ec%84%a0%eb%8b%a4-%e7%be%8e-gm%ea%b3%bc-%ea%b3%b5%eb%8f%99-%ea%b0%9c%eb%b0%9c-%ea%b3%84%ec%95%bd-%ec%b2%b4%ea%b2%b0.md
-  - raw/ko/news/%ec%96%bc%ed%8b%b0%ec%97%84%ec%85%80%ec%a6%88-%ec%a0%9c2%ea%b3%b5%ec%9e%a5-%eb%b3%b8%ea%b2%a9-%ea%b0%80%eb%8f%99-%ec%b2%ab-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ea%b3%a0%ea%b0%9d%ec%82%ac-%ec%9d%b8%eb%8f%84.md
-  - raw/ko/about-us/lg%ec%97%90%eb%84%88%ec%a7%80%ec%86%94%eb%a3%a8%ec%85%98%ea%b3%bc-%ed%95%a8%ea%bb%98-%eb%96%a0%eb%82%98%eb%8a%94-%ec%9b%94%eb%93%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ed%88%ac%ec%96%b4-%eb%af%b8-4.md
+  - raw/battery-inside-en/en/news-en/gm-and-lg-energy-solution-investing-2-6-billion-to-build-3rd-ultium-cells-manufacturing-a8696edb78.md
+  - raw/battery-inside-en/en/news-en/gm-and-lg-energy-solution-to-pioneer-lmr-battery-cell-technology.md
+  - raw/lg-energy-solution-poland/pl/pages/wspolna-inwestycja-lg-energy-solution-i-general-motors.md
+  - raw/corporate/kr/newsroom/8525-lg엔솔-gm-합작법인-얼티엄셀즈-국채금리로-25억불-투자-자금-확보.md
+  - raw/battery-inside-en/en/news-en/lg-energy-solution-and-gm-to-jointly-develop-prismatic-battery-cell-technology.md
 confidence: high
 ---
 # General Motors (GM)
 
-## Snapshot
-General Motors is a central LG Energy Solution partner through Ultium Cells and related North American EV battery programs. In this wiki, it is cross-referenced with [[lg-energy-solution|LG Energy Solution]], [[ultium-cells|Ultium Cells]], and [[lmr-battery|Lithium Manganese Rich (LMR) Battery]].
+## Overview
 
-## What To Remember
-- The corpus links GM to Ultium Cells, pouch-cell manufacturing, LFP ESS conversion plans, prismatic development, and LMR work.
-- GM's page is mainly a partnership and manufacturing node, while the chemistry details live on NCM, LFP, NCMA, and LMR pages.
-- The relationship illustrates how cell makers and OEMs coordinate chemistry, form factor, plant location, and pack architecture.
+General Motors (GM) is one of LG Energy Solution's (LGES) most strategic and enduring partners, collaborating since 2010 through multiple battery supply agreements and the landmark Ultium Cells joint venture. This relationship spans pouch-cell manufacturing for GM's Ultium platform, joint development of prismatic cells, next-generation lithium manganese rich (LMR) chemistry, and potential LFP-based energy storage systems. The partnership is among the most comprehensive OEM-supplier alliances in the global EV industry, underpinning GM's goal to lead North American EV production with over 30 models by 2025 and achieve all-electric vehicle sales by 2035.
 
-## LG Energy Solution Context
-The source set treats this page as part of LG Energy Solution's battery ecosystem: products, partners, chemistries, process capability, software, and life-cycle management.
+## Technical Details
 
-## Related
+### Ultium Cells Joint Venture & Manufacturing
+
+Ultium Cells LLC, established in 2021, is a 50/50 joint venture between LGES and GM dedicated to producing NCMA (nickel-cobalt-manganese-aluminum) pouch cells exclusively for GM's Ultium platform. The venture operates three plants across the U.S.:
+
+- **Ultium Cells 1 (Lordstown, Ohio):** Began production in late 2022 with an initial capacity of 35 GWh, expandable to over 35 GWh+α. The plant employs LGES's advanced AZS (advanced zigzag stacking) technology and smart-factory quality systems, achieving high yield rates from the start.
+
+- **Ultium Cells 2 (Spring Hill, Tennessee):** Started full-scale production in early 2024 and delivered its first cells to GM in April 2024 for the Cadillac Lyriq and other third-generation EVs. The plant uses automated manufacturing lines, real-time monitoring via ICT systems, and a smart-factory architecture to meet 50 GWh capacity targets (expandable from an initial 35 GWh). Key metrics include a ramp-up to 90%+ yield within one month of operation.
+
+- **Ultium Cells 3 (Lansing, Michigan):** Announced in January 2022 with a total investment of $2.6 billion (₩3 trillion), this plant is designed for 50 GWh capacity and began construction in 2022. Production is expected by early 2025. Combined, the three plants will reach over 120 GWh annually—enough for about 2 million high-performance EVs (500+ km range each).
+
+The venture secured a $2.5 billion loan from the U.S. Department of Energy's Advanced Technology Vehicles Manufacturing (ATVM) program, with interest rates tied to U.S. Treasury bonds (approximately 3.6% for 10-year), significantly lower than typical corporate bond rates of 5-6%. This cost advantage supports long-term capital expenditure for capacity expansion.
+
+### Prismatic Cell Development
+
+In 2024, LGES and GM signed a joint development agreement for prismatic (rectangular) battery cells and core materials. This marks LGES's first official foray into prismatic cell development, completing its portfolio of all three form factors: pouch, cylindrical, and prismatic. Prismatic cells offer high structural rigidity due to their aluminum can housing, enabling simplified module and pack designs. LGES leverages its world-class electrode production and stacking process expertise—particularly its proprietary stacking technology that minimizes internal void space—to address the traditional drawback of prismatic cells: inefficient space utilization in the jelly-roll winding process. The prismatic cells are expected to use LMR chemistry, representing a convergence of new form factor and chemistry development.
+
+### LMR Battery Research
+
+LGES and GM are jointly developing lithium manganese rich (LMR) cathode technology as a next-generation option. LMR batteries contain 60-65% manganese, reducing reliance on expensive nickel and cobalt while delivering energy density comparable to existing NCM variants. GM's interest in LMR reflects a strategy to diversify cathode chemistries: premium NCMA for high-performance EVs, LMR as a mid-range option, and LFP for lower-cost models. The LMR cells may also be produced in prismatic form factor under the joint development agreement.
+
+### LFP ESS Conversion
+
+While not yet officially announced in the provided sources, industry reports indicate LGES and GM are exploring LFP-based battery storage systems (ESS) for grid and commercial applications. This aligns with LGES's broader strategy to offer LFP pouch cells for ESS, leveraging the Ultium Cells manufacturing footprint.
+
+## Significance / LG Context
+
+The GM partnership is central to LGES's North American market dominance. By 2025, LGES aims to achieve over 200 GWh total capacity in North America through joint ventures (GM, Stellantis, Honda, Hyundai) and its own standalone plants in Michigan and Arizona. The GM relationship alone accounts for over 120 GWh.
+
+Key significance points:
+
+- **Three-Form-Factor Strategy:** LGES is the only battery manufacturer with active development across pouch (Ultium Cells), cylindrical (supplying Rivian), and prismatic (GM-led) form factors, enabling tailored solutions for any vehicle architecture.
+
+- **Manufacturing Excellence:** The Ultium Cells plants demonstrate LGES's ability to rapidly ramp production with high yields using smart-factory systems. The Tennessee plant achieved first customer shipment within 2.5 years of construction start, a benchmark in the industry.
+
+- **Technological Leadership:** AZS stacking, electrode production mastery, and proprietary stacking for prismatic cells provide competitive advantages in energy density, safety, and cost.
+
+- **Strategic Financing:** The ATVM loan at U.S. Treasury rates (2% below AA-grade corporate bonds) lowers LGES's cost of capital, allowing aggressive expansion while maintaining profitability.
+
+- **Future-Proofing:** LMR development offers a path to reduce battery costs without sacrificing performance, critical for GM's affordability goals.
+
+## Related Pages
+
 - [[lg-energy-solution|LG Energy Solution]]
 - [[ultium-cells|Ultium Cells]]
+- [[ncma-battery|NCMA (Quaternary) Battery]]
 - [[lmr-battery|Lithium Manganese Rich (LMR) Battery]]
 - [[lfp-battery|LFP (Lithium Iron Phosphate) Battery]]
-- [[battery-recycling|End-of-Life Battery Reuse and Recycling]]
+- Prismatic Battery
 - [[ford|Ford]]

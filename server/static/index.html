@@ -24,6 +24,9 @@
   --blue: #2563eb;
   --amber: #b45309;
   --violet: #7c3aed;
+  --danger: #9f1239;
+  --danger-soft: #fff1f2;
+  --danger-border: #fecaca;
   --border: #d7dee8;
   --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
   --radius: 8px;
@@ -93,17 +96,22 @@ textarea:disabled {
   min-width: 0;
 }
 
-.brand-mark {
-  display: inline-grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0;
+.brand-logo {
+  display: block;
+  width: 169px;
+  height: 21px;
+  flex: 0 0 auto;
+}
+
+.auth-card .brand-logo {
+  width: 169px;
+  height: 21px;
+}
+
+.brand-copy {
+  min-width: 0;
+  border-left: 1px solid var(--border);
+  padding-left: 10px;
 }
 
 .brand h1 {
@@ -117,11 +125,12 @@ textarea:disabled {
   white-space: nowrap;
 }
 
-.brand span {
+.brand-copy span {
   display: block;
   margin-top: 1px;
   color: var(--text-muted);
   font-size: 11px;
+  font-weight: 550;
 }
 
 .search-wrap {
@@ -598,6 +607,106 @@ textarea:disabled {
   font-weight: 750;
 }
 
+.article-source-section {
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+
+.article-source-header,
+.raw-source-header,
+.raw-source-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.article-source-header,
+.raw-source-header {
+  justify-content: space-between;
+}
+
+.article-source-header {
+  margin-bottom: 14px;
+}
+
+.article-source-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 19px;
+}
+
+.article-source-header p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.raw-source-list {
+  display: grid;
+  gap: 10px;
+}
+
+.raw-source-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.raw-source-header {
+  padding: 13px 14px;
+}
+
+.raw-source-title {
+  min-width: 0;
+}
+
+.raw-source-title strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.raw-source-title span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.raw-source-actions {
+  flex: 0 0 auto;
+}
+
+.raw-source-body {
+  max-height: 70vh;
+  overflow: auto;
+  border-top: 1px solid var(--border);
+  background: var(--surface-muted);
+  padding: 18px;
+}
+
+.raw-source-body[hidden] {
+  display: none;
+}
+
+.raw-source-content {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.raw-source-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 14px auto;
+  border-radius: var(--radius);
+}
+
 .empty-state,
 .loading-state,
 .error-state {
@@ -707,14 +816,140 @@ textarea:disabled {
   -webkit-line-clamp: 3;
 }
 
-.score-pill {
+.source-relation {
   flex: 0 0 auto;
   border-radius: 999px;
   background: var(--teal-soft);
   color: var(--teal);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.citation-ref {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  border: 1px solid rgba(124, 58, 237, 0.24);
+  border-radius: 999px;
+  background: #f5f3ff;
+  color: var(--violet);
+  padding: 0 6px;
+  font-size: 0.78em;
+  font-weight: 760;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: 0.08em;
+}
+
+.citation-ref:hover,
+.citation-ref:focus {
+  border-color: rgba(124, 58, 237, 0.5);
+  background: #ede9fe;
+  outline: none;
+}
+
+.chat-evidence-block {
+  display: grid;
+  gap: 8px;
+}
+
+.chat-evidence-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.citation-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 10px;
+  transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.citation-card.active {
+  border-color: rgba(124, 58, 237, 0.58);
+  background: #fbfaff;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.11);
+}
+
+.citation-card-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.citation-id {
+  display: inline-grid;
+  min-width: 28px;
+  min-height: 24px;
+  place-items: center;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: var(--violet);
   padding: 2px 7px;
   font-size: 11px;
-  font-weight: 750;
+  font-weight: 800;
+}
+
+.citation-title {
+  min-width: 0;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.citation-title strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.citation-meta {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.citation-snippet {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.citation-pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.citation-page {
+  border: 0;
+  border-radius: 6px;
+  background: var(--surface-muted);
+  color: var(--accent);
+  padding: 4px 7px;
+  font-size: 10.5px;
+  font-weight: 720;
+}
+
+.citation-page:hover {
+  background: var(--accent-soft);
 }
 
 .graph-layout {
@@ -816,9 +1051,15 @@ textarea:disabled {
   stroke-linejoin: round;
 }
 
+.graph-node .compact-node-label,
+.graph-node .dense-node-label {
+  paint-order: normal;
+  stroke: none;
+}
+
 .chat-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr);
   height: 100%;
   min-height: 0;
 }
@@ -946,6 +1187,409 @@ textarea:disabled {
   color: white;
 }
 
+.chat-answer[hidden],
+.chat-activity[hidden] {
+  display: none;
+}
+
+.chat-answer-label {
+  margin: 10px 0 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.chat-msg.user .chat-answer-label {
+  display: none;
+}
+
+.chat-msg.user .chat-answer-label + .chat-bubble {
+  margin-top: 0;
+}
+
+.chat-activity {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.chat-activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface-muted);
+  padding: 10px 12px;
+}
+
+.chat-activity-heading,
+.chat-activity-meta,
+.chat-activity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-activity-controls {
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.chat-activity-heading {
+  min-width: 0;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.chat-activity-icon {
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.chat-activity-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.chat-activity.pending .chat-activity-icon svg {
+  animation: spin 1s linear infinite;
+}
+
+.chat-activity.complete .chat-activity-icon {
+  color: var(--teal);
+}
+
+.chat-activity.failed .chat-activity-icon {
+  color: var(--danger);
+}
+
+.chat-activity-meta {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.chat-map-fullscreen {
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+}
+
+.chat-map-fullscreen svg {
+  width: 14px;
+  height: 14px;
+}
+
+.chat-map-source-toggle {
+  min-height: 30px;
+  padding: 5px 8px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.chat-map-source-toggle svg {
+  width: 13px;
+  height: 13px;
+}
+
+.chat-tool-view-toggle {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.chat-tool-view-button {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.chat-tool-view-button:last-child {
+  border-right: 0;
+}
+
+.chat-tool-view-button:hover,
+.chat-tool-view-button.active {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.chat-tool-view-button.active {
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.chat-tool-view-button svg {
+  width: 12px;
+  height: 12px;
+}
+
+.chat-tool-panel[hidden] {
+  display: none;
+}
+
+[data-diagram-control][hidden] {
+  display: none;
+}
+
+.chat-activity-state {
+  font-weight: 700;
+}
+
+.chat-activity.pending .chat-activity-state {
+  color: var(--accent);
+}
+
+.chat-activity.complete .chat-activity-state {
+  color: var(--teal);
+}
+
+.chat-activity.failed .chat-activity-state {
+  color: var(--danger);
+}
+
+.chat-activity-detail {
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.tool-tree-wrap {
+  max-height: 380px;
+  overflow: auto;
+  border-top: 1px solid var(--border);
+  background:
+    linear-gradient(rgba(241, 245, 249, 0.72) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(241, 245, 249, 0.72) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.tool-tree {
+  display: block;
+  min-width: 100%;
+}
+
+.tool-steps-wrap {
+  max-height: 420px;
+  overflow: auto;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.tool-step-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.tool-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 8px;
+  padding: 11px 13px;
+}
+
+.tool-step + .tool-step {
+  border-top: 1px solid var(--border);
+}
+
+.tool-step-marker {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+.tool-step-marker svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tool-step-body {
+  min-width: 0;
+}
+
+.tool-step-header {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tool-step-title {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.tool-step-number {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.tool-step-details {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.tool-step.search .tool-step-details {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface-muted);
+  padding: 8px 9px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10.5px;
+}
+
+.tool-step-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.tool-step-page {
+  border: 0;
+  border-radius: 6px;
+  background: var(--surface-muted);
+  color: var(--accent);
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tool-step-page:hover {
+  background: var(--accent-soft);
+}
+
+.tool-step-empty {
+  color: var(--text-muted);
+  padding: 18px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.tool-tree-link {
+  fill: none;
+  stroke: #a8b4c5;
+  stroke-width: 1.4;
+}
+
+.tool-tree-node {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tool-tree-node.root {
+  cursor: default;
+}
+
+.tool-tree-node rect {
+  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.08));
+}
+
+.tool-tree-node-title {
+  fill: #172033;
+  font-size: 10.5px;
+  font-weight: 750;
+  pointer-events: none;
+}
+
+.tool-tree-node-meta {
+  fill: #64748b;
+  font-size: 9px;
+  font-weight: 650;
+  pointer-events: none;
+}
+
+.tool-tree-node.active rect {
+  animation: tree-node-pulse 900ms ease-out;
+}
+
+.chat-activity.map-fullscreen {
+  position: fixed;
+  z-index: 110;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.chat-activity.map-fullscreen .chat-activity-header {
+  min-height: 58px;
+  padding: 12px 18px;
+}
+
+.chat-activity.map-fullscreen .chat-activity-detail {
+  padding: 10px 18px;
+}
+
+.chat-activity.map-fullscreen .chat-tool-diagram {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.chat-activity.map-fullscreen .tool-tree-wrap {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
+@keyframes tree-node-pulse {
+  0% { filter: drop-shadow(0 0 0 rgba(165, 0, 52, 0)); }
+  35% { filter: drop-shadow(0 0 7px rgba(165, 0, 52, 0.32)); }
+  100% { filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.08)); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .chat-bubble p {
   margin: 0 0 0.8em;
 }
@@ -979,13 +1623,16 @@ textarea:disabled {
 .chat-input {
   min-height: 44px;
   max-height: 130px;
-  resize: vertical;
+  resize: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   padding: 10px 12px;
   outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .chat-input:focus {
@@ -1017,8 +1664,176 @@ textarea:disabled {
   height: 16px;
 }
 
+.chat-doc-backdrop {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: none;
+  background: rgba(15, 23, 42, 0.24);
+  backdrop-filter: blur(2px);
+}
+
+.chat-doc-backdrop.open {
+  display: block;
+}
+
 .chat-sources {
-  padding: 16px;
+  position: fixed;
+  z-index: 130;
+  inset: 0 0 0 auto;
+  display: none;
+  width: clamp(440px, 46vw, 720px);
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: -18px 0 48px rgba(15, 23, 42, 0.2);
+  padding: 0;
+}
+
+.chat-sources.open {
+  display: flex;
+  animation: chat-doc-enter 180ms ease-out;
+}
+
+.chat-sources.collapsed {
+  width: 58px;
+  box-shadow: -8px 0 24px rgba(15, 23, 42, 0.12);
+}
+
+.chat-doc-header {
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 14px 16px;
+}
+
+.chat-doc-heading {
+  min-width: 0;
+}
+
+.chat-doc-eyebrow {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.chat-doc-title {
+  display: block;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 780;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-doc-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+}
+
+.chat-doc-jump {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+.chat-doc-jump:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.chat-doc-close,
+.chat-doc-collapse,
+.chat-doc-expand {
+  display: inline-flex;
+}
+
+.chat-doc-expand {
+  display: none;
+}
+
+.chat-doc-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 18px 18px 30px;
+}
+
+.chat-doc-empty {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.chat-doc-empty div {
+  max-width: 250px;
+}
+
+.chat-doc-empty svg {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 8px;
+}
+
+.chat-doc-empty p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.chat-doc-article .article-kicker {
+  margin-bottom: 8px;
+}
+
+.chat-doc-article h1 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.chat-doc-article .article-body {
+  font-size: 13px;
+  line-height: 1.72;
+}
+
+.chat-sources.collapsed .chat-doc-header {
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  border-bottom: 0;
+  padding: 10px;
+}
+
+.chat-sources.collapsed .chat-doc-heading,
+.chat-sources.collapsed .chat-doc-jump,
+.chat-sources.collapsed .chat-doc-collapse,
+.chat-sources.collapsed .chat-doc-content {
+  display: none;
+}
+
+.chat-sources.collapsed .chat-doc-actions {
+  flex-direction: column;
+}
+
+.chat-sources.collapsed .chat-doc-expand {
+  display: inline-flex;
+}
+
+@keyframes chat-doc-enter {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 .auth-overlay {
@@ -1087,15 +1902,161 @@ textarea:disabled {
 
 .app-error {
   display: none;
-  border-bottom: 1px solid #fecaca;
-  background: #fff1f2;
-  color: #9f1239;
+  border-bottom: 1px solid var(--danger-border);
+  background: var(--danger-soft);
+  color: var(--danger);
   padding: 9px 18px;
   font-size: 13px;
 }
 
 .app-error.visible {
   display: block;
+}
+
+.diagnostics-page {
+  height: 100%;
+  overflow: auto;
+  padding: 32px;
+}
+
+.diagnostics-shell {
+  width: min(960px, 100%);
+  margin: 0 auto;
+}
+
+.diagnostics-header,
+.diagnostic-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.diagnostics-header {
+  margin-bottom: 22px;
+}
+
+.diagnostics-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.diagnostics-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.diagnostics-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.diagnostics-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+}
+
+.diagnostics-header p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.diagnostic-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--teal);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.diagnostic-live::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  content: "";
+}
+
+.diagnostic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.diagnostic-stat,
+.diagnostic-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.diagnostic-stat {
+  padding: 14px 16px;
+}
+
+.diagnostic-stat-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.diagnostic-stat strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.diagnostic-card {
+  overflow: hidden;
+}
+
+.diagnostic-card-header {
+  border-bottom: 1px solid var(--border);
+  padding: 13px 16px;
+}
+
+.diagnostic-card-header h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.diagnostic-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.diagnostic-log {
+  min-height: 300px;
+  max-height: calc(100vh - 330px);
+  overflow: auto;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  padding: 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.75;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 1240px) {
@@ -1112,12 +2073,13 @@ textarea:disabled {
     display: none;
   }
 
-  .chat-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
+}
 
-  .chat-sources {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .tool-tree-node.active rect,
+  .chat-sources.open,
+  .chat-activity.pending .chat-activity-icon svg {
+    animation: none;
   }
 }
 
@@ -1152,6 +2114,19 @@ textarea:disabled {
     padding: 20px 18px 34px;
   }
 
+  .raw-source-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .raw-source-actions {
+    width: 100%;
+  }
+
+  .raw-source-actions .icon-button {
+    flex: 1;
+  }
+
   .graph-main {
     min-height: 560px;
   }
@@ -1168,13 +2143,64 @@ textarea:disabled {
   .chat-msg.user .chat-content {
     grid-column: 1;
   }
+
+  .diagnostics-page {
+    padding: 22px 18px 34px;
+  }
+
+  .diagnostics-header {
+    align-items: flex-start;
+  }
+
+  .diagnostic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .diagnostic-log {
+    max-height: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .chat-sources.open:not(.collapsed) {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 520px) {
+  .view-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .view-tab {
+    flex: 1;
+    padding: 5px 8px;
+  }
+
+  .view-tab span {
+    display: none;
+  }
+
+  .chat-map-source-toggle {
+    width: 30px;
+    padding: 0;
+  }
+
+  .chat-map-source-toggle span {
+    display: none;
+  }
+
+  .chat-tool-view-button span {
+    display: none;
+  }
 }
 </style>
 </head>
 <body>
 <div id="token-overlay" class="auth-overlay" aria-modal="true" role="dialog">
   <div class="auth-card">
-    <span class="brand-mark">LG</span>
+    <img class="brand-logo" src="/lges-logo.svg" alt="LG Energy Solution">
     <h2>Access required</h2>
     <p>Enter the wiki token to load pages, graph data, and chat sources.</p>
     <input id="token-input" type="password" placeholder="Access token" autocomplete="current-password">
@@ -1189,9 +2215,9 @@ textarea:disabled {
 <div class="app-shell">
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark">LG</span>
-      <div>
-        <h1>LG Energy Solution Wiki</h1>
+      <img class="brand-logo" src="/lges-logo.svg" alt="LG Energy Solution">
+      <div class="brand-copy">
+        <h1>Wiki</h1>
         <span id="brand-subtitle">Battery knowledge base</span>
       </div>
     </div>
@@ -1218,6 +2244,10 @@ textarea:disabled {
       <button class="view-tab" type="button" data-view="chat" title="Ask the wiki assistant">
         <i data-lucide="messages-square"></i>
         <span>Chat</span>
+      </button>
+      <button class="view-tab" type="button" data-view="diagnostics" title="View application diagnostics">
+        <i data-lucide="activity"></i>
+        <span>Diagnostics</span>
       </button>
     </nav>
   </header>
@@ -1354,14 +2384,85 @@ textarea:disabled {
           </form>
         </div>
 
-        <aside class="chat-sources">
-          <div class="chat-source-header">
-            <h2>Latest Sources</h2>
-            <span id="chat-source-count" class="count-label">0</span>
+        <div id="chat-doc-backdrop" class="chat-doc-backdrop"></div>
+        <aside id="chat-doc-panel" class="chat-sources" aria-label="Chat document preview" aria-hidden="true">
+          <div class="chat-source-header chat-doc-header">
+            <div class="chat-doc-heading">
+              <span class="chat-doc-eyebrow">Document preview</span>
+              <strong id="chat-doc-title" class="chat-doc-title">Select a linked page</strong>
+            </div>
+            <div class="chat-doc-actions">
+              <button id="chat-doc-browse" class="primary-button chat-doc-jump" type="button" disabled>
+                <i data-lucide="panel-right-open"></i>
+                <span>Jump to Browse</span>
+              </button>
+              <button id="chat-doc-collapse" class="icon-button chat-doc-collapse" type="button" title="Collapse document preview">
+                <i data-lucide="panel-right-close"></i>
+              </button>
+              <button id="chat-doc-expand" class="icon-button chat-doc-expand" type="button" title="Expand document preview">
+                <i data-lucide="panel-left-open"></i>
+              </button>
+              <button id="chat-doc-close" class="icon-button chat-doc-close" type="button" title="Close document preview">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
           </div>
-          <div id="chat-source-list" class="source-card-list"></div>
+          <div id="chat-doc-content" class="chat-doc-content">
+            <div class="chat-doc-empty">
+              <div>
+                <i data-lucide="file-text"></i>
+                <p>Open a page from the exploration tree, answer, or source cards to read it without leaving chat.</p>
+              </div>
+            </div>
+          </div>
         </aside>
       </div>
+    </section>
+
+    <section id="diagnostics-view" class="view" aria-label="Application diagnostics">
+      <main class="diagnostics-page">
+        <div class="diagnostics-shell">
+          <header class="diagnostics-header">
+            <div class="diagnostics-title">
+              <span class="diagnostics-icon"><i data-lucide="activity"></i></span>
+              <div>
+                <h2>Application Diagnostics</h2>
+                <p>Runtime status and recent client-side events.</p>
+              </div>
+            </div>
+            <span class="diagnostic-live">Live session</span>
+          </header>
+
+          <div class="diagnostic-grid">
+            <div class="diagnostic-stat">
+              <span class="diagnostic-stat-label">Access</span>
+              <strong id="diagnostic-auth">Checking access</strong>
+            </div>
+            <div class="diagnostic-stat">
+              <span class="diagnostic-stat-label">Wiki pages</span>
+              <strong id="diagnostic-pages">Not loaded</strong>
+            </div>
+            <div class="diagnostic-stat">
+              <span class="diagnostic-stat-label">Graph links</span>
+              <strong id="diagnostic-links">Not loaded</strong>
+            </div>
+          </div>
+
+          <section class="diagnostic-card">
+            <div class="diagnostic-card-header">
+              <h3>Event log</h3>
+              <div class="diagnostic-card-actions">
+                <span id="diagnostic-count" class="count-label">0 events</span>
+                <button id="diagnostic-clear" class="icon-button" type="button">
+                  <i data-lucide="trash-2"></i>
+                  <span>Clear</span>
+                </button>
+              </div>
+            </div>
+            <div id="app-diagnostic" class="diagnostic-log" role="log" aria-live="polite"></div>
+          </section>
+        </div>
+      </main>
     </section>
   </div>
 </div>
@@ -1395,13 +2496,16 @@ function urlToken() {
 let graphData = null;
 let pageIndex = new Map();
 let pageCache = new Map();
+let sourceCache = new Map();
 let currentView = "browse";
 let currentNode = null;
 let activeCategory = "all";
 let searchTerm = "";
 let filteredPageCache = [];
-let chatSources = [];
 let graphViews = {};
+let diagnosticEntries = [];
+
+const DIAGNOSTIC_LIMIT = 200;
 
 const graphState = {
   mode: "focus",
@@ -1413,11 +2517,32 @@ function $(id) {
   return document.getElementById(id);
 }
 
+function dbg(msg) {
+  const entry = new Date().toISOString().slice(11, 19) + "  " + String(msg);
+  diagnosticEntries.push(entry);
+  diagnosticEntries = diagnosticEntries.slice(-DIAGNOSTIC_LIMIT);
+
+  const log = $("app-diagnostic");
+  const count = $("diagnostic-count");
+  if (log) {
+    log.textContent = diagnosticEntries.join("\n");
+    log.scrollTop = log.scrollHeight;
+  }
+  if (count) {
+    count.textContent = `${diagnosticEntries.length} ${diagnosticEntries.length === 1 ? "event" : "events"}`;
+  }
+}
+dbg("SPA loaded");
+
 function refreshIcons() {
   if (window.lucide) {
     window.lucide.createIcons();
   }
 }
+
+window.onerror = function(msg, url, line, col, err) {
+  dbg("JS ERROR: " + msg + " at line " + line + ":" + col);
+};
 
 function apiFetch(url, opts) {
   const options = opts || {};
@@ -1451,6 +2576,7 @@ function setAppError(message) {
 function setStatus(text, iconName) {
   const status = $("token-status");
   status.innerHTML = `<i data-lucide="${iconName || "shield"}"></i><span>${escapeHTML(text)}</span>`;
+  $("diagnostic-auth").textContent = text;
   refreshIcons();
 }
 
@@ -1462,19 +2588,27 @@ function showTokenOverlay(show) {
 }
 
 async function bootstrapAuth() {
+  dbg("bootstrapAuth() called, token=" + (token ? token.slice(0,8)+"..." : "null"));
   setStatus("Checking access", "shield");
 
   if (token) {
     try {
+      dbg("bootstrapAuth: verifying existing token...");
       const res = await apiFetch("/api/verify-token");
+      dbg("bootstrapAuth: verify response=" + res.status);
       if (res.ok) {
         setStatus("Authenticated", "shield-check");
         showTokenOverlay(false);
+        dbg("bootstrapAuth: token valid, calling initApp()");
         await initApp();
+        dbg("bootstrapAuth: initApp() completed");
         return;
+      } else {
+        dbg("bootstrapAuth: token invalid/mismatch, status=" + res.status);
       }
     } catch (error) {
       // Network error but token may still be valid — try again
+      dbg("bootstrapAuth: verify threw: " + error.message);
       setAppError("Could not verify stored token. Check that the server is running.");
     }
     // Token failed — show overlay but don't delete yet
@@ -1482,19 +2616,25 @@ async function bootstrapAuth() {
   }
 
   try {
+    dbg("bootstrapAuth: trying anonymous...");
     const res = await fetch("/api/verify-token");
+    dbg("bootstrapAuth: anonymous verify=" + res.status);
     if (res.ok) {
       setStatus("Open access", "unlock");
       showTokenOverlay(false);
+      dbg("bootstrapAuth: open access, calling initApp()");
       await initApp();
+      dbg("bootstrapAuth: initApp() completed (open)");
       return;
     }
   } catch (error) {
     setAppError("Could not reach the wiki server.");
+    dbg("bootstrapAuth: anonymous threw: " + error.message);
   }
 
   setStatus("Token required", "lock");
   showTokenOverlay(true);
+  dbg("bootstrapAuth: no valid token, showing overlay");
 }
 
 async function submitToken() {
@@ -1536,8 +2676,10 @@ async function submitToken() {
 }
 
 async function initApp() {
+  dbg("initApp() starting");
   setAppError("");
   await loadGraph();
+  dbg("initApp: graph loaded, binding events");
   bindStaticEvents();
   renderCategoryList();
   renderGraphTypeToggles();
@@ -1545,12 +2687,18 @@ async function initApp() {
   renderSidebar();
   $("global-search").disabled = false;
 
-  const hashSlug = window.location.hash ? window.location.hash.slice(1) : "";
+  const hashValue = window.location.hash ? window.location.hash.slice(1) : "";
+  const initialView = ["graph", "chat", "diagnostics"].includes(hashValue) ? hashValue : "browse";
+  const hashSlug = initialView === "browse" ? hashValue : "";
   const initialSlug = pageIndex.has(hashSlug) ? hashSlug : (pageIndex.has("lg-energy-solution") ? "lg-energy-solution" : graphData.nodes[0]?.slug);
   if (initialSlug) {
     await selectPage(initialSlug, { view: "browse", updateHash: false });
   }
   renderFullGraph();
+  if (initialView !== "browse") {
+    switchView(initialView, { updateHash: false });
+  }
+  dbg("initApp() complete — " + graphData.nodes.length + " nodes loaded");
 }
 
 async function loadGraph() {
@@ -1578,7 +2726,8 @@ async function loadGraph() {
   }));
   graphData.links = graphData.links || [];
   pageIndex = new Map(graphData.nodes.map((node) => [node.slug, node]));
-  $("brand-subtitle").textContent = `${graphData.nodes.length} pages, ${graphData.links.length} links`;
+  $("diagnostic-pages").textContent = String(graphData.nodes.length);
+  $("diagnostic-links").textContent = String(graphData.links.length);
 }
 
 function bindStaticEvents() {
@@ -1609,6 +2758,12 @@ function bindStaticEvents() {
     button.addEventListener("click", () => switchView(button.dataset.view));
   });
 
+  $("diagnostic-clear").addEventListener("click", () => {
+    diagnosticEntries = [];
+    $("app-diagnostic").textContent = "";
+    $("diagnostic-count").textContent = "0 events";
+  });
+
   $("context-reset").addEventListener("click", () => resetGraph("context-graph-svg"));
   $("full-graph-reset").addEventListener("click", () => resetGraph("full-graph-svg"));
 
@@ -1635,6 +2790,17 @@ function bindStaticEvents() {
       sendChat();
     }
   });
+  $("chat-doc-browse").addEventListener("click", () => {
+    if (!chatPreviewSlug) {
+      return;
+    }
+    closeChatDocument();
+    selectPage(chatPreviewSlug, { view: "browse" });
+  });
+  $("chat-doc-collapse").addEventListener("click", () => setChatDocumentCollapsed(true));
+  $("chat-doc-expand").addEventListener("click", () => setChatDocumentCollapsed(false));
+  $("chat-doc-close").addEventListener("click", closeChatDocument);
+  $("chat-doc-backdrop").addEventListener("click", closeChatDocument);
   document.querySelectorAll("[data-prompt]").forEach((button) => {
     button.addEventListener("click", () => {
       $("chat-input").value = button.dataset.prompt;
@@ -1645,10 +2811,28 @@ function bindStaticEvents() {
   window.addEventListener("resize", debounce(() => {
     renderContextGraph();
     renderFullGraph();
+    const fullscreenMap = document.querySelector(".chat-activity.map-fullscreen")?.closest(".chat-msg");
+    if (fullscreenMap?._toolTree) {
+      renderChatToolTree(fullscreenMap);
+    }
   }, 180));
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+    if ($("chat-doc-panel").classList.contains("open")) {
+      closeChatDocument();
+      return;
+    }
+    const fullscreenMap = document.querySelector(".chat-activity.map-fullscreen")?.closest(".chat-msg");
+    if (fullscreenMap) {
+      setChatToolTreeFullscreen(fullscreenMap, false);
+    }
+  });
 }
 
-function switchView(view) {
+function switchView(view, options) {
+  const opts = options || {};
   currentView = view;
   document.querySelectorAll(".view-tab").forEach((button) => {
     button.classList.toggle("active", button.dataset.view === view);
@@ -1661,6 +2845,10 @@ function switchView(view) {
   }
   if (view === "chat") {
     $("chat-input").focus();
+  }
+  if (opts.updateHash !== false) {
+    const hash = view === "browse" && currentNode ? currentNode.slug : view;
+    history.replaceState(null, "", `#${encodeURIComponent(hash)}`);
   }
   refreshIcons();
 }
@@ -1802,7 +2990,7 @@ async function selectPage(slug, options) {
   const node = pageIndex.get(slug) || { slug, title: slug, type: "page", tags: [] };
   currentNode = node;
   if (opts.view) {
-    switchView(opts.view);
+    switchView(opts.view, { updateHash: false });
   }
   if (opts.updateHash !== false) {
     history.replaceState(null, "", `#${encodeURIComponent(slug)}`);
@@ -1816,6 +3004,7 @@ async function selectPage(slug, options) {
     renderRelated(raw, node);
     renderContextGraph();
     renderGraphHover(node);
+    loadArticleSources(slug);
   } catch (error) {
     $("article").innerHTML = `
       <div class="error-state">
@@ -1856,6 +3045,20 @@ async function fetchPage(slug) {
   const raw = await res.text();
   pageCache.set(slug, raw);
   return raw;
+}
+
+async function fetchPageSources(slug) {
+  if (sourceCache.has(slug)) {
+    return sourceCache.get(slug);
+  }
+  const res = await apiFetch(`/api/page-sources/${encodeURIComponent(slug)}`);
+  if (!res.ok) {
+    throw new Error(`Source load failed: ${res.status}`);
+  }
+  const data = await res.json();
+  const sources = Array.isArray(data.sources) ? data.sources : [];
+  sourceCache.set(slug, sources);
+  return sources;
 }
 
 function parseFrontmatter(raw) {
@@ -1926,8 +3129,106 @@ function renderArticle(raw, node) {
       </div>
     </header>
     <div class="article-body">${html}</div>
+    <section id="article-source-section" class="article-source-section">
+      <div class="article-source-header">
+        <div>
+          <h2>Korean source blogs</h2>
+          <p>Full original posts used to compile this wiki page.</p>
+        </div>
+        <span class="count-label">${sourceCount} source${sourceCount === 1 ? "" : "s"}</span>
+      </div>
+      <div id="article-source-list" class="raw-source-list">
+        <div class="graph-help">Loading Korean sources...</div>
+      </div>
+    </section>
   `;
   bindWikiLinks($("article"));
+  refreshIcons();
+}
+
+async function loadArticleSources(slug) {
+  try {
+    const sources = await fetchPageSources(slug);
+    if (currentNode?.slug !== slug) {
+      return;
+    }
+    renderArticleSources(sources);
+  } catch (error) {
+    if (currentNode?.slug === slug && $("article-source-list")) {
+      $("article-source-list").innerHTML = `<div class="graph-help">Could not load the Korean source blogs.</div>`;
+    }
+  }
+}
+
+function safeExternalURL(value) {
+  try {
+    const url = new URL(String(value || ""));
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function renderArticleSources(sources) {
+  const list = $("article-source-list");
+  if (!list) {
+    return;
+  }
+  if (!sources.length) {
+    list.innerHTML = `<div class="graph-help">No corresponding Korean source was found.</div>`;
+    return;
+  }
+
+  list.innerHTML = sources.map((source, index) => {
+    const url = safeExternalURL(source.url);
+    const date = String(source.date || "").slice(0, 10);
+    const context = [date, source.category].filter(Boolean).join(" · ");
+    return `
+      <article class="raw-source-card">
+        <header class="raw-source-header">
+          <div class="raw-source-title">
+            <strong lang="ko">${escapeHTML(source.title || "Korean source")}</strong>
+            <span>${escapeHTML(context || "LG Energy Solution official blog")}</span>
+          </div>
+          <div class="raw-source-actions">
+            ${url ? `
+              <a class="icon-button" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="external-link"></i>
+                <span>Original blog</span>
+              </a>
+            ` : ""}
+            <button class="icon-button" type="button" data-raw-source="${index}">
+              <i data-lucide="languages"></i>
+              <span>Read Korean</span>
+            </button>
+          </div>
+        </header>
+        <div class="raw-source-body" data-raw-source-body="${index}" lang="ko" hidden></div>
+      </article>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-raw-source]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.rawSource);
+      const source = sources[index];
+      const body = list.querySelector(`[data-raw-source-body="${index}"]`);
+      const opening = body.hidden;
+      if (opening && !body.dataset.rendered) {
+        body.innerHTML = `<div class="article-body raw-source-content">${renderMarkdown(source.body || "")}</div>`;
+        body.querySelectorAll("a").forEach((link) => {
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        });
+        body.dataset.rendered = "true";
+      }
+      body.hidden = !opening;
+      button.querySelector("span").textContent = opening ? "Hide Korean" : "Read Korean";
+      button.querySelector("svg")?.remove();
+      button.insertAdjacentHTML("afterbegin", `<i data-lucide="${opening ? "chevron-up" : "languages"}"></i>`);
+      refreshIcons();
+    });
+  });
   refreshIcons();
 }
 
@@ -1969,18 +3270,36 @@ function renderMarkdown(markdown) {
   if (window.marked && window.DOMPurify) {
     window.marked.setOptions({ gfm: true, breaks: false });
     return window.DOMPurify.sanitize(window.marked.parse(linked), {
-      ADD_ATTR: ["data-wikilink", "target"],
+      ADD_ATTR: ["data-wikilink", "data-citation-id", "target"],
     });
   }
 
   return `<p>${escapeHTML(linked).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")}</p>`;
 }
 
-function bindWikiLinks(root) {
+function renderAnswerMarkdown(markdown, citations) {
+  const ids = new Set((citations || []).map((citation) => String(citation.id || "")));
+  const withCitations = String(markdown || "").replace(/\[(S\d+)\]/g, (match, id) => {
+    if (!ids.has(id)) {
+      return match;
+    }
+    return `<a href="#${escapeHTML(id)}" class="citation-ref" data-citation-id="${escapeHTML(id)}" title="Show evidence ${escapeHTML(id)}">${escapeHTML(id)}</a>`;
+  });
+  return renderMarkdown(withCitations);
+}
+
+function bindWikiLinks(root, onOpen) {
   root.querySelectorAll("[data-wikilink]").forEach((link) => {
     link.addEventListener("click", (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
       event.preventDefault();
-      selectPage(link.dataset.wikilink, { view: "browse" });
+      if (onOpen) {
+        onOpen(link.dataset.wikilink);
+      } else {
+        selectPage(link.dataset.wikilink, { view: "browse" });
+      }
     });
   });
 }
@@ -2049,16 +3368,26 @@ function renderRelated(raw, node) {
   refreshIcons();
 }
 
-function sourceCardHTML(node, score) {
+function sourceRelationLabel(relation) {
+  switch (relation) {
+    case "search": return "Search match";
+    case "default": return "Baseline context";
+    case "follow": return "Followed link";
+    default: return "";
+  }
+}
+
+function sourceCardHTML(node, source) {
   if (!node) {
     return "";
   }
   const meta = typeMeta(node.type);
+  const relation = sourceRelationLabel(source?.relation);
   return `
     <button class="source-card" type="button" data-source-page="${escapeHTML(node.slug)}">
       <span class="source-card-title">
         <span>${escapeHTML(node.title)}</span>
-        ${score != null ? `<span class="score-pill">${escapeHTML(score)}</span>` : ""}
+        ${relation ? `<span class="source-relation" title="How this page was selected">${escapeHTML(relation)}</span>` : ""}
       </span>
       <span class="tag-row">
         <span class="type-chip" style="color:${meta.color};background:${typeTint(node.type)}">${escapeHTML(meta.label)}</span>
@@ -2067,6 +3396,106 @@ function sourceCardHTML(node, score) {
       <span class="source-card-summary">${escapeHTML(cleanSummary(node.summary, node.title))}</span>
     </button>
   `;
+}
+
+function citationCardHTML(citation) {
+  const id = String(citation?.id || "");
+  if (!id) {
+    return "";
+  }
+  const url = safeExternalURL(citation.url);
+  const date = String(citation.date || "").slice(0, 10);
+  const context = [date, citation.category].filter(Boolean).join(" · ");
+  const pages = Array.isArray(citation.pages) ? citation.pages : [];
+  return `
+    <article class="citation-card" data-citation-card="${escapeHTML(id)}">
+      <div class="citation-card-head">
+        <span class="citation-id">${escapeHTML(id)}</span>
+        <span class="citation-title">
+          <strong lang="ko">${escapeHTML(citation.title || "Primary source")}</strong>
+          <span class="citation-meta">${escapeHTML(context || citation.path || "LG Energy Solution official blog")}</span>
+        </span>
+        ${url ? `
+          <a class="icon-button" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" title="Open original source">
+            <i data-lucide="external-link"></i>
+          </a>
+        ` : ""}
+      </div>
+      ${citation.snippet ? `<p class="citation-snippet" lang="ko">${escapeHTML(citation.snippet)}</p>` : ""}
+      ${pages.length ? `
+        <div class="citation-pages">
+          ${pages.slice(0, 4).map((page) => `
+            <button class="citation-page" type="button" data-citation-page="${escapeHTML(page.slug)}">
+              ${escapeHTML(page.title || page.slug)}
+            </button>
+          `).join("")}
+        </div>
+      ` : ""}
+    </article>
+  `;
+}
+
+function findCitationCard(row, id) {
+  return Array.from(row.querySelectorAll("[data-citation-card]"))
+    .find((card) => card.dataset.citationCard === id);
+}
+
+function bindCitationRefs(row) {
+  row.querySelectorAll("[data-citation-id]").forEach((ref) => {
+    ref.addEventListener("click", (event) => {
+      event.preventDefault();
+      const card = findCitationCard(row, ref.dataset.citationId);
+      if (!card) {
+        return;
+      }
+      card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      card.classList.add("active");
+      window.setTimeout(() => card.classList.remove("active"), 1600);
+    });
+  });
+  row.querySelectorAll("[data-citation-page]").forEach((button) => {
+    button.addEventListener("click", () => openChatDocument(button.dataset.citationPage));
+  });
+}
+
+function renderChatEvidence(row, pages, citations) {
+  const sourceBox = row.querySelector(".chat-sources-inline");
+  const evidence = Array.isArray(citations) ? citations : [];
+  const pageRefs = Array.isArray(pages) ? pages : [];
+  const blocks = [];
+
+  if (evidence.length) {
+    blocks.push(`
+      <section class="chat-evidence-block" aria-label="Primary source evidence">
+        <div class="chat-evidence-header">
+          <span>Primary Evidence</span>
+          <span>${evidence.length} source${evidence.length === 1 ? "" : "s"}</span>
+        </div>
+        ${evidence.map((citation) => citationCardHTML(citation)).join("")}
+      </section>
+    `);
+  }
+
+  if (pageRefs.length) {
+    blocks.push(`
+      <section class="chat-evidence-block" aria-label="Retrieved wiki pages">
+        <div class="chat-evidence-header">
+          <span>Retrieved Pages</span>
+          <span>${pageRefs.length} page${pageRefs.length === 1 ? "" : "s"}</span>
+        </div>
+        ${pageRefs.slice(0, 4).map((source) => {
+          const node = pageIndex.get(source.slug) || { slug: source.slug, title: source.title, summary: "", type: "page", tags: [] };
+          return sourceCardHTML(node, source);
+        }).join("")}
+      </section>
+    `);
+  }
+
+  sourceBox.innerHTML = blocks.join("");
+  sourceBox.querySelectorAll("[data-source-page]").forEach((button) => {
+    button.addEventListener("click", () => openChatDocument(button.dataset.sourcePage));
+  });
+  bindCitationRefs(row);
 }
 
 function typeTint(type) {
@@ -2185,11 +3614,13 @@ function renderContextGraph() {
   if (!graphData || !currentNode) {
     return;
   }
+  const graphHeight = $("context-graph-svg").clientHeight;
+  const maxNeighbors = graphHeight < 270 ? 6 : graphHeight < 300 ? 9 : graphHeight < 360 ? 12 : 18;
   renderGraph("context-graph-svg", {
     compact: true,
     mode: "focus",
     focusSlug: currentNode.slug,
-    maxNeighbors: 18,
+    maxNeighbors,
     maxLinks: 70,
     types: new Set(TYPE_ORDER),
   });
@@ -2230,6 +3661,9 @@ function renderGraph(svgId, options) {
 
   const width = Math.max(svgEl.clientWidth || svgEl.parentElement.clientWidth, 260);
   const height = Math.max(svgEl.clientHeight || svgEl.parentElement.clientHeight, compact ? 220 : 520);
+  const denseLabels = !compact && subset.nodes.length > 55;
+  const layoutWidth = denseLabels ? Math.max(width, 1100) : width;
+  const layoutHeight = denseLabels ? Math.max(height, 700) : height;
   svgEl.innerHTML = "";
 
   const svg = d3.select(svgEl);
@@ -2241,6 +3675,12 @@ function renderGraph(svgId, options) {
     .scaleExtent([0.25, 4])
     .on("zoom", (event) => root.attr("transform", event.transform));
   svg.call(zoom);
+  const initialTransform = denseLabels
+    ? graphFitTransform(width, height, layoutWidth, layoutHeight)
+    : d3.zoomIdentity;
+  if (denseLabels) {
+    svg.call(zoom.transform, initialTransform);
+  }
 
   const degree = new Map();
   subset.links.forEach((link) => {
@@ -2249,10 +3689,17 @@ function renderGraph(svgId, options) {
   });
 
   const simulation = d3.forceSimulation(subset.nodes)
-    .force("link", d3.forceLink(subset.links).id((d) => d.slug).distance(compact ? 54 : 82).strength(compact ? 0.34 : 0.26))
-    .force("charge", d3.forceManyBody().strength(compact ? -110 : -185))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide((d) => compact ? nodeRadius(d, degree) + 8 : nodeRadius(d, degree) + 13));
+    .force("link", d3.forceLink(subset.links)
+      .id((d) => d.slug)
+      .distance(compact ? 76 : denseLabels ? 105 : 82)
+      .strength(compact ? 0.34 : denseLabels ? 0.1 : 0.26))
+    .force("charge", d3.forceManyBody().strength(compact ? -145 : denseLabels ? -280 : -185))
+    .force("center", d3.forceCenter(layoutWidth / 2, layoutHeight / 2))
+    .force("collision", compact
+      ? forceRectNodeCollide(compactNodeWidth, 26, 6, 0.18, 1)
+      : denseLabels
+        ? forceRectNodeCollide(denseNodeWidth, 26, 7, 0.4, 3)
+        : d3.forceCollide((d) => nodeRadius(d, degree) + 13));
 
   const links = linkGroup.selectAll("line")
     .data(subset.links)
@@ -2284,38 +3731,104 @@ function renderGraph(svgId, options) {
       }))
     .on("mouseenter", (event, d) => {
       renderGraphHover(d);
-      d3.select(event.currentTarget).select("circle").attr("stroke-width", 3);
+      d3.select(event.currentTarget).select(".graph-node-shape").attr("stroke-width", 3);
     })
-    .on("mouseleave", (event) => {
-      d3.select(event.currentTarget).select("circle").attr("stroke-width", 1.6);
+    .on("mouseleave", (event, d) => {
+      d3.select(event.currentTarget)
+        .select(".graph-node-shape")
+        .attr("stroke-width", d.slug === currentNode?.slug ? 2.8 : denseLabels ? 1.4 : 1.6);
     })
     .on("click", (event, d) => {
       event.stopPropagation();
       selectPage(d.slug, { view: "browse" });
     });
 
-  nodes.append("circle")
-    .attr("r", (d) => nodeRadius(d, degree))
-    .attr("fill", (d) => typeMeta(d.type).color)
-    .attr("stroke", (d) => d.slug === currentNode?.slug ? "#0f172a" : "#ffffff")
-    .attr("stroke-width", (d) => d.slug === currentNode?.slug ? 2.8 : 1.6);
+  if (compact) {
+    nodes.append("rect")
+      .attr("class", "graph-node-shape")
+      .attr("x", (d) => -compactNodeWidth(d) / 2)
+      .attr("y", -13)
+      .attr("width", (d) => compactNodeWidth(d))
+      .attr("height", 26)
+      .attr("rx", 13)
+      .attr("fill", (d) => typeMeta(d.type).color)
+      .attr("stroke", (d) => d.slug === currentNode?.slug ? "#0f172a" : "#ffffff")
+      .attr("stroke-width", (d) => d.slug === currentNode?.slug ? 2.8 : 1.6);
+
+    nodes.append("text")
+      .attr("class", "compact-node-label")
+      .text((d) => compactNodeLabel(d))
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "central")
+      .attr("fill", "#ffffff")
+      .attr("font-size", 9.5)
+      .attr("font-weight", 700)
+      .attr("pointer-events", "none");
+  } else if (denseLabels) {
+    nodes.append("rect")
+      .attr("class", "graph-node-shape")
+      .attr("x", (d) => -denseNodeWidth(d) / 2)
+      .attr("y", -13)
+      .attr("width", (d) => denseNodeWidth(d))
+      .attr("height", 26)
+      .attr("rx", 7)
+      .attr("fill", "rgba(255, 255, 255, 0.94)")
+      .attr("stroke", (d) => d.slug === currentNode?.slug ? "#0f172a" : typeMeta(d.type).color)
+      .attr("stroke-width", (d) => d.slug === currentNode?.slug ? 2.8 : 1.4);
+
+    nodes.append("circle")
+      .attr("cx", (d) => -denseNodeWidth(d) / 2 + 11)
+      .attr("r", 4)
+      .attr("fill", (d) => typeMeta(d.type).color)
+      .attr("pointer-events", "none");
+
+    nodes.append("text")
+      .attr("class", "dense-node-label")
+      .text((d) => denseNodeLabel(d))
+      .attr("x", (d) => -denseNodeWidth(d) / 2 + 21)
+      .attr("dominant-baseline", "central")
+      .attr("fill", "#172033")
+      .attr("font-size", 10)
+      .attr("font-weight", (d) => d.slug === currentNode?.slug ? 800 : 650)
+      .attr("pointer-events", "none");
+  } else {
+    nodes.append("circle")
+      .attr("class", "graph-node-shape")
+      .attr("r", (d) => nodeRadius(d, degree))
+      .attr("fill", (d) => typeMeta(d.type).color)
+      .attr("stroke", (d) => d.slug === currentNode?.slug ? "#0f172a" : "#ffffff")
+      .attr("stroke-width", (d) => d.slug === currentNode?.slug ? 2.8 : 1.6);
+  }
 
   nodes.append("title")
     .text((d) => `${d.title}\n${typeMeta(d.type).label}`);
 
-  const showLabels = compact ? false : subset.nodes.length <= 55;
+  const showLabels = !compact && !denseLabels;
   if (showLabels) {
     nodes.append("text")
-      .text((d) => truncate(d.title, compact ? 18 : 28))
+      .text((d) => truncate(d.title, 28))
       .attr("x", (d) => nodeRadius(d, degree) + 6)
       .attr("y", 4)
       .attr("fill", "#172033")
-      .attr("font-size", compact ? 9 : 10.5)
+      .attr("font-size", 10.5)
       .attr("font-weight", (d) => d.slug === currentNode?.slug ? 800 : 650)
       .attr("pointer-events", "none");
   }
 
   simulation.on("tick", () => {
+    if (compact) {
+      subset.nodes.forEach((node) => {
+        const halfWidth = compactNodeWidth(node) / 2;
+        node.x = Math.max(halfWidth + 4, Math.min(width - halfWidth - 4, node.x));
+        node.y = Math.max(17, Math.min(height - 17, node.y));
+      });
+    } else if (denseLabels) {
+      subset.nodes.forEach((node) => {
+        const halfWidth = denseNodeWidth(node) / 2;
+        node.x = Math.max(halfWidth + 8, Math.min(layoutWidth - halfWidth - 8, node.x));
+        node.y = Math.max(21, Math.min(layoutHeight - 21, node.y));
+      });
+    }
     links
       .attr("x1", (d) => d.source.x)
       .attr("y1", (d) => d.source.y)
@@ -2324,14 +3837,14 @@ function renderGraph(svgId, options) {
     nodes.attr("transform", (d) => `translate(${d.x},${d.y})`);
   });
 
-  graphViews[svgId] = { svg, zoom, simulation };
+  graphViews[svgId] = { svg, zoom, simulation, initialTransform };
 
   if (svgId === "full-graph-svg") {
     const graphNote = graphState.query
       ? "Search is showing matching nodes."
       : graphState.mode === "focus"
         ? "Focus mode opens around the selected article."
-        : "All mode is capped to keep the graph readable.";
+        : "All nodes are labeled. Zoom or drag to inspect dense areas.";
     $("graph-stats").textContent = `${subset.nodes.length} nodes and ${subset.links.length} visible links. ${graphNote}`;
   }
 }
@@ -2340,12 +3853,84 @@ function nodeRadius(node, degree) {
   return 5 + Math.min(10, Math.sqrt(degree.get(node.slug) || 1) * 2.2);
 }
 
+function compactNodeLabel(node) {
+  return truncate(node.title, 20);
+}
+
+function compactNodeWidth(node) {
+  return Math.max(58, Math.min(126, compactNodeLabel(node).length * 5.4 + 18));
+}
+
+function denseNodeLabel(node) {
+  return truncate(node.title, 20);
+}
+
+function denseNodeWidth(node) {
+  return Math.max(60, Math.min(124, denseNodeLabel(node).length * 5.4 + 24));
+}
+
+function forceRectNodeCollide(widthForNode, nodeHeight, padding, strength, iterations) {
+  let nodes = [];
+
+  function force() {
+    for (let iteration = 0; iteration < iterations; iteration += 1) {
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = (b.x + b.vx) - (a.x + a.vx);
+          const dy = (b.y + b.vy) - (a.y + a.vy);
+          const overlapX = (widthForNode(a) + widthForNode(b)) / 2 + padding - Math.abs(dx);
+          const overlapY = nodeHeight + padding - Math.abs(dy);
+
+          if (overlapX <= 0 || overlapY <= 0) {
+            continue;
+          }
+
+          if (overlapX < overlapY) {
+            const direction = dx < 0 ? -1 : 1;
+            const adjustment = overlapX * strength * direction;
+            a.vx -= adjustment;
+            b.vx += adjustment;
+          } else {
+            const direction = dy < 0 ? -1 : 1;
+            const adjustment = overlapY * strength * direction;
+            a.vy -= adjustment;
+            b.vy += adjustment;
+          }
+        }
+      }
+    }
+  }
+
+  force.initialize = (value) => {
+    nodes = value;
+  };
+
+  return force;
+}
+
+function graphFitTransform(viewportWidth, viewportHeight, layoutWidth, layoutHeight) {
+  const padding = 24;
+  const scale = Math.min(
+    (viewportWidth - padding * 2) / layoutWidth,
+    (viewportHeight - padding * 2) / layoutHeight,
+    1,
+  );
+  return d3.zoomIdentity
+    .translate(
+      (viewportWidth - layoutWidth * scale) / 2,
+      (viewportHeight - layoutHeight * scale) / 2,
+    )
+    .scale(scale);
+}
+
 function resetGraph(svgId) {
   const view = graphViews[svgId];
   if (!view) {
     return;
   }
-  view.svg.transition().duration(220).call(view.zoom.transform, d3.zoomIdentity);
+  view.svg.transition().duration(220).call(view.zoom.transform, view.initialTransform || d3.zoomIdentity);
 }
 
 function renderGraphHover(node) {
@@ -2365,9 +3950,533 @@ function truncate(text, length) {
   return value.length > length ? value.slice(0, length - 1) + "..." : value;
 }
 
-let chatSources = [];
 let chatHistory = [];
-let chatSteps = [];
+let chatPreviewSlug = "";
+
+const CHAT_SEARCH_ROOT = "__search__";
+const TOOL_TREE_NODE_WIDTH = 142;
+const TOOL_TREE_NODE_HEIGHT = 50;
+const CHAT_STEP_META = {
+  search: { title: "Search wiki pages", icon: "search" },
+  discover: { title: "Select search match", icon: "file-search" },
+  read: { title: "Read wiki page", icon: "book-open" },
+  think: { title: "Evaluate evidence", icon: "brain" },
+  follow: { title: "Follow related page", icon: "git-branch" },
+  source: { title: "Read primary source", icon: "languages" },
+  answer: { title: "Compose answer", icon: "pen-line" },
+};
+
+function initChatToolTree(row) {
+  row._toolTree = {
+    nodes: new Map([[
+      CHAT_SEARCH_ROOT,
+      {
+        id: CHAT_SEARCH_ROOT,
+        parentId: "",
+        label: "Wiki search",
+        meta: "Starting",
+        kind: "root",
+        type: "page",
+        docSlug: "",
+      },
+    ]]),
+    positions: new Map(),
+    activeId: CHAT_SEARCH_ROOT,
+    sourceSequence: 0,
+    stepCount: 0,
+    showPrimarySources: true,
+    steps: [],
+    view: "diagram",
+  };
+  renderChatSteps(row);
+  renderChatToolTree(row);
+}
+
+function setChatToolView(row, view) {
+  const tree = row?._toolTree;
+  if (!tree || !["diagram", "steps"].includes(view)) {
+    return;
+  }
+  if (view === "steps" && row.querySelector(".chat-activity")?.classList.contains("map-fullscreen")) {
+    setChatToolTreeFullscreen(row, false);
+  }
+
+  tree.view = view;
+  row.querySelectorAll("[data-tool-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.toolPanel !== view;
+  });
+  row.querySelectorAll("[data-tool-view]").forEach((button) => {
+    const active = button.dataset.toolView === view;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  row.querySelectorAll("[data-diagram-control]").forEach((control) => {
+    control.hidden = view !== "diagram";
+  });
+
+  if (view === "steps") {
+    renderChatSteps(row);
+  } else {
+    requestAnimationFrame(() => renderChatToolTree(row));
+  }
+}
+
+function chatStepPresentation(step) {
+  const base = CHAT_STEP_META[step.action] || { title: "Tool step", icon: "circle-dot" };
+  if (step.action === "think" && String(step.details || "").startsWith("Decision:")) {
+    return { title: "Exploration decision", icon: "route" };
+  }
+  return base;
+}
+
+function renderChatSteps(row) {
+  const tree = row?._toolTree;
+  const list = row?.querySelector(".tool-step-list");
+  if (!tree || !list) {
+    return;
+  }
+
+  if (!tree.steps.length) {
+    list.innerHTML = `<li class="tool-step-empty">Steps will appear as the wiki is searched and read.</li>`;
+    return;
+  }
+
+  list.innerHTML = tree.steps.map((step, index) => {
+    const presentation = chatStepPresentation(step);
+    const page = step.page || "";
+    const parent = step.parent && step.parent !== CHAT_SEARCH_ROOT ? step.parent : "";
+    const pageNode = pageIndex.get(page);
+    const parentNode = pageIndex.get(parent);
+    const pageTitle = step.action === "source"
+      ? (pageNode?.title || page)
+      : (step.title || pageNode?.title || page);
+    const context = [];
+
+    if (page) {
+      const prefix = step.action === "source" ? "Related page" : "Open page";
+      context.push(`
+        <button class="tool-step-page" type="button" data-step-page="${escapeHTML(page)}">
+          ${escapeHTML(prefix)}: ${escapeHTML(pageTitle)}
+        </button>
+      `);
+    }
+    if (parent) {
+      context.push(`<span>from</span>`);
+      context.push(`
+        <button class="tool-step-page" type="button" data-step-page="${escapeHTML(parent)}">
+          ${escapeHTML(parentNode?.title || parent)}
+        </button>
+      `);
+    }
+
+    return `
+      <li class="tool-step ${escapeHTML(step.action || "unknown")}">
+        <span class="tool-step-marker"><i data-lucide="${presentation.icon}"></i></span>
+        <div class="tool-step-body">
+          <div class="tool-step-header">
+            <span class="tool-step-title">${escapeHTML(presentation.title)}</span>
+            <span class="tool-step-number">Step ${index + 1}</span>
+          </div>
+          <div class="tool-step-details">${escapeHTML(step.details || step.displayText || "No details reported.")}</div>
+          ${context.length ? `<div class="tool-step-context">${context.join("")}</div>` : ""}
+        </div>
+      </li>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-step-page]").forEach((button) => {
+    button.addEventListener("click", () => openChatDocument(button.dataset.stepPage));
+  });
+  refreshIcons();
+}
+
+function setChatPrimarySourcesVisible(row, visible) {
+  const tree = row?._toolTree;
+  const button = row?.querySelector("[data-tool-tree-sources]");
+  if (!tree || !button) {
+    return;
+  }
+
+  tree.showPrimarySources = visible;
+  button.innerHTML = `
+    <i data-lucide="${visible ? "eye-off" : "eye"}"></i>
+    <span>${visible ? "Hide primary sources" : "Show primary sources"}</span>
+  `;
+  button.title = visible ? "Hide primary sources" : "Show primary sources";
+  button.setAttribute("aria-label", button.title);
+  button.setAttribute("aria-pressed", String(!visible));
+  refreshIcons();
+  renderChatToolTree(row);
+}
+
+function setChatToolTreeFullscreen(row, open) {
+  const activity = row?.querySelector(".chat-activity");
+  const button = row?.querySelector("[data-tool-tree-fullscreen]");
+  if (!activity || !button) {
+    return;
+  }
+
+  if (open) {
+    setChatToolView(row, "diagram");
+    document.querySelectorAll(".chat-activity.map-fullscreen").forEach((other) => {
+      const otherRow = other.closest(".chat-msg");
+      if (otherRow && otherRow !== row) {
+        setChatToolTreeFullscreen(otherRow, false);
+      }
+    });
+  }
+
+  activity.classList.toggle("map-fullscreen", open);
+  button.innerHTML = `<i data-lucide="${open ? "minimize-2" : "maximize-2"}"></i>`;
+  button.title = open ? "Exit full screen" : "View map full screen";
+  button.setAttribute("aria-label", button.title);
+  button.setAttribute("aria-pressed", String(open));
+  refreshIcons();
+  requestAnimationFrame(() => renderChatToolTree(row));
+}
+
+function appendChatStatus(row, status, text) {
+  const tree = row._toolTree;
+  if (!tree) {
+    return;
+  }
+
+  const action = status.action || "";
+  const page = status.page || "";
+  const parent = status.parent || "";
+  tree.steps.push({ ...status, action, page, parent, displayText: text || "" });
+  tree.stepCount = tree.steps.length;
+  row.querySelector(".chat-activity-count").textContent =
+    `${tree.stepCount} ${tree.stepCount === 1 ? "step" : "steps"}`;
+  row.querySelector(".chat-activity-detail").textContent = text || "Working...";
+
+  if (action === "search") {
+    tree.nodes.get(CHAT_SEARCH_ROOT).meta = "Searching";
+    tree.activeId = CHAT_SEARCH_ROOT;
+  } else if (["discover", "read", "follow"].includes(action) && page) {
+    const id = `page:${page}`;
+    const node = pageIndex.get(page) || { slug: page, title: status.title || page, type: "page" };
+    const existing = tree.nodes.get(id);
+    const parentId = parent && parent !== CHAT_SEARCH_ROOT ? `page:${parent}` : CHAT_SEARCH_ROOT;
+    tree.nodes.set(id, {
+      id,
+      parentId: existing?.parentId || (tree.nodes.has(parentId) ? parentId : CHAT_SEARCH_ROOT),
+      label: status.title || node.title || page,
+      meta: action === "discover" ? "Discovered" : typeMeta(node.type).label,
+      kind: "page",
+      type: node.type || "page",
+      docSlug: page,
+    });
+    tree.activeId = id;
+  } else if (action === "source" && page) {
+    tree.sourceSequence += 1;
+    const parentId = tree.nodes.has(`page:${parent || page}`) ? `page:${parent || page}` : CHAT_SEARCH_ROOT;
+    const id = `source:${page}:${tree.sourceSequence}`;
+    const sourceLabel = status.source_id
+      ? `${status.source_id} ${status.title || "Korean source"}`
+      : (status.title || "Korean source");
+    tree.nodes.set(id, {
+      id,
+      parentId,
+      label: sourceLabel,
+      meta: status.source_id ? `Primary source ${status.source_id}` : "Primary source",
+      kind: "source",
+      type: "page",
+      docSlug: page,
+    });
+    tree.activeId = id;
+  }
+
+  renderChatSteps(row);
+  if (tree.view === "diagram") {
+    renderChatToolTree(row);
+  }
+  $("chat-log").scrollTop = $("chat-log").scrollHeight;
+}
+
+function toolTreeData(tree, id, visited) {
+  const node = tree.nodes.get(id);
+  if (!node || visited.has(id)) {
+    return null;
+  }
+  visited.add(id);
+  const children = Array.from(tree.nodes.values())
+    .filter((candidate) => candidate.parentId === id)
+    .filter((candidate) => tree.showPrimarySources || candidate.kind !== "source")
+    .map((candidate) => toolTreeData(tree, candidate.id, visited))
+    .filter(Boolean);
+  return { ...node, children };
+}
+
+function toolTreePath(source, target) {
+  const sourceY = source.y + TOOL_TREE_NODE_HEIGHT / 2;
+  const targetY = target.y - TOOL_TREE_NODE_HEIGHT / 2;
+  const middleY = (sourceY + targetY) / 2;
+  return `M${source.x},${sourceY} C${source.x},${middleY} ${target.x},${middleY} ${target.x},${targetY}`;
+}
+
+function toolTreeColors(node) {
+  if (node.kind === "root") {
+    return { fill: "#f8fafc", stroke: "#64748b" };
+  }
+  if (node.kind === "source") {
+    return { fill: "#f5f3ff", stroke: "#7c3aed" };
+  }
+  return {
+    fill: typeTint(node.type),
+    stroke: typeMeta(node.type).color,
+  };
+}
+
+function renderChatToolTree(row) {
+  if (!window.d3 || !row._toolTree) {
+    return;
+  }
+  const tree = row._toolTree;
+  const data = toolTreeData(tree, CHAT_SEARCH_ROOT, new Set());
+  if (!data) {
+    return;
+  }
+
+  const wrap = row.querySelector(".tool-tree-wrap");
+  const svg = d3.select(row.querySelector(".tool-tree"));
+  const root = d3.hierarchy(data);
+  d3.tree().nodeSize([168, 84])(root);
+
+  const descendants = root.descendants();
+  const minX = d3.min(descendants, (node) => node.x) || 0;
+  const maxX = d3.max(descendants, (node) => node.x) || 0;
+  const maxY = d3.max(descendants, (node) => node.y) || 0;
+  const naturalWidth = maxX - minX + TOOL_TREE_NODE_WIDTH + 48;
+  const naturalHeight = maxY + TOOL_TREE_NODE_HEIGHT + 48;
+  const width = Math.max(naturalWidth, wrap.clientWidth || 0, 300);
+  const height = Math.max(naturalHeight, wrap.clientHeight || 0, 180);
+  const offsetX = (width - naturalWidth) / 2 - minX + TOOL_TREE_NODE_WIDTH / 2 + 24;
+  const offsetY = (height - naturalHeight) / 2 + TOOL_TREE_NODE_HEIGHT / 2 + 24;
+
+  descendants.forEach((node) => {
+    node.renderX = node.x + offsetX;
+    node.renderY = node.y + offsetY;
+  });
+
+  svg.selectAll("*").remove();
+  svg.attr("width", width).attr("height", height);
+  const layer = svg.append("g");
+  const currentPositions = new Map(descendants.map((node) => [
+    node.data.id,
+    { x: node.renderX, y: node.renderY },
+  ]));
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const links = layer.append("g")
+    .selectAll("path")
+    .data(root.links(), (link) => link.target.data.id)
+    .join("path")
+    .attr("class", "tool-tree-link")
+    .attr("d", (link) => {
+      const source = tree.positions.get(link.source.data.id) || currentPositions.get(link.source.data.id);
+      const target = tree.positions.get(link.target.data.id) || source;
+      return toolTreePath(source, target);
+    });
+
+  if (reduceMotion) {
+    links.attr("d", (link) => toolTreePath(
+      currentPositions.get(link.source.data.id),
+      currentPositions.get(link.target.data.id),
+    ));
+  } else {
+    links.transition()
+      .duration(320)
+      .ease(d3.easeCubicOut)
+      .attr("d", (link) => toolTreePath(
+        currentPositions.get(link.source.data.id),
+        currentPositions.get(link.target.data.id),
+      ));
+  }
+
+  const nodes = layer.append("g")
+    .selectAll("a")
+    .data(descendants, (node) => node.data.id)
+    .join("a")
+    .attr("href", (node) => node.data.docSlug ? `#${encodeURIComponent(node.data.docSlug)}` : null)
+    .attr("aria-label", (node) => node.data.docSlug ? `Preview ${node.data.label}` : node.data.label)
+    .attr("class", (node) => [
+      "tool-tree-node",
+      node.data.kind,
+      node.data.id === tree.activeId ? "active" : "",
+    ].filter(Boolean).join(" "))
+    .attr("transform", (node) => {
+      const previous = tree.positions.get(node.data.id);
+      const parent = node.parent ? tree.positions.get(node.parent.data.id) : null;
+      const start = previous || parent || currentPositions.get(node.data.id);
+      return `translate(${start.x},${start.y}) scale(${previous ? 1 : 0.84})`;
+    })
+    .attr("opacity", (node) => tree.positions.has(node.data.id) ? 1 : 0)
+    .on("click", (event, node) => {
+      if (!node.data.docSlug || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+      event.preventDefault();
+      openChatDocument(node.data.docSlug);
+    });
+
+  nodes.append("rect")
+    .attr("x", -TOOL_TREE_NODE_WIDTH / 2)
+    .attr("y", -TOOL_TREE_NODE_HEIGHT / 2)
+    .attr("width", TOOL_TREE_NODE_WIDTH)
+    .attr("height", TOOL_TREE_NODE_HEIGHT)
+    .attr("rx", 9)
+    .attr("fill", (node) => toolTreeColors(node.data).fill)
+    .attr("stroke", (node) => toolTreeColors(node.data).stroke)
+    .attr("stroke-width", (node) => node.data.id === tree.activeId ? 2 : 1.25);
+
+  nodes.append("text")
+    .attr("class", "tool-tree-node-title")
+    .attr("text-anchor", "middle")
+    .attr("y", -4)
+    .text((node) => truncate(node.data.label, 22));
+
+  nodes.append("text")
+    .attr("class", "tool-tree-node-meta")
+    .attr("text-anchor", "middle")
+    .attr("y", 14)
+    .text((node) => truncate(node.data.meta, 24));
+
+  nodes.append("title").text((node) => node.data.docSlug
+    ? `${node.data.label}\nOpen document preview`
+    : node.data.label);
+
+  if (reduceMotion) {
+    nodes
+      .attr("transform", (node) => `translate(${node.renderX},${node.renderY})`)
+      .attr("opacity", 1);
+  } else {
+    nodes.transition()
+      .duration(320)
+      .ease(d3.easeCubicOut)
+      .attr("transform", (node) => `translate(${node.renderX},${node.renderY}) scale(1)`)
+      .attr("opacity", 1);
+  }
+
+  tree.positions = currentPositions;
+  const activePosition = currentPositions.get(tree.activeId);
+  if (activePosition) {
+    requestAnimationFrame(() => {
+      wrap.scrollTo({
+        left: Math.max(0, activePosition.x - wrap.clientWidth / 2),
+        top: Math.max(0, activePosition.y - wrap.clientHeight / 2),
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+    });
+  }
+}
+
+function setChatActivityState(row, state) {
+  const activity = row.querySelector(".chat-activity");
+  const icon = row.querySelector(".chat-activity-icon");
+  const title = row.querySelector(".chat-activity-title");
+  const stateLabel = row.querySelector(".chat-activity-state");
+  activity.classList.remove("pending", "complete", "failed");
+  activity.classList.add(state);
+
+  if (state === "complete") {
+    icon.innerHTML = `<i data-lucide="check"></i>`;
+    title.textContent = "Tool call history";
+    stateLabel.textContent = "Complete";
+  } else if (state === "failed") {
+    icon.innerHTML = `<i data-lucide="triangle-alert"></i>`;
+    title.textContent = "Tool call history";
+    stateLabel.textContent = "Stopped";
+  } else {
+    icon.innerHTML = `<i data-lucide="loader-circle"></i>`;
+    title.textContent = "Agent activity";
+    stateLabel.textContent = "Thinking";
+  }
+  refreshIcons();
+}
+
+function setChatDocumentCollapsed(collapsed) {
+  const panel = $("chat-doc-panel");
+  if (!panel.classList.contains("open")) {
+    return;
+  }
+  panel.classList.toggle("collapsed", collapsed);
+  $("chat-doc-backdrop").classList.toggle("open", !collapsed);
+}
+
+function closeChatDocument() {
+  const panel = $("chat-doc-panel");
+  panel.classList.remove("open", "collapsed");
+  panel.setAttribute("aria-hidden", "true");
+  $("chat-doc-backdrop").classList.remove("open");
+}
+
+async function openChatDocument(slug) {
+  if (!slug) {
+    return;
+  }
+  const panel = $("chat-doc-panel");
+  const content = $("chat-doc-content");
+  const browseButton = $("chat-doc-browse");
+  const node = pageIndex.get(slug) || { slug, title: slug, type: "page", tags: [] };
+
+  chatPreviewSlug = slug;
+  panel.classList.add("open");
+  panel.classList.remove("collapsed");
+  panel.setAttribute("aria-hidden", "false");
+  $("chat-doc-backdrop").classList.add("open");
+  $("chat-doc-title").textContent = node.title;
+  browseButton.disabled = true;
+  content.innerHTML = `
+    <div class="loading-state">
+      <div>
+        <i data-lucide="loader-circle"></i>
+        <p>Loading ${escapeHTML(node.title)}...</p>
+      </div>
+    </div>
+  `;
+  refreshIcons();
+
+  try {
+    const raw = await fetchPage(slug);
+    if (chatPreviewSlug !== slug) {
+      return;
+    }
+    const parsed = parseFrontmatter(raw);
+    const title = parsed.meta.title || node.title;
+    const type = parsed.meta.type || node.type || "page";
+    const body = stripLeadingTitle(parsed.body, title);
+
+    $("chat-doc-title").textContent = title;
+    content.innerHTML = `
+      <article class="chat-doc-article">
+        <div class="article-kicker">
+          <i data-lucide="${typeMeta(type).icon}"></i>
+          <span>${escapeHTML(typeMeta(type).label)}</span>
+        </div>
+        <h1>${escapeHTML(title)}</h1>
+        <div class="article-body">${renderMarkdown(body)}</div>
+      </article>
+    `;
+    bindWikiLinks(content, openChatDocument);
+    content.scrollTop = 0;
+    browseButton.disabled = false;
+    refreshIcons();
+  } catch (error) {
+    if (chatPreviewSlug !== slug) {
+      return;
+    }
+    content.innerHTML = `
+      <div class="error-state">
+        <div>
+          <i data-lucide="triangle-alert"></i>
+          <p>Could not load ${escapeHTML(node.title)}.</p>
+        </div>
+      </div>
+    `;
+    refreshIcons();
+  }
+}
 
 async function sendChat() {
   const input = $("chat-input");
@@ -2383,12 +4492,17 @@ async function sendChat() {
   button.querySelector("span").textContent = "Thinking";
   addChatMessage("user", message);
   chatHistory.push({ role: "user", content: message });
-  const pending = addChatMessage("wiki", "Exploring the wiki graph...", null, true);
+  const pending = addChatMessage("wiki", "", null, true);
+  let completed = false;
 
   try {
-    const res = await apiFetch("/api/chat", {
+    const res = await fetch("/api/chat?stream=true", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? "Bearer " + token : "",
+        "Accept": "text/event-stream",
+      },
       body: JSON.stringify({ message, history: chatHistory.slice(-6) }),
     });
 
@@ -2400,17 +4514,90 @@ async function sendChat() {
       } catch (error) {
         errText = await res.text();
       }
+      setChatActivityState(pending, "failed");
       updateChatMessage(pending, errText, []);
       return;
     }
 
-    const data = await res.json();
-    updateChatMessage(pending, data.answer || "No answer was returned.", data.pages || []);
-    chatSources = data.pages || [];
-    chatSteps = data.steps || [];
-    renderChatSources();
-    chatHistory.push({ role: "assistant", content: data.answer || "" });
+    // Read the SSE stream
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      // Split by double newline (SSE event boundary)
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop() || ""; // keep incomplete chunk
+
+      for (const part of parts) {
+        const lines = part.split("\n");
+        let eventType = "message";
+        let data = "";
+
+        for (const line of lines) {
+          if (line.startsWith("event: ")) {
+            eventType = line.slice(7).trim();
+          } else if (line.startsWith("data: ")) {
+            data = line.slice(6).trim();
+          }
+        }
+
+        if (!data) continue;
+
+        try {
+          if (eventType === "status") {
+            const status = JSON.parse(data);
+            const action = status.action || "";
+            const details = status.details || "";
+            const title = status.title || "";
+
+            let text = details || "Working...";
+            switch (action) {
+              case "search":
+                text = "Scanning Markdown titles and bodies for the query terms";
+                break;
+              case "discover":
+                text = title || details || "Found a relevant page";
+                break;
+              case "read":
+                text = title ? `Reading ${title}` : details;
+                break;
+              case "follow":
+                text = title ? `Following ${title}` : details;
+                break;
+              case "source":
+                text = title ? `Reading full source: ${title}` : details;
+                break;
+              case "think":
+                text = details || "Evaluating the gathered context";
+                break;
+              case "answer":
+                text = details || "Composing the response";
+                break;
+            }
+            appendChatStatus(pending, status, text);
+
+          } else if (eventType === "done") {
+            const result = JSON.parse(data);
+            completed = true;
+            setChatActivityState(pending, "complete");
+            updateChatMessage(pending, result.answer || "No answer was returned.", result.pages || [], null, result.citations || []);
+            chatHistory.push({ role: "assistant", content: result.answer || "" });
+          }
+        } catch (parseErr) {
+          // Ignore parse errors on partial data
+        }
+      }
+    }
+    if (!completed) {
+      throw new Error("The chat stream ended before an answer was returned.");
+    }
   } catch (error) {
+    setChatActivityState(pending, "failed");
     updateChatMessage(pending, `Error: ${error.message}`, []);
   } finally {
     button.disabled = false;
@@ -2427,53 +4614,93 @@ function addChatMessage(role, content, sources, pending) {
     <div class="chat-avatar"><i data-lucide="${role === "user" ? "user" : "bot"}"></i></div>
     <div class="chat-content">
       <div class="chat-label">${role === "user" ? "You" : "Wiki"}</div>
-      <div class="chat-bubble ${pending ? "pending" : ""}"></div>
+      <div class="chat-activity pending" ${pending ? "" : "hidden"}>
+        <div class="chat-activity-header">
+          <div class="chat-activity-heading">
+            <span class="chat-activity-icon"><i data-lucide="loader-circle"></i></span>
+            <span class="chat-activity-title">Agent activity</span>
+          </div>
+          <div class="chat-activity-controls">
+            <div class="chat-activity-meta">
+              <span class="chat-activity-count">0 steps</span>
+              <span class="chat-activity-state">Thinking</span>
+            </div>
+            <div class="chat-tool-view-toggle" role="group" aria-label="Tool history view">
+              <button class="chat-tool-view-button active" type="button" data-tool-view="diagram"
+                aria-pressed="true" title="Show diagram">
+                <i data-lucide="network"></i>
+                <span>Diagram</span>
+              </button>
+              <button class="chat-tool-view-button" type="button" data-tool-view="steps"
+                aria-pressed="false" title="Show step details">
+                <i data-lucide="list-tree"></i>
+                <span>Steps</span>
+              </button>
+            </div>
+            <button class="icon-button chat-map-source-toggle" type="button" data-tool-tree-sources data-diagram-control
+              title="Hide primary sources" aria-label="Hide primary sources" aria-pressed="false">
+              <i data-lucide="eye-off"></i>
+              <span>Hide primary sources</span>
+            </button>
+            <button class="icon-button chat-map-fullscreen" type="button" data-tool-tree-fullscreen data-diagram-control
+              title="View map full screen" aria-label="View map full screen" aria-pressed="false">
+              <i data-lucide="maximize-2"></i>
+            </button>
+          </div>
+        </div>
+        <div class="chat-tool-panel chat-tool-diagram" data-tool-panel="diagram">
+          <div class="chat-activity-detail">Preparing the wiki search...</div>
+          <div class="tool-tree-wrap">
+            <svg class="tool-tree" aria-label="Top-down tool call history"></svg>
+          </div>
+        </div>
+        <div class="chat-tool-panel tool-steps-wrap" data-tool-panel="steps" hidden>
+          <ol class="tool-step-list" aria-label="Detailed tool call steps"></ol>
+        </div>
+      </div>
+      <div class="chat-answer" ${pending ? "hidden" : ""}>
+        <div class="chat-answer-label">Answer</div>
+        <div class="chat-bubble"></div>
+      </div>
       <div class="chat-sources-inline"></div>
     </div>
   `;
   log.appendChild(row);
-  updateChatMessage(row, content, sources || [], role);
+  if (pending) {
+    row.querySelectorAll("[data-tool-view]").forEach((button) => {
+      button.addEventListener("click", () => setChatToolView(row, button.dataset.toolView));
+    });
+    row.querySelector("[data-tool-tree-sources]").addEventListener("click", () => {
+      setChatPrimarySourcesVisible(row, !row._toolTree.showPrimarySources);
+    });
+    row.querySelector("[data-tool-tree-fullscreen]").addEventListener("click", () => {
+      const activity = row.querySelector(".chat-activity");
+      setChatToolTreeFullscreen(row, !activity.classList.contains("map-fullscreen"));
+    });
+    initChatToolTree(row);
+    setChatActivityState(row, "pending");
+  } else {
+    updateChatMessage(row, content, sources || [], role);
+  }
   log.scrollTop = log.scrollHeight;
   refreshIcons();
   return row;
 }
 
-function updateChatMessage(row, content, sources, roleOverride) {
+function updateChatMessage(row, content, sources, roleOverride, citations) {
   const isUser = roleOverride === "user" || row.classList.contains("user");
+  const answer = row.querySelector(".chat-answer");
   const bubble = row.querySelector(".chat-bubble");
+  answer.hidden = false;
   if (isUser) {
     bubble.textContent = content;
   } else {
-    bubble.innerHTML = renderMarkdown(content);
-    bindWikiLinks(bubble);
+    bubble.innerHTML = renderAnswerMarkdown(content, citations || []);
+    bindWikiLinks(bubble, openChatDocument);
+    bindCitationRefs(row);
   }
 
-  const sourceBox = row.querySelector(".chat-sources-inline");
-  if (sources && sources.length) {
-    sourceBox.innerHTML = sources.slice(0, 4).map((source) => {
-      const node = pageIndex.get(source.slug) || { slug: source.slug, title: source.title, summary: "", type: "page", tags: [] };
-      return sourceCardHTML(node, source.score);
-    }).join("");
-    sourceBox.querySelectorAll("[data-source-page]").forEach((button) => {
-      button.addEventListener("click", () => selectPage(button.dataset.sourcePage, { view: "browse" }));
-    });
-  } else {
-    sourceBox.innerHTML = "";
-  }
-  refreshIcons();
-}
-
-function renderChatSources() {
-  $("chat-source-count").textContent = String(chatSources.length);
-  $("chat-source-list").innerHTML = chatSources.length
-    ? chatSources.map((source) => {
-      const node = pageIndex.get(source.slug) || { slug: source.slug, title: source.title, summary: "", type: "page", tags: [] };
-      return sourceCardHTML(node, source.score);
-    }).join("")
-    : `<div class="graph-help">Ask a question to see retrieved source pages.</div>`;
-  $("chat-source-list").querySelectorAll("[data-source-page]").forEach((button) => {
-    button.addEventListener("click", () => selectPage(button.dataset.sourcePage, { view: "browse" }));
-  });
+  renderChatEvidence(row, sources || [], citations || []);
   refreshIcons();
 }
 

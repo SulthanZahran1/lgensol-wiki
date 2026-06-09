@@ -1,14 +1,14 @@
 ---
 title: Index
-created: 2026-06-05
-updated: 2026-06-05
+created: 2026-06-08
+updated: 2026-06-08
 type: meta
 tags: [meta]
 ---
 
 # Index - LG Energy Solution Battery Wiki
 
-Compiled from 556 Korean LG Energy Solution blog posts into 95 compact English wiki pages. See [[SCHEMA]] for schema rules and [[log]] for the compilation log.
+Compiled from 2831 official-source markdown records into 95 English wiki pages. See [[SCHEMA]] for schema rules and [[log]] for the compilation log.
 
 | Category | Count |
 |---|---:|

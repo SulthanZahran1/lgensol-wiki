@@ -1,34 +1,60 @@
 ---
 title: Binder
 created: 2026-06-05
-updated: 2026-06-05
+updated: 2026-06-08
 type: concept
 tags: [binder, electrode, active-material]
 sources:
+  - raw/battery-inside-en/en/tech-en/a-better-life-with-batteries-binder.md
   - raw/ko/tech/binder-help-increase-battery-performance.md
-  - raw/ko/tech/%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%9a%a9%ec%96%b4%ec%82%ac%ec%a0%84-%eb%b0%94%ec%9d%b8%eb%8d%94.md
-  - raw/ko/tech/%ec%9d%b8%ed%8f%ac%ea%b7%b8%eb%9e%98%ed%94%bd22-%ec%8a%ac%eb%9f%ac%eb%a6%ac%eb%a5%bc-%ea%b5%ac%ec%84%b1%ed%95%98%eb%8a%94-%ec%84%b1%eb%b6%84%ea%b3%bc-%ec%97%ad%ed%95%a0-%ed%99%9c%eb%ac%bc%ec%a7%88.md
-  - raw/ko/tech/%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ea%b1%b4%ec%a1%b0-%ec%97%86%ec%9d%b4-%ec%99%84%ec%84%b1%ed%95%98%eb%8a%94-%ec%a0%84%ea%b7%b9-%ea%b1%b4.md
-  - raw/ko/tech/%ec%a0%84%ec%a7%80%ec%a0%84%eb%8a%a5%ed%95%9c-%ec%a0%84%ec%a7%80-%ec%9d%b4%ec%95%bc%ea%b8%b0-%ec%9a%b0%ec%88%98%ed%95%9c-%eb%b0%b0%ed%84%b0%eb%a6%ac-%ec%84%b1%eb%8a%a5%ec%9d%98-%ec%b6%9c%eb%b0%9c.md
+  - raw/battery-inside-en/en/tech-en/infographics-16-wet-electrode-process-dry-electrode-process.md
+  - raw/battery-inside-en/en/tech-en/infographics-22-slurry-components-and-their-roles-active-material-conductive-additive-and-binder.md
+  - raw/battery-inside-en/en/tech-en/battery-glossary-binder.md
 confidence: high
 ---
 # Binder
 
-## Core Idea
-Binder holds active material and conductive additive together and anchors the coating to the current collector. It connects directly to [[active-material|Active Material]], [[current-collector|Current Collector]], and [[pre-dispersion|Pre-Dispersion Process]].
+## Overview / Introduction
 
-## Technical Notes
-- A good binder must maintain adhesion through swelling, cycling, drying, calendering, and electrolyte exposure.
-- Binder choice is especially important for silicon anodes because silicon expands strongly during lithiation.
-- Binder belongs to the slurry and electrode-process layer, together with active material, conductive additive, and current collector.
+In lithium‑ion battery electrodes, the binder is a polymeric adhesive that binds active‑material particles and conductive additives together, and anchors the entire coating to the current collector. Although it typically comprises only 1–5 wt% of the dried electrode, the binder is critical for maintaining mechanical integrity over thousands of charge‑discharge cycles, under wide temperature extremes, and in continuous contact with liquid electrolyte. Without a properly formulated binder, active‑material particles would detach, the conductive network would collapse, and the electrode would suffer rapid capacity fade and increased internal resistance. As next‑generation active materials—such as silicon with up to 300 % volume expansion—push the limits of electrode stability, the binder’s role has evolved from a simple glue to a multifunctional component that also influences ion transport, interfacial stability, and manufacturing efficiency.
 
-## LG Energy Solution Context
-In the raw corpus, this concept appears as a practical engineering lever rather than a standalone textbook term. It affects how LG Energy Solution balances performance, safety, manufacturability, cost, and customer requirements.
+## Technical Details
 
-## Related
+### Key Requirements for High‑Performance Binders
+
+A high‑performance binder must simultaneously satisfy several demanding criteria:
+
+- **Adhesion and mechanical strength:** The binder must firmly fix active‑material and conductive‑additive particles to each other and to the current collector. Sufficient peel strength and cohesive strength prevent delamination during calendering and cycling.
+- **Elasticity:** Especially for silicon anodes, the binder must accommodate severe volume changes without cracking. Elastic polymers such as polyacrylic acid (PAA) can relieve stress through deformation, extending cycle life.
+- **Chemical stability:** The binder is in direct contact with the electrolyte and must withstand oxidative decomposition at the cathode (>4.5 V vs. Li/Li⁺) and reductive decomposition at the anode (<0.2 V). Any side reactions generate gases, increase impedance, and accelerate capacity loss.
+- **Ionic conductivity:** While binders are typically electrical insulators, some—like PVDF—swell in electrolyte up to 30 % by volume, creating ion‑conductive pathways. A binder that impedes ion transport would increase concentration polarization and reduce rate capability.
+- **Thermal stability:** Electrodes must withstand temperatures from –20 °C to 60 °C (or higher during fast charging) without softening or decomposing. PVDF remains stable up to approximately 400 °C.
+
+### Non‑Aqueous vs. Aqueous Binders
+
+Binders are classified by the solvent in which they are dissolved.
+
+**Non‑aqueous (organic) binders** use NMP (N‑methyl‑2‑pyrrolidone) as solvent. They are employed primarily for cathodes because cathode active materials (e.g., NCM, NCA) do not disperse well in water. The dominant non‑aqueous binder is **PVDF (polyvinylidene fluoride)**, a linear semi‑crystalline fluoropolymer. PVDF offers excellent adhesion, good dispersion of conductive additive, and electrochemical stability up to about 5 V vs. Li/Li⁺. Its strong C–F bond provides thermal stability to 400 °C, and its swelling in electrolyte enhances ionic conductivity. However, NMP is toxic and costly, requiring energy‑intensive recovery.
+
+Another important non‑aqueous binder is **PTFE (polytetrafluoroethylene)**. PTFE is a fully fluorinated polymer with even higher thermal and chemical resistance. Its key feature is **fibrillation**: under shear during dry mixing, PTFE particles elongate into microfibers that form a continuous binding network without solvent. This makes PTFE the binder of choice for the **dry electrode process**, which eliminates solvent and drying steps, reducing manufacturing cost and environmental footprint.
+
+**Aqueous binders** use water as solvent and are widely used for anodes because graphite and silicon anode materials are naturally compatible with water. The most common combination is **CMC (carboxymethyl cellulose)** and **SBR (styrene‑butadiene rubber)**. CMC provides viscosity and structural stability for slurry dispersion, while SBR adds adhesion and flexibility. Aqueous binders form a “point‑contact” structure (binders mainly at particle‑particle junctions) rather than the “line‑contact” structure of PVDF, which can allow higher active‑material loading. For high‑volume‑change silicon anodes, advanced aqueous binders such as PAA, polyacrylamide (PAM), and polyacrylonitrile (PAN) are being developed, offering tunable elasticity and hydrogen bonding to silicon surfaces.
+
+### Binder Migration and Manufacturing Implications
+
+A critical manufacturing issue is **binder migration** during wet electrode coating and drying. In thick electrodes (used for high energy density), the solvent (NMP or water) evaporates from the surface, drawing the binder toward the top surface via capillary forces. This creates a binder‑poor region near the current collector, degrading adhesion and increasing contact resistance. Binder migration is a major motivation for the dry electrode process, where no solvent is involved and binder distribution remains uniform.
+
+In slurry preparation, binder is first dissolved in the solvent, then combined with pre‑dispersed conductive additive and active material. The order of addition and mixing intensity significantly affect final binder distribution and electrode performance.
+
+## Significance / LG Context
+
+At LG Energy Solution, binder technology is recognized as an enabler for high‑energy‑density cells. As the company advances toward next‑generation chemistries—such as high‑nickel cathodes (NCMA) and silicon‑anode composites—binder selection directly impacts cycle life, rate capability, and manufacturing scalability. LG Energy Solution has invested in aqueous binder systems to reduce reliance on NMP, aligning with sustainability goals. The dry electrode process, leveraging PTFE fibrillation, is being explored to lower cost and energy consumption while enabling thicker electrodes for improved energy density. Understanding binder properties is essential for engineers involved in electrode formulation, process development, and quality control.
+
+## Related Pages
+
 - [[active-material|Active Material]]
+- [[conductive-additive|Conductive Additive (CNT)]]
 - [[current-collector|Current Collector]]
-- [[pre-dispersion|Pre-Dispersion Process]]
-- [[anode-materials|Anode Material]]
+- [[dry-electrode-process|Dry Electrode Process]]
+- [[anode-materials|Anode Material (Silicon)]]
 - [[battery-manufacturing|Battery Manufacturing Process Overview]]
-- [[cathode-materials|Cathode Material]]
